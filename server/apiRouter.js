@@ -12,19 +12,81 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROFILES_PATH = path.resolve(__dirname, '../profiles.json');
 const STIMULI_PATH = path.resolve(__dirname, '../stimuli.json');
+const EVALUATIONS_PATH = path.resolve(__dirname, '../evaluations.json');
 
 export const apiRouter = Router();
+
+async function syncEvaluationsFromProfiles(profiles) {
+  let evCount = 1;
+  const allEvaluations = [];
+  profiles.forEach(p => {
+    (p.stimulusEvaluations || []).forEach(ev => {
+      allEvaluations.push({
+        id: `EV-${String(evCount++).padStart(4, '0')}`,
+        stimulusId: ev.stimulusId,
+        profileId: p.id,
+        profileName: `${p.firstName || ''} ${p.lastName || ''}`.trim() || 'Unbekannt',
+        profileDataType: p.dataType || 'fiktiv',
+        timestamp: ev.timestamp || new Date().toISOString(),
+        moduleActions: ev.moduleActions || {},
+        acceptance: ev.acceptance || null,
+        previousAcceptance: ev.previousAcceptance || null,
+        acceptanceChanged: Boolean(ev.acceptanceChanged)
+      });
+    });
+  });
+  await fs.writeFile(EVALUATIONS_PATH, JSON.stringify(allEvaluations, null, 2), 'utf-8');
+  return allEvaluations;
+}
+
+async function readEvaluations() {
+  try {
+    const data = await fs.readFile(EVALUATIONS_PATH, 'utf-8');
+    return JSON.parse(data);
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      const profiles = await readProfiles();
+      return await syncEvaluationsFromProfiles(profiles);
+    }
+    throw error;
+  }
+}
 
 async function readStimuli() {
   try {
     const data = await fs.readFile(STIMULI_PATH, 'utf-8');
-    return JSON.parse(data);
+    const parsed = JSON.parse(data);
+    return parsed.map(s => ({
+      ...s,
+      mediaType: s.mediaType || (s.imageUrl ? 'image' : s.iframeUrl ? 'iframe' : 'text'),
+      imageUrl: s.imageUrl || '',
+      iframeUrl: s.iframeUrl || '',
+      content: s.content || '',
+      primaryFunction: s.primaryFunction || 'legitimierend',
+      primaryModules: Array.isArray(s.primaryModules) ? s.primaryModules.map(Number) : []
+    }));
   } catch (error) {
     if (error.code === 'ENOENT') {
+      await fs.writeFile(STIMULI_PATH, '[]', 'utf-8');
       return [];
     }
     throw error;
   }
+}
+
+async function writeStimuli(stimuli) {
+  await fs.writeFile(STIMULI_PATH, JSON.stringify(stimuli, null, 2), 'utf-8');
+}
+
+function generateNextStimulusId(stimuli) {
+  const numbers = stimuli
+    .map(s => {
+      const match = String(s.id).match(/\d+/);
+      return match ? parseInt(match[0], 10) : 0;
+    })
+    .filter(n => !isNaN(n));
+  const max = numbers.length > 0 ? Math.max(...numbers) : 0;
+  return `S-${String(max + 1).padStart(3, '0')}`;
 }
 
 async function readProfiles() {
@@ -76,6 +138,27 @@ apiRouter.get('/avatar/random-tpde', async (req, res) => {
 });
 
 
+// GET all evaluations
+apiRouter.get('/evaluations', async (req, res) => {
+  try {
+    const evals = await readEvaluations();
+    res.json(evals);
+  } catch (err) {
+    res.status(500).json({ error: 'Fehler beim Lesen der Bewertungen', details: err.message });
+  }
+});
+
+// GET evaluations for a single stimulus
+apiRouter.get('/evaluations/stimulus/:stimulusId', async (req, res) => {
+  try {
+    const evals = await readEvaluations();
+    const filtered = evals.filter(e => String(e.stimulusId) === String(req.params.stimulusId));
+    res.json(filtered);
+  } catch (err) {
+    res.status(500).json({ error: 'Fehler beim Abrufen der Reizbewertungen', details: err.message });
+  }
+});
+
 // GET all stimuli
 apiRouter.get('/stimuli', async (req, res) => {
   try {
@@ -83,6 +166,84 @@ apiRouter.get('/stimuli', async (req, res) => {
     res.json(stimuli);
   } catch (err) {
     res.status(500).json({ error: 'Fehler beim Lesen der Reize', details: err.message });
+  }
+});
+
+// POST create stimulus
+apiRouter.post('/stimuli', async (req, res) => {
+  try {
+    const stimuli = await readStimuli();
+    const id = generateNextStimulusId(stimuli);
+
+    const newStimulus = {
+      id,
+      name: (req.body.name || '').trim() || 'Unbenannter Reiz',
+      category: (req.body.category || '').trim(),
+      mediaType: req.body.mediaType || 'text',
+      content: (req.body.content || '').trim(),
+      imageUrl: (req.body.imageUrl || '').trim(),
+      iframeUrl: (req.body.iframeUrl || '').trim(),
+      primaryFunction: req.body.primaryFunction || 'legitimierend',
+      primaryModules: Array.isArray(req.body.primaryModules)
+        ? req.body.primaryModules.map(Number).filter(n => n >= 1 && n <= 6)
+        : []
+    };
+
+    stimuli.push(newStimulus);
+    await writeStimuli(stimuli);
+    res.status(201).json(newStimulus);
+  } catch (err) {
+    res.status(500).json({ error: 'Fehler beim Anlegen des Reizes', details: err.message });
+  }
+});
+
+// PUT update stimulus
+apiRouter.put('/stimuli/:id', async (req, res) => {
+  try {
+    const stimuli = await readStimuli();
+    const index = stimuli.findIndex(s => String(s.id) === String(req.params.id));
+    if (index === -1) {
+      return res.status(404).json({ error: 'Reiz nicht gefunden' });
+    }
+
+    const updatedStimulus = {
+      ...stimuli[index],
+      ...req.body,
+      id: stimuli[index].id,
+      name: (req.body.name ?? stimuli[index].name ?? '').trim(),
+      category: (req.body.category ?? stimuli[index].category ?? '').trim(),
+      mediaType: req.body.mediaType || stimuli[index].mediaType || 'text',
+      content: (req.body.content ?? stimuli[index].content ?? '').trim(),
+      imageUrl: (req.body.imageUrl ?? stimuli[index].imageUrl ?? '').trim(),
+      iframeUrl: (req.body.iframeUrl ?? stimuli[index].iframeUrl ?? '').trim(),
+      primaryFunction: req.body.primaryFunction || stimuli[index].primaryFunction || 'legitimierend',
+      primaryModules: Array.isArray(req.body.primaryModules)
+        ? req.body.primaryModules.map(Number).filter(n => n >= 1 && n <= 6)
+        : stimuli[index].primaryModules
+    };
+
+    stimuli[index] = updatedStimulus;
+    await writeStimuli(stimuli);
+    res.json(updatedStimulus);
+  } catch (err) {
+    res.status(500).json({ error: 'Fehler beim Aktualisieren des Reizes', details: err.message });
+  }
+});
+
+// DELETE stimulus
+apiRouter.delete('/stimuli/:id', async (req, res) => {
+  try {
+    const stimuli = await readStimuli();
+    const index = stimuli.findIndex(s => String(s.id) === String(req.params.id));
+    if (index === -1) {
+      return res.status(404).json({ error: 'Reiz nicht gefunden' });
+    }
+
+    const removed = stimuli.splice(index, 1)[0];
+    await writeStimuli(stimuli);
+    res.json({ message: 'Reiz gelöscht', deleted: removed });
+  } catch (err) {
+    res.status(500).json({ error: 'Fehler beim Löschen des Reizes', details: err.message });
   }
 });
 
@@ -148,6 +309,7 @@ apiRouter.post('/profiles', async (req, res) => {
 
     profiles.push(newProfile);
     await writeProfiles(profiles);
+    await syncEvaluationsFromProfiles(profiles);
     res.status(201).json(newProfile);
   } catch (err) {
     res.status(500).json({ error: 'Fehler beim Speichern des Profils', details: err.message });
@@ -196,6 +358,7 @@ apiRouter.put('/profiles/:id', async (req, res) => {
 
     profiles[index] = updatedProfile;
     await writeProfiles(profiles);
+    await syncEvaluationsFromProfiles(profiles);
     res.json(updatedProfile);
   } catch (err) {
     res.status(500).json({ error: 'Fehler beim Aktualisieren des Profils', details: err.message });
@@ -214,6 +377,7 @@ apiRouter.delete('/profiles/:id', async (req, res) => {
     const removed = profiles.splice(index, 1)[0];
     await deleteAvatar(removed.id);
     await writeProfiles(profiles);
+    await syncEvaluationsFromProfiles(profiles);
     res.json({ message: 'Profil gelöscht', deleted: removed });
   } catch (err) {
     res.status(500).json({ error: 'Fehler beim Löschen des Profils', details: err.message });

@@ -8,7 +8,10 @@
     "primaryModules": [
       6,
       1
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-002",
@@ -20,7 +23,10 @@
       3,
       4,
       6
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-003",
@@ -31,7 +37,10 @@
     "primaryModules": [
       4,
       3
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-004",
@@ -42,7 +51,10 @@
     "primaryModules": [
       4,
       1
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-005",
@@ -53,7 +65,10 @@
     "primaryModules": [
       4,
       6
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-006",
@@ -64,18 +79,24 @@
     "primaryModules": [
       4,
       6
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-007",
     "name": "Klinisch-sterile High-Tech-Verpackung",
     "category": "Verpackung & sensorische Informationen",
+    "mediaType": "image",
+    "imageUrl": "https://thumbs.dreamstime.com/x/advanced-food-technology-concept-vacuum-sealed-package-innovative-lab-grown-cultured-beef-antibiotic-free-cellular-412060632.jpg",
     "content": "Minimalistisches, reinweißes Verpackungsdesign mit Fokus auf Labor-Reinheit: „100 % frei von Antibiotika, Krankheitserregern und Kontamination.“",
     "primaryFunction": "legitimierend",
     "primaryModules": [
       1,
       4
-    ]
+    ],
+    "iframeUrl": ""
   },
   {
     "id": "S-008",
@@ -85,7 +106,10 @@
     "primaryFunction": "wert-schaffend",
     "primaryModules": [
       3
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-009",
@@ -96,7 +120,10 @@
     "primaryModules": [
       3,
       4
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-010",
@@ -106,7 +133,10 @@
     "primaryFunction": "wert-schaffend",
     "primaryModules": [
       6
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-011",
@@ -117,7 +147,10 @@
     "primaryModules": [
       6,
       5
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-012",
@@ -127,7 +160,10 @@
     "primaryFunction": "wert-schaffend",
     "primaryModules": [
       5
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-013",
@@ -138,7 +174,10 @@
     "primaryModules": [
       3,
       5
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-014",
@@ -149,7 +188,10 @@
     "primaryModules": [
       3,
       5
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-015",
@@ -160,7 +202,10 @@
     "primaryModules": [
       4,
       6
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-016",
@@ -171,7 +216,10 @@
     "primaryModules": [
       2,
       5
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-017",
@@ -182,7 +230,10 @@
     "primaryModules": [
       2,
       1
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-018",
@@ -194,7 +245,10 @@
       2,
       6,
       1
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-019",
@@ -205,7 +259,10 @@
     "primaryModules": [
       6,
       4
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-020",
@@ -216,7 +273,10 @@
     "primaryModules": [
       1,
       2
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-021",
@@ -227,7 +287,10 @@
     "primaryModules": [
       5,
       3
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-022",
@@ -238,7 +301,10 @@
     "primaryModules": [
       1,
       2
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-023",
@@ -248,7 +314,10 @@
     "primaryFunction": "legitimierend",
     "primaryModules": [
       1
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-024",
@@ -259,7 +328,10 @@
     "primaryModules": [
       2,
       6
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-025",
@@ -269,7 +341,10 @@
     "primaryFunction": "legitimierend",
     "primaryModules": [
       1
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-026",
@@ -280,7 +355,10 @@
     "primaryModules": [
       2,
       1
-    ]
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
   },
   {
     "id": "S-027",
@@ -291,6 +369,23 @@
     "primaryModules": [
       3,
       6
+    ],
+    "mediaType": "text",
+    "imageUrl": "",
+    "iframeUrl": ""
+  },
+  {
+    "id": "S-028",
+    "name": "Biomarkt-Listung",
+    "category": "",
+    "mediaType": "image",
+    "content": "",
+    "imageUrl": "https://www.lebensmittelzeitung.net/gallery/media/1158/22941-detailp.jpeg",
+    "iframeUrl": "",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1,
+      2
     ]
   }
 ]

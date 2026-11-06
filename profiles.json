@@ -48,6 +48,22 @@
             "addDriver": false
           }
         }
+      },
+      {
+        "stimulusId": "S-007",
+        "timestamp": "2026-10-30T10:38:15.799Z",
+        "moduleActions": {
+          "1": {
+            "legitimizedBarrierIds": [],
+            "addBarrier": true,
+            "addDriver": false
+          },
+          "5": {
+            "legitimizedBarrierIds": [],
+            "addBarrier": false,
+            "addDriver": true
+          }
+        }
       }
     ]
   },
@@ -124,10 +140,10 @@
     "countryOfResidence": "Deutschland",
     "livingSituation": "Wohngemeinschaft (WG)",
     "dietaryHabits": "Vegetarisch",
-    "avatarUrl": "/avatars/P-006.jpg?v=1792792422407",
-    "livingEnvironment": "",
+    "avatarUrl": "/avatars/P-006.jpg?v=1793367574887",
+    "livingEnvironment": "Eher städtisch (Urban)",
     "primaryMotivations": [],
-    "acceptance": "",
+    "acceptance": "Willing to Try",
     "contextAnswers": {
       "foodNeophobia": 0,
       "foodTechNeophobia": -1,
@@ -138,7 +154,7 @@
       "technicalUnderstanding": 0,
       "naturalnessPreference": 0,
       "valueAlignment": 0,
-      "trustScience": 0,
+      "trustScience": -1,
       "trustRegulators": 0,
       "trustIndustry": 0
     },
@@ -164,6 +180,70 @@
         "ratings": {
           "3": -1
         }
+      },
+      {
+        "stimulusId": "S-014",
+        "timestamp": "2026-10-30T09:38:36.834Z",
+        "moduleActions": {
+          "3": {
+            "legitimizedBarrierIds": [
+              "eval:2:S-002:m3"
+            ],
+            "addBarrier": false,
+            "addDriver": false
+          },
+          "5": {
+            "legitimizedBarrierIds": [],
+            "addBarrier": false,
+            "addDriver": true
+          }
+        }
+      },
+      {
+        "stimulusId": "S-003",
+        "timestamp": "2026-10-30T11:01:32.166Z",
+        "moduleActions": {
+          "2": {
+            "legitimizedBarrierIds": [],
+            "addBarrier": true,
+            "addDriver": false
+          },
+          "4": {
+            "legitimizedBarrierIds": [],
+            "addBarrier": false,
+            "addDriver": true
+          }
+        }
+      },
+      {
+        "stimulusId": "S-016",
+        "timestamp": "2026-10-30T13:08:32.553Z",
+        "moduleActions": {
+          "6": {
+            "legitimizedBarrierIds": [],
+            "addBarrier": false,
+            "addDriver": true
+          }
+        },
+        "acceptance": "Willing to Try",
+        "previousAcceptance": null,
+        "acceptanceChanged": true
+      },
+      {
+        "stimulusId": "S-017",
+        "timestamp": "2026-10-30T13:42:15.452Z",
+        "moduleActions": {
+          "2": {
+            "legitimizedBarrierIds": [
+              "eval:4:S-003:m2"
+            ],
+            "addBarrier": false,
+            "addDriver": false
+          }
+        },
+        "acceptance": "Willing to Try",
+        "previousAcceptance": "Willing to Try",
+        "acceptanceChanged": false
       }
     ]
   },

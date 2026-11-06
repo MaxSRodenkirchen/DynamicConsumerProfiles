@@ -1,0 +1,165 @@
+[
+  {
+    "id": "EV-0001",
+    "stimulusId": "S-002",
+    "profileId": "P-002",
+    "profileName": "Markus Weber",
+    "profileDataType": "real",
+    "timestamp": "2026-10-29T23:52:55.490Z",
+    "moduleActions": {
+      "1": {
+        "legitimizedBarrierIds": [],
+        "addBarrier": true,
+        "addDriver": false
+      }
+    },
+    "acceptance": null,
+    "previousAcceptance": null,
+    "acceptanceChanged": false
+  },
+  {
+    "id": "EV-0002",
+    "stimulusId": "S-007",
+    "profileId": "P-002",
+    "profileName": "Markus Weber",
+    "profileDataType": "real",
+    "timestamp": "2026-10-30T10:38:15.799Z",
+    "moduleActions": {
+      "1": {
+        "legitimizedBarrierIds": [],
+        "addBarrier": true,
+        "addDriver": false
+      },
+      "5": {
+        "legitimizedBarrierIds": [],
+        "addBarrier": false,
+        "addDriver": true
+      }
+    },
+    "acceptance": null,
+    "previousAcceptance": null,
+    "acceptanceChanged": false
+  },
+  {
+    "id": "EV-0003",
+    "stimulusId": "S-007",
+    "profileId": "P-006",
+    "profileName": "Max Rodenkirchen",
+    "profileDataType": "real",
+    "timestamp": "2026-10-29T23:41:58.544Z",
+    "moduleActions": {},
+    "acceptance": null,
+    "previousAcceptance": null,
+    "acceptanceChanged": false
+  },
+  {
+    "id": "EV-0004",
+    "stimulusId": "S-015",
+    "profileId": "P-006",
+    "profileName": "Max Rodenkirchen",
+    "profileDataType": "real",
+    "timestamp": "2026-10-29T23:46:46.836Z",
+    "moduleActions": {},
+    "acceptance": null,
+    "previousAcceptance": null,
+    "acceptanceChanged": false
+  },
+  {
+    "id": "EV-0005",
+    "stimulusId": "S-002",
+    "profileId": "P-006",
+    "profileName": "Max Rodenkirchen",
+    "profileDataType": "real",
+    "timestamp": "2026-10-29T23:47:24.644Z",
+    "moduleActions": {},
+    "acceptance": null,
+    "previousAcceptance": null,
+    "acceptanceChanged": false
+  },
+  {
+    "id": "EV-0006",
+    "stimulusId": "S-014",
+    "profileId": "P-006",
+    "profileName": "Max Rodenkirchen",
+    "profileDataType": "real",
+    "timestamp": "2026-10-30T09:38:36.834Z",
+    "moduleActions": {
+      "3": {
+        "legitimizedBarrierIds": [
+          "eval:2:S-002:m3"
+        ],
+        "addBarrier": false,
+        "addDriver": false
+      },
+      "5": {
+        "legitimizedBarrierIds": [],
+        "addBarrier": false,
+        "addDriver": true
+      }
+    },
+    "acceptance": null,
+    "previousAcceptance": null,
+    "acceptanceChanged": false
+  },
+  {
+    "id": "EV-0007",
+    "stimulusId": "S-003",
+    "profileId": "P-006",
+    "profileName": "Max Rodenkirchen",
+    "profileDataType": "real",
+    "timestamp": "2026-10-30T11:01:32.166Z",
+    "moduleActions": {
+      "2": {
+        "legitimizedBarrierIds": [],
+        "addBarrier": true,
+        "addDriver": false
+      },
+      "4": {
+        "legitimizedBarrierIds": [],
+        "addBarrier": false,
+        "addDriver": true
+      }
+    },
+    "acceptance": null,
+    "previousAcceptance": null,
+    "acceptanceChanged": false
+  },
+  {
+    "id": "EV-0008",
+    "stimulusId": "S-016",
+    "profileId": "P-006",
+    "profileName": "Max Rodenkirchen",
+    "profileDataType": "real",
+    "timestamp": "2026-10-30T13:08:32.553Z",
+    "moduleActions": {
+      "6": {
+        "legitimizedBarrierIds": [],
+        "addBarrier": false,
+        "addDriver": true
+      }
+    },
+    "acceptance": "Willing to Try",
+    "previousAcceptance": null,
+    "acceptanceChanged": true
+  },
+  {
+    "id": "EV-0009",
+    "stimulusId": "S-017",
+    "profileId": "P-006",
+    "profileName": "Max Rodenkirchen",
+    "profileDataType": "real",
+    "timestamp": "2026-10-30T13:42:15.452Z",
+    "moduleActions": {
+      "2": {
+        "legitimizedBarrierIds": [
+          "eval:4:S-003:m2"
+        ],
+        "addBarrier": false,
+        "addDriver": false
+      }
+    },
+    "acceptance": "Willing to Try",
+    "previousAcceptance": "Willing to Try",
+    "acceptanceChanged": false
+  }
+]
