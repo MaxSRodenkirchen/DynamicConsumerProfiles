@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Konsumentenprofile - Kultiviertes Fleisch (MVP)</title>
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Konsumentenprofile – IPS-Framework (MVP)</h1>
+    <nav class="header-nav">
+      <button type="button" id="nav-btn-profiles" class="active">1. Profilseite</button>
+      <button type="button" id="nav-btn-evaluation">2. Reizbewertungsseite</button>
+    </nav>
+  </header>
+
+  <!-- ANSICHT 1: PROFILSEITE -->
+  <div id="view-profiles" class="layout">
+    <!-- Sidebar mit Profil-IDs aufgeteilt in Reale und Fiktive Profile -->
+    <aside class="sidebar">
+      <h2>Profile</h2>
+      <button id="btn-new" type="button">+ Neues Profil</button>
+      
+      <div class="sidebar-section">
+        <h3>Reale Profile (<span id="count-real">0</span>)</h3>
+        <ul id="list-real">
+          <!-- Reale Profile -->
+        </ul>
+      </div>
+
+      <div class="sidebar-section">
+        <h3>Fiktive Profile (<span id="count-fictional">0</span>)</h3>
+        <ul id="list-fictional">
+          <!-- Fiktive Profile -->
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Hauptbereich mit Eingabemaske -->
+    <main class="content">
+      <div class="content-header-row">
+        <h2 id="form-title">Profil bearbeiten</h2>
+        <button type="button" id="btn-jump-to-eval">Zu Reizbewertung mit diesem Profil &rarr;</button>
+      </div>
+      
+      <form id="profile-form">
+        <!-- Live-Übersicht der 6 Wahrnehmungsmodule im Profil -->
+        <fieldset class="form-section">
+          <legend>Aktueller Stand der 6 Wahrnehmungsmodule (Kontext + Reize)</legend>
+          <div id="profile-modules-summary" class="modules-summary-grid"></div>
+        </fieldset>
+
+        <!-- 1. Proxydaten -->
+        <fieldset class="form-section">
+          <legend>1. Proxydaten (Demografie &amp; Ausschmückung)</legend>
+
+          <div class="form-group">
+            <label>Kategorie:</label>
+            <div id="display-datatype" class="datatype-display">Wird beim Speichern festgelegt</div>
+          </div>
+
+          <!-- Profilbild-Bereich -->
+          <div class="form-group avatar-form-group">
+            <label>Profilbild:</label>
+            <div class="avatar-wrapper">
+              <div class="avatar-preview-box">
+                <img id="avatar-preview" src="" alt="Profilbild" style="display:none;" />
+                <span id="avatar-placeholder">Kein Bild</span>
+              </div>
+              <div class="avatar-controls">
+                <button type="button" id="btn-avatar-tpde">🎲 Zufälliges Bild (ThisPersonDoesNotExist)</button>
+                <button type="button" id="btn-avatar-webcam">📸 Webcam Foto</button>
+                <button type="button" id="btn-avatar-remove" style="display:none;">Bild entfernen</button>
+                <div id="avatar-status"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="field-id">ID:</label>
+              <input type="text" id="field-id" name="id" placeholder="Wird automatisch vergeben (z.B. P-009)" />
+              <small id="id-hint">Bei neuem Profil leer lassen für automatische ID.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="field-age">Alter:</label>
+              <input type="number" id="field-age" name="age" min="0" max="120" />
+            </div>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="field-firstName">Vorname:</label>
+              <input type="text" id="field-firstName" name="firstName" required />
+            </div>
+
+            <div class="form-group">
+              <label for="field-lastName">Nachname:</label>
+              <input type="text" id="field-lastName" name="lastName" required />
+            </div>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="field-gender">Geschlecht:</label>
+              <select id="field-gender" name="gender">
+                <option value="">-- Bitte wählen --</option>
+                <option value="weiblich">weiblich</option>
+                <option value="männlich">männlich</option>
+                <option value="divers">divers</option>
+                <option value="keine Angabe">keine Angabe</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="field-nationality">Nationalität:</label>
+              <select id="field-nationality" name="nationality">
+                <option value="">-- Bitte wählen --</option>
+                <option value="Deutsch">Deutsch</option>
+                <option value="Österreichisch">Österreichisch</option>
+                <option value="Schweizerisch">Schweizerisch</option>
+                <option value="Italienisch">Italienisch</option>
+                <option value="Französisch">Französisch</option>
+                <option value="Spanisch">Spanisch</option>
+                <option value="Türkisch">Türkisch</option>
+                <option value="Polnisch">Polnisch</option>
+                <option value="Britisch">Britisch</option>
+                <option value="US-amerikanisch">US-amerikanisch</option>
+                <option value="Sonstige">Sonstige</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="field-religion">Religion:</label>
+              <select id="field-religion" name="religion">
+                <option value="">-- Bitte wählen --</option>
+                <option value="Konfessionslos / Keine">Konfessionslos / Keine</option>
+                <option value="Christentum (evangelisch)">Christentum (evangelisch)</option>
+                <option value="Christentum (katholisch)">Christentum (katholisch)</option>
+                <option value="Christentum (orthodox)">Christentum (orthodox)</option>
+                <option value="Islam">Islam</option>
+                <option value="Judentum">Judentum</option>
+                <option value="Buddhismus">Buddhismus</option>
+                <option value="Hinduismus">Hinduismus</option>
+                <option value="Sonstige">Sonstige</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="field-maritalStatus">Familienstand:</label>
+              <select id="field-maritalStatus" name="maritalStatus">
+                <option value="">-- Bitte wählen --</option>
+                <option value="ledig">ledig</option>
+                <option value="verheiratet">verheiratet</option>
+                <option value="in fester Partnerschaft">in fester Partnerschaft</option>
+                <option value="geschieden">geschieden</option>
+                <option value="getrennt lebend">getrennt lebend</option>
+                <option value="verwitwet">verwitwet</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="field-countryOfResidence">Wohnhaft in Land:</label>
+              <select id="field-countryOfResidence" name="countryOfResidence">
+                <option value="">-- Bitte wählen --</option>
+                <option value="Deutschland">Deutschland</option>
+                <option value="Österreich">Österreich</option>
+                <option value="Schweiz">Schweiz</option>
+                <option value="Italien">Italien</option>
+                <option value="Frankreich">Frankreich</option>
+                <option value="Spanien">Spanien</option>
+                <option value="Niederlande">Niederlande</option>
+                <option value="Großbritannien">Großbritannien</option>
+                <option value="USA">USA</option>
+                <option value="Sonstiges">Sonstiges</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="field-livingEnvironment">Wohnumfeld:</label>
+              <select id="field-livingEnvironment" name="livingEnvironment">
+                <option value="">-- Bitte wählen --</option>
+                <option value="Eher städtisch (Urban)">Eher städtisch (Urban)</option>
+                <option value="Eher ländlich (Rural)">Eher ländlich (Rural)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row-2col">
+            <div class="form-group">
+              <label for="field-livingSituation">Wohnform:</label>
+              <select id="field-livingSituation" name="livingSituation">
+                <option value="">-- Bitte wählen --</option>
+                <option value="Mietwohnung">Mietwohnung</option>
+                <option value="Eigenheim (Einfamilienhaus)">Eigenheim (Einfamilienhaus)</option>
+                <option value="Wohngemeinschaft (WG)">Wohngemeinschaft (WG)</option>
+                <option value="Studentenwohnheim">Studentenwohnheim</option>
+                <option value="Reihenhaus / Doppelhaushälfte">Reihenhaus / Doppelhaushälfte</option>
+                <option value="Zur Untermiete">Zur Untermiete</option>
+                <option value="Sonstige">Sonstige</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="field-dietaryHabits">Ernährung / Essgewohnheiten:</label>
+              <select id="field-dietaryHabits" name="dietaryHabits">
+                <option value="">-- Bitte wählen --</option>
+                <option value="Omnivor (traditionell fleischbetont)">Omnivor (traditionell fleischbetont)</option>
+                <option value="Omnivor (ausgewogen)">Omnivor (ausgewogen)</option>
+                <option value="Flexitarisch">Flexitarisch</option>
+                <option value="Vegetarisch">Vegetarisch</option>
+                <option value="Vegan">Vegan</option>
+                <option value="Pescetarisch">Pescetarisch</option>
+                <option value="Halal / Flexitarisch">Halal / Flexitarisch</option>
+                <option value="Halal">Halal</option>
+                <option value="Koscher">Koscher</option>
+                <option value="Sonstige">Sonstige</option>
+              </select>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- 2. Kontext-Fragen (-1, 0, 1 -> fließen direkt in die 6 Bewertungsmodule ein) -->
+        <fieldset class="form-section">
+          <legend>2. Kontext-Fragen (Bewertungen -1 und +1 gehen direkt in die Module ein; 0 = Neutral vorausgewählt)</legend>
+          <div id="context-questions-container">
+            <!-- Wird dynamisch aus den Kontext-Fragen gerendert -->
+          </div>
+        </fieldset>
+
+        <!-- 3. Akzeptanz -->
+        <fieldset class="form-section">
+          <legend>3. Akzeptanz (Optional: Keine oder eine Stufe auswählen)</legend>
+          <div class="acceptance-options" id="profile-acceptance-group">
+            <label class="radio-box">
+              <input type="radio" name="acceptance" value="" checked />
+              <span>Keine Auswahl</span>
+            </label>
+            <label class="radio-box">
+              <input type="radio" name="acceptance" value="Willing to Try" />
+              <span>Willing to Try</span>
+            </label>
+            <label class="radio-box">
+              <input type="radio" name="acceptance" value="Willing to Buy" />
+              <span>Willing to Buy</span>
+            </label>
+            <label class="radio-box">
+              <input type="radio" name="acceptance" value="Willing to Adopt" />
+              <span>Willing to Adopt</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" id="btn-save">Profil speichern</button>
+          <button type="button" id="btn-delete" style="display: none;">Profil löschen</button>
+          <button type="button" id="btn-reset">Zurücksetzen</button>
+        </div>
+
+        <div id="status-message" aria-live="polite"></div>
+      </form>
+    </main>
+  </div>
+
+  <!-- ANSICHT 2: REIZBEWERTUNGSSEITE -->
+  <div id="view-evaluation" style="display: none;">
+    <!-- Steuerleiste oben: Profil wählen, Akzeptanz-Status, Algorithmus-Info -->
+    <div class="eval-toolbar">
+      <div class="eval-toolbar-group">
+        <label for="eval-profile-select"><strong>Aktives Profil:</strong></label>
+        <select id="eval-profile-select"></select>
+      </div>
+
+      <div class="eval-toolbar-group">
+        <label for="eval-acceptance-select"><strong>Aktuelle Akzeptanz:</strong></label>
+        <select id="eval-acceptance-select">
+          <option value="">-- Keine Auswahl --</option>
+          <option value="Willing to Try">Willing to Try</option>
+          <option value="Willing to Buy">Willing to Buy</option>
+          <option value="Willing to Adopt">Willing to Adopt</option>
+        </select>
+      </div>
+
+      <div class="eval-toolbar-group">
+        <label for="eval-stimulus-select"><strong>Reiz manuell wechseln (Test):</strong></label>
+        <select id="eval-stimulus-select"></select>
+        <button type="button" id="btn-eval-recommend">⚡ Algorithmus-Vorschlag laden</button>
+      </div>
+    </div>
+
+    <!-- Algorithmus-Begründung -->
+    <div id="eval-algo-reason" class="algo-banner"></div>
+
+    <!-- Zweispaltiges Layout: Links der Reiz, Rechts das Grid mit den 6 Modulen -->
+    <div class="eval-two-col">
+      <!-- LINKE SPALTE: Der Reiz -->
+      <section class="eval-left-stimulus">
+        <h2>Zu bewertender Reiz</h2>
+        <div id="stimulus-card" class="stimulus-box">
+          <div class="stimulus-meta">
+            <span id="stim-id" class="stim-badge"></span>
+            <span id="stim-category" class="stim-category"></span>
+          </div>
+          <h3 id="stim-name"></h3>
+          <div id="stim-content" class="stim-content-box"></div>
+          <div class="stim-footer">
+            <strong>Primäre Funktion:</strong> <span id="stim-function"></span>
+          </div>
+        </div>
+
+        <!-- Historie der bereits bewerteten Reize dieser Person -->
+        <div class="eval-history-box">
+          <div class="eval-history-header">
+            <h3>Bereits bewertete Reize (<span id="eval-history-count">0</span>)</h3>
+            <button type="button" id="btn-clear-history">Reiz-Historie zurücksetzen</button>
+          </div>
+          <ul id="eval-history-list"></ul>
+        </div>
+      </section>
+
+      <!-- RECHTE SPALTE: Grid mit den 6 Modulen -->
+      <section class="eval-right-modules">
+        <h2>Bewertung in den 6 Wahrnehmungsmodulen</h2>
+        <p class="eval-hint">
+          Wähle für diesen Reiz in den passenden Modulen <strong>-1 (Barriere)</strong>, <strong>0 (Legitimation – nur sichtbar bei aktiver Barriere)</strong> oder <strong>+1 (Treiber)</strong> und speichere die Bewertung.
+        </p>
+
+        <div id="eval-modules-grid" class="modules-eval-grid">
+          <!-- 6 Module werden hier dynamisch gerendert -->
+        </div>
+
+        <div class="eval-submit-bar">
+          <button type="button" id="btn-submit-evaluation" class="btn-primary-large">
+            Bewertung für diesen Reiz speichern &amp; nächsten Reiz anzeigen
+          </button>
+          <span id="eval-status-msg"></span>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Pop-Up Modal beim Speichern -->
+  <dialog id="modal-datatype">
+    <div class="modal-content">
+      <h3>Datentyp auswählen</h3>
+      <p>Handelt es sich bei diesem Profil um <strong>reale</strong> oder <strong>fiktive</strong> Daten?</p>
+      
+      <div class="modal-actions">
+        <button type="button" id="btn-choose-real">1. Reale Daten</button>
+        <button type="button" id="btn-choose-fictional">2. Fiktive Daten</button>
+        <button type="button" id="btn-cancel-modal">Abbrechen</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Webcam Modal -->
+  <dialog id="modal-webcam">
+    <div class="modal-content">
+      <h3>Webcam Foto aufnehmen</h3>
+      <div class="webcam-container">
+        <video id="webcam-video" autoplay playsinline width="320" height="240"></video>
+        <canvas id="webcam-canvas" width="320" height="240" style="display:none;"></canvas>
+      </div>
+      <div id="webcam-error" style="color:#c5221f; font-size:0.85rem; margin-top:5px;"></div>
+      <div class="modal-actions" style="margin-top:12px;">
+        <button type="button" id="btn-webcam-capture">📸 Foto schießen &amp; übernehmen</button>
+        <button type="button" id="btn-webcam-close">Abbrechen</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

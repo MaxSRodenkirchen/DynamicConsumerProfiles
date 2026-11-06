@@ -1,0 +1,210 @@
+[
+  {
+    "id": "P-001",
+    "dataType": "fiktiv",
+    "firstName": "Anna",
+    "lastName": "Meier",
+    "gender": "weiblich",
+    "age": 28,
+    "nationality": "Deutsch",
+    "religion": "Konfessionslos / Keine",
+    "maritalStatus": "ledig",
+    "countryOfResidence": "Deutschland",
+    "livingSituation": "Wohngemeinschaft (WG)",
+    "dietaryHabits": "Flexitarisch",
+    "avatarUrl": "/avatars/P-001.jpg?v=1792792085495",
+    "livingEnvironment": "",
+    "primaryMotivations": [],
+    "acceptance": "",
+    "contextAnswers": {},
+    "stimulusEvaluations": []
+  },
+  {
+    "id": "P-002",
+    "dataType": "real",
+    "firstName": "Markus",
+    "lastName": "Weber",
+    "gender": "männlich",
+    "age": 54,
+    "nationality": "Deutsch",
+    "religion": "Christentum (evangelisch)",
+    "maritalStatus": "verheiratet",
+    "countryOfResidence": "Deutschland",
+    "livingSituation": "Eigenheim (Einfamilienhaus)",
+    "dietaryHabits": "Omnivor (traditionell fleischbetont)",
+    "avatarUrl": "/avatars/P-002.jpg?v=1792792479661",
+    "livingEnvironment": "",
+    "primaryMotivations": [],
+    "acceptance": "Willing to Try",
+    "contextAnswers": {},
+    "stimulusEvaluations": [
+      {
+        "stimulusId": "S-002",
+        "timestamp": "2026-10-29T23:52:55.490Z",
+        "moduleActions": {
+          "1": {
+            "legitimizedBarrierIds": [],
+            "addBarrier": true,
+            "addDriver": false
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "P-003",
+    "dataType": "fiktiv",
+    "firstName": "Sarah",
+    "lastName": "Al-Mansoor",
+    "gender": "weiblich",
+    "age": 34,
+    "nationality": "Österreichisch",
+    "religion": "Islam",
+    "maritalStatus": "verheiratet",
+    "countryOfResidence": "Österreich",
+    "livingSituation": "Mietwohnung",
+    "dietaryHabits": "Halal / Flexitarisch",
+    "avatarUrl": null,
+    "livingEnvironment": "",
+    "primaryMotivations": [],
+    "acceptance": "",
+    "contextAnswers": {},
+    "stimulusEvaluations": []
+  },
+  {
+    "id": "P-004",
+    "dataType": "fiktiv",
+    "firstName": "Lukas",
+    "lastName": "Chen",
+    "gender": "männlich",
+    "age": 22,
+    "nationality": "Deutsch",
+    "religion": "Keine",
+    "maritalStatus": "ledig",
+    "countryOfResidence": "Deutschland",
+    "livingSituation": "Studentenwohnheim",
+    "dietaryHabits": "Vegan",
+    "avatarUrl": null,
+    "livingEnvironment": "",
+    "primaryMotivations": [],
+    "acceptance": "",
+    "contextAnswers": {},
+    "stimulusEvaluations": []
+  },
+  {
+    "id": "P-005",
+    "dataType": "fiktiv",
+    "firstName": "Elena",
+    "lastName": "Rossi",
+    "gender": "weiblich",
+    "age": 41,
+    "nationality": "Italienisch",
+    "religion": "Christentum (katholisch)",
+    "maritalStatus": "geschieden",
+    "countryOfResidence": "Schweiz",
+    "livingSituation": "Mietwohnung",
+    "dietaryHabits": "Pescetarisch",
+    "avatarUrl": null,
+    "livingEnvironment": "",
+    "primaryMotivations": [],
+    "acceptance": "",
+    "contextAnswers": {},
+    "stimulusEvaluations": []
+  },
+  {
+    "id": "P-006",
+    "dataType": "real",
+    "firstName": "Max",
+    "lastName": "Rodenkirchen",
+    "gender": "männlich",
+    "age": 29,
+    "nationality": "Deutsch",
+    "religion": "Konfessionslos / Keine",
+    "maritalStatus": "ledig",
+    "countryOfResidence": "Deutschland",
+    "livingSituation": "Wohngemeinschaft (WG)",
+    "dietaryHabits": "Vegetarisch",
+    "avatarUrl": "/avatars/P-006.jpg?v=1792792422407",
+    "livingEnvironment": "",
+    "primaryMotivations": [],
+    "acceptance": "",
+    "contextAnswers": {
+      "foodNeophobia": 0,
+      "foodTechNeophobia": -1,
+      "disgustSensitivity": 0,
+      "generalInnovativeness": 0,
+      "priorFamiliarity": 0,
+      "alreadyTried": 0,
+      "technicalUnderstanding": 0,
+      "naturalnessPreference": 0,
+      "valueAlignment": 0,
+      "trustScience": 0,
+      "trustRegulators": 0,
+      "trustIndustry": 0
+    },
+    "stimulusEvaluations": [
+      {
+        "stimulusId": "S-007",
+        "timestamp": "2026-10-29T23:41:58.544Z",
+        "ratings": {
+          "1": 0,
+          "5": 1
+        }
+      },
+      {
+        "stimulusId": "S-015",
+        "timestamp": "2026-10-29T23:46:46.836Z",
+        "ratings": {
+          "6": 0
+        }
+      },
+      {
+        "stimulusId": "S-002",
+        "timestamp": "2026-10-29T23:47:24.644Z",
+        "ratings": {
+          "3": -1
+        }
+      }
+    ]
+  },
+  {
+    "id": "P-007",
+    "dataType": "real",
+    "firstName": "Markus",
+    "lastName": "Kirschgens",
+    "gender": "männlich",
+    "age": 29,
+    "nationality": "Deutsch",
+    "religion": "Christentum (katholisch)",
+    "maritalStatus": "ledig",
+    "countryOfResidence": "Deutschland",
+    "livingSituation": "Studentenwohnheim",
+    "dietaryHabits": "Vegetarisch",
+    "avatarUrl": null,
+    "livingEnvironment": "",
+    "primaryMotivations": [],
+    "acceptance": "",
+    "contextAnswers": {},
+    "stimulusEvaluations": []
+  },
+  {
+    "id": "P-008",
+    "dataType": "real",
+    "firstName": "Helen",
+    "lastName": "Boss",
+    "gender": "weiblich",
+    "age": 27,
+    "nationality": "Deutsch",
+    "religion": "Buddhismus",
+    "maritalStatus": "ledig",
+    "countryOfResidence": "Deutschland",
+    "livingSituation": "Wohngemeinschaft (WG)",
+    "dietaryHabits": "Flexitarisch",
+    "avatarUrl": null,
+    "livingEnvironment": "",
+    "primaryMotivations": [],
+    "acceptance": "",
+    "contextAnswers": {},
+    "stimulusEvaluations": []
+  }
+]

@@ -1,0 +1,296 @@
+[
+  {
+    "id": "S-001",
+    "name": "High-Tech-Erklärung",
+    "category": "Terminologie und Produktbeschreibung",
+    "content": "Kultiviertes Fleisch entsteht durch zelluläre Landwirtschaft: Aus einer kleinen Gewebeprobe werden Stammzellen isoliert und in einem gesteuerten Bioreaktor mit einer Nährlösung aus Aminosäuren, Glukose, Vitaminen und Mineralstoffen vermehrt, bis vollwertige Muskelfasern heranwachsen.",
+    "primaryFunction": "widerstands-mindernd",
+    "primaryModules": [
+      6,
+      1
+    ]
+  },
+  {
+    "id": "S-002",
+    "name": "Real-Meat-Framing",
+    "category": "Terminologie und Produktbeschreibung",
+    "content": "Es ist zu 100 % echtes Fleisch – auf Zellebene identisch mit herkömmlichem Fleisch, nur direkt aus tierischen Zellen gewachsen statt durch Aufzucht und Schlachtung.",
+    "primaryFunction": "wert-schaffend",
+    "primaryModules": [
+      3,
+      4,
+      6
+    ]
+  },
+  {
+    "id": "S-003",
+    "name": "Vertrautes Fast-Food-Format (Burger & Nuggets)",
+    "category": "Produktformat",
+    "content": "Produktpräsentation als knusprige Chicken Nuggets, saftiges Burger-Patty oder klassische Fleischbällchen – gewohnte Zubereitung in wenigen Minuten in der Pfanne.",
+    "primaryFunction": "wert-schaffend",
+    "primaryModules": [
+      4,
+      3
+    ]
+  },
+  {
+    "id": "S-004",
+    "name": "Unkonventionelles Format (Rohes Zell-Steak)",
+    "category": "Produktformat",
+    "content": "Präsentation als rohes, im Bioreaktor gewachsenes Steak-Filetstück mit sichtbarer kultivierter Faserstruktur.",
+    "primaryFunction": "wert-mindernd",
+    "primaryModules": [
+      4,
+      1
+    ]
+  },
+  {
+    "id": "S-005",
+    "name": "Verarbeiteter Zustand (Fertiggericht / Wurstware)",
+    "category": "Produktformat",
+    "content": "Kultiviertes Fleisch integriert in vertraute Alltagsprodukte wie Salami, Bratwurst oder fertige Bolognese-Sauce.",
+    "primaryFunction": "widerstands-mindernd",
+    "primaryModules": [
+      4,
+      6
+    ]
+  },
+  {
+    "id": "S-006",
+    "name": "Grünes Eco-Design",
+    "category": "Verpackung & sensorische Informationen",
+    "content": "Verpackung in warmen Erdtönen mit Nachhaltigkeits-Symbolen und transparenter Umweltbilanz: „Klimaneutral produziert – bis zu 80 % weniger CO2 und 90 % weniger Flächenverbrauch.“",
+    "primaryFunction": "wert-schaffend",
+    "primaryModules": [
+      4,
+      6
+    ]
+  },
+  {
+    "id": "S-007",
+    "name": "Klinisch-sterile High-Tech-Verpackung",
+    "category": "Verpackung & sensorische Informationen",
+    "content": "Minimalistisches, reinweißes Verpackungsdesign mit Fokus auf Labor-Reinheit: „100 % frei von Antibiotika, Krankheitserregern und Kontamination.“",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1,
+      4
+    ]
+  },
+  {
+    "id": "S-008",
+    "name": "Sensorischer Beweis / Blind-Tasting-Ergebnis",
+    "category": "Verpackung & sensorische Informationen",
+    "content": "Ergebnis unabhängiger Blindverkostungen: „In Geschmack, Textur, Saftigkeit und Röstaromen nicht von konventionellem Rinderfilet zu unterscheiden.“",
+    "primaryFunction": "wert-schaffend",
+    "primaryModules": [
+      3
+    ]
+  },
+  {
+    "id": "S-009",
+    "name": "Visueller Appetit-Reiz (Saftiger Burger)",
+    "category": "Verpackung & sensorische Informationen",
+    "content": "Nahaufnahme eines frisch gebratenen, saftigen Burgers aus kultiviertem Rindfleisch mit geschmolzenem Käse, knusprigem Bun und goldbrauner Kruste.",
+    "primaryFunction": "wert-schaffend",
+    "primaryModules": [
+      3,
+      4
+    ]
+  },
+  {
+    "id": "S-010",
+    "name": "Preisparität mit konventionellem Fleisch",
+    "category": "Preis & Knappheit",
+    "content": "Preisschild im Handel: „4,99 € pro Packung – kostet exakt genauso viel wie konventionelles Marken-Fleisch aus der Kühltheke.“",
+    "primaryFunction": "wert-schaffend",
+    "primaryModules": [
+      6
+    ]
+  },
+  {
+    "id": "S-011",
+    "name": "Premium-Aufpreis (+30 %)",
+    "category": "Preis & Knappheit",
+    "content": "Preisschild: „30 % teurer als herkömmliches Fleisch – Aufpreis für technologische Innovation und 100 % Tierwohl ohne Schlachtung.“",
+    "primaryFunction": "wert-mindernd",
+    "primaryModules": [
+      6,
+      5
+    ]
+  },
+  {
+    "id": "S-012",
+    "name": "Limitierte Edition / Exklusivität",
+    "category": "Preis & Knappheit",
+    "content": "Exklusives Angebot: „Streng limitierte Test-Charge aus unserer Manufaktur – nur heute in ausgewählten Flagship-Restaurants verfügbar.“",
+    "primaryFunction": "wert-schaffend",
+    "primaryModules": [
+      5
+    ]
+  },
+  {
+    "id": "S-013",
+    "name": "Micro-Influencer & Food-Blogger Empfehlung",
+    "category": "Empfehlungs- und Positionierungssignale",
+    "content": "Bekannte Food-Blogger testen das Produkt live auf Social Media im Alltag und teilen ihre ehrliche Zubereitung und Geschmacksbewertung.",
+    "primaryFunction": "wert-schaffend",
+    "primaryModules": [
+      3,
+      5
+    ]
+  },
+  {
+    "id": "S-014",
+    "name": "Prominente Spitzenkoch-Empfehlung",
+    "category": "Empfehlungs- und Positionierungssignale",
+    "content": "Ein gefeierter 3-Sterne-Koch serviert das kultivierte Fleisch in seinem Fine-Dining-Menü und bürgt öffentlich für die herausragende kulinarische Qualität.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      3,
+      5
+    ]
+  },
+  {
+    "id": "S-015",
+    "name": "Mainstream-Positionierung in der Supermarkt-Kühltheke",
+    "category": "Empfehlungs- und Positionierungssignale",
+    "content": "Das Produkt liegt im regulären Supermarkt selbstverständlich direkt neben dem herkömmlichen Rinderhackfleisch und Geflügel in der Kühltheke.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      4,
+      6
+    ]
+  },
+  {
+    "id": "S-016",
+    "name": "Das Start-up-Narrativ",
+    "category": "Kompetenz und Transparenz der Produzenten",
+    "content": "Präsentation durch ein unabhängiges, wissenschaftsgetriebenes Food-Tech-Start-up aus Universitätsforschenden mit der Mission, Klima und Tierwohl nachhaltig zu schützen.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      5
+    ]
+  },
+  {
+    "id": "S-017",
+    "name": "Der etablierte Lebensmittelkonzern",
+    "category": "Kompetenz und Transparenz der Produzenten",
+    "content": "Herstellung und Vertrieb durch einen bekannten, traditionsreichen Lebensmittelhersteller mit jahrzehntelanger Erfahrung in Lebensmittelsicherheit und Qualitätskontrolle.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      1
+    ]
+  },
+  {
+    "id": "S-018",
+    "name": "Vollständige Transparenz per QR-Code",
+    "category": "Kompetenz und Transparenz der Produzenten",
+    "content": "Vollständige Offenlegung der gesamten Lieferkette, aller Laborwerte und der genauen Zusammensetzung der pflanzlichen Nährlösung per QR-Code direkt auf der Verpackung.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      6,
+      1
+    ]
+  },
+  {
+    "id": "S-019",
+    "name": "Discounter-Listung (Alltags-Verfügbarkeit)",
+    "category": "Glaubwürdigkeit des Handels",
+    "content": "Das Produkt ist fest im Sortiment großer bekannter Einzelhändler und Discounter (z. B. Aldi, Lidl, Rewe) für den täglichen Wocheneinkauf gelistet.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      6,
+      4
+    ]
+  },
+  {
+    "id": "S-020",
+    "name": "Bio-Supermarkt-Listung",
+    "category": "Glaubwürdigkeit des Handels",
+    "content": "Exklusive Führung in zertifizierten Bio-Fachmärkten (z. B. Alnatura / Dennree) nach strenger Prüfung auf Gentechnikfreiheit und ökologische Standards.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": "S-021",
+    "name": "Luxus-Kaufhaus & Feinkostabteilung",
+    "category": "Glaubwürdigkeit des Handels",
+    "content": "Präsentation als exklusive Delikatesse in der Feinkostabteilung eines renommierten Traditionshauses (z. B. KaDeWe).",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      5,
+      3
+    ]
+  },
+  {
+    "id": "S-022",
+    "name": "Offizielles Siegel der Lebensmittelbehörde (EFSA / FDA)",
+    "category": "Behördliche Zulassung",
+    "content": "Offizielles Prüfsiegel der Europäischen Behörde für Lebensmittelsicherheit (EFSA): „Nach mehrjähriger toxikologischer und ernährungsphysiologischer Prüfung offiziell zugelassen.“",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1,
+      2
+    ]
+  },
+  {
+    "id": "S-023",
+    "name": "Staatliches Sicherheits-Zertifikat",
+    "category": "Behördliche Zulassung",
+    "content": "Staatliches Freigabe-Zertifikat: „Offiziell als 100 % sicher, rückstandsfrei und vollwertig für den menschlichen Verzehr eingestuft.“",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1
+    ]
+  },
+  {
+    "id": "S-024",
+    "name": "Unabhängiges Tierschutz- & NGO-Zertifikat",
+    "category": "Unabhängige Zertifizierung",
+    "content": "Unabhängiges Prüfsiegel anerkannter Tierschutz- und Umweltorganisationen: „Zertifiziert 100 % ohne Tierleid und ohne Schlachtung gewonnen.“",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      6
+    ]
+  },
+  {
+    "id": "S-025",
+    "name": "ISO-Zertifizierung / Lab-Safety-Siegel",
+    "category": "Unabhängige Zertifizierung",
+    "content": "Unabhängiges ISO- und Lebensmittelhygiene-Zertifikat: „Produziert unter strengsten lebensmitteltechnischen Reinraum-Standards – steriler und sauberer als jeder Schlachthof.“",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1
+    ]
+  },
+  {
+    "id": "S-026",
+    "name": "Blockchain-Rückverfolgbarkeit bis zum Ursprungstier",
+    "category": "Rückverfolgbarkeit und anerkannte Zusicherungen",
+    "content": "Lückenlose digitale Rückverfolgbarkeit: Jede Packung zeigt genau, von welchem gesunden Spendertier auf welchem Hof die ursprünglichen Zellen schmerzfrei entnommen wurden.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      1
+    ]
+  },
+  {
+    "id": "S-027",
+    "name": "100 % Geld-zurück- & Geschmacksgarantie",
+    "category": "Rückverfolgbarkeit und anerkannte Zusicherungen",
+    "content": "Qualitätsversprechen auf der Packung: „100 % Zufriedenheitsgarantie – wenn Ihnen Geschmack oder Zubereitung nicht zusagen, erhalten Sie sofort Ihr Geld zurück.“",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      3,
+      6
+    ]
+  }
+]
