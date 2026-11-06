@@ -1398,3 +1398,165 @@ dialog.modal-stimulus-detail {
   background-color: var(--wine-plum);
   height: 100%;
 }
+
+/* ==========================================================================
+   ANSICHT 4: PROTOTYP DECISION TREE / HYPERTEXT FICTION
+   ========================================================================== */
+
+.dt-sandbox-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  margin-bottom: 20px;
+  border: 1px solid var(--ash-grey);
+  background-color: #fafaf8;
+}
+
+.dt-sandbox-info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.dt-chapter-badge {
+  margin-bottom: 6px;
+}
+
+.dt-story-narrative {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--ink-black);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--ink-black);
+  background-color: #fafaf8;
+}
+
+.dt-sim-status-box {
+  border: 1px solid var(--ash-grey);
+  padding: 14px;
+  background-color: #ffffff;
+}
+
+.dt-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.dt-history-list li {
+  padding: 6px 0;
+  border-bottom: 1px solid var(--ash-grey);
+}
+
+.dt-history-list li:last-child {
+  border-bottom: none;
+}
+
+.dt-history-list li.eval-history-outlook {
+  margin-top: 6px;
+  padding: 8px 10px;
+  border: 1px dashed var(--ink-black);
+  background-color: #fafaf8;
+  color: var(--ink-black);
+}
+
+.dt-choices-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.dt-module-card {
+  border: 1px solid var(--ash-grey);
+  background-color: #ffffff;
+  padding: 12px 14px;
+}
+
+.dt-module-card.dt-target-module {
+  border-color: var(--ink-black);
+}
+
+.dt-module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--ash-grey);
+}
+
+.dt-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dt-hypertext-link {
+  width: 100%;
+  text-align: left;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  border: 1px solid var(--ash-grey);
+  background-color: #ffffff;
+  color: var(--ink-black);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.dt-hypertext-link:hover {
+  border-color: var(--ink-black);
+  background-color: #fafaf8;
+}
+
+.dt-hypertext-link.link-legit {
+  border-left: 4px solid var(--ash-grey);
+}
+
+.dt-hypertext-link.link-barrier {
+  border-left: 4px solid var(--wine-plum);
+}
+
+.dt-hypertext-link.link-driver {
+  border-left: 4px solid var(--muted-teal);
+}
+
+.dt-link-code {
+  font-weight: 700;
+  margin-right: 6px;
+}
+
+.dt-link-tag {
+  font-size: 11px;
+  line-height: 14px;
+  padding: 2px 6px;
+  border: 1px solid var(--ash-grey);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dt-link-tag.tag-legit {
+  border-color: var(--ash-grey);
+  background-color: #f4f4f1;
+}
+
+.dt-link-tag.tag-barrier {
+  border-color: var(--wine-plum);
+  background-color: var(--petal-frost);
+}
+
+.dt-link-tag.tag-driver {
+  border-color: var(--muted-teal);
+  background-color: #f4f7f2;
+}

@@ -32,6 +32,10 @@
           <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M26 6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM6 24V8h20v16z"/><path d="M11 14a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm0-4a1 1 0 1 1-1 1 1 1 0 0 1 1-1zm13 12l-5-6-4 4.5-2.5-3L8 22h16z"/></svg>
           <span>Reizsammlung</span>
         </button>
+        <button type="button" id="nav-btn-decision-tree">
+          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M26 18a3.995 3.995 0 0 0-3.858 3H18a3.003 3.003 0 0 1-3-3v-4h7.142a4 4 0 1 0 0-2H15V8a3.003 3.003 0 0 1 3-3h4.142A4 4 0 1 0 26 2a3.995 3.995 0 0 0-3.858 3H18a5.006 5.006 0 0 0-5 5v5H9.858a4 4 0 1 0 0 2H13v1a5.006 5.006 0 0 0 5 5h4.142A4 4 0 1 0 26 18zm0-14a2 2 0 1 1-2 2 2.002 2.002 0 0 1 2-2zm0 12a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2zM6 18a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2zm20 6a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2z"/></svg>
+          <span>Prototyp Decision Tree</span>
+        </button>
       </nav>
     </div>
 
@@ -417,6 +421,91 @@
 
     <!-- Einspaltiges Karten-Grid ähnlich wie YouTube Thumbnails -->
     <div id="stimuli-cards-grid" class="stimuli-cards-grid"></div>
+  </div>
+
+  <!-- ANSICHT 4: PROTOTYP DECISION TREE / HYPERTEXT FICTION -->
+  <div id="view-decision-tree" style="display: none;">
+    <div class="dt-sandbox-bar">
+      <div class="dt-sandbox-info">
+        <span class="caption-tag" style="background:var(--petal-frost); border-color:var(--wine-plum);">SANDBOX-MODUS</span>
+        <span class="caption-text">Eigenständige Hypertext-Simulation – das gespeicherte Personenprofil wird nicht verändert. Pro Reiz führt genau <strong>ein</strong> angeklickter Gedanken-Link die Geschichte weiter.</span>
+      </div>
+      <button type="button" id="btn-dt-restart" class="btn-icon-text" title="Simulation auf Ausgangszustand des Profils zurücksetzen">
+        <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M18 28A12 12 0 1 0 6 16v6.2l-3.6-3.6L1 20l6 6 6-6-1.4-1.4L8 22.2V16a10 10 0 1 1 10 10z"/></svg>
+        <span>Geschichte neu starten</span>
+      </button>
+    </div>
+
+    <div class="eval-two-col">
+      <!-- LINKE SPALTE: Geschichtlicher Reiz, Verlauf & Simulierter Modulstatus -->
+      <section class="eval-left-stimulus">
+        <div id="dt-stimulus-card" class="stimulus-box">
+          <div class="dt-chapter-badge">
+            <span id="dt-chapter-label" class="caption-label">KAPITEL 1</span>
+          </div>
+          <div class="stimulus-meta">
+            <h3 id="dt-stim-name" style="margin:0;"></h3>
+            <span class="info-hover" tabindex="0">
+              <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 22v-8h-4v2h2v6h-3v2h8v-2h-3zM16 8a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 16 8z"/><path d="M16 30a14 14 0 1 1 14-14 14 14 0 0 1-14 14zm0-26a12 12 0 1 0 12 12A12 12 0 0 0 16 4z"/></svg>
+              <span class="info-popover">
+                <div><strong>Kategorie:</strong> <span id="dt-stim-category"></span></div>
+                <div><strong>Primärfunktion:</strong> <span id="dt-stim-function"></span></div>
+                <div><strong>Zielmodule:</strong> <span id="dt-stim-modules-display"></span></div>
+                <div style="margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.25);">
+                  <strong>Algorithmus-Begründung:</strong>
+                  <div id="dt-stim-algo-reason" style="margin-top:2px; font-size:11px; line-height:15px; color:#ffffff;"></div>
+                </div>
+              </span>
+            </span>
+          </div>
+
+          <!-- Geschichtliche Ausschmückung (Hypertext Story-Passage) -->
+          <div id="dt-story-narrative" class="dt-story-narrative"></div>
+
+          <!-- Medien-Bereich (Bild oder Iframe) -->
+          <div id="dt-stim-media-container" class="stim-media-container"></div>
+          <p id="dt-stim-content" class="stim-content-box"></p>
+        </div>
+
+        <!-- Aus- und einklappbarer Geschichts-Verlauf -->
+        <div class="eval-history-box" id="dt-history-box" style="margin-bottom: 16px;">
+          <div class="eval-history-header">
+            <button type="button" id="btn-toggle-dt-history" class="btn-history-toggle" aria-expanded="true">
+              <svg class="carbon-icon-sm history-chevron" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 22L6 12l1.4-1.4 8.6 8.6 8.6-8.6L26 12z"/></svg>
+              <span class="caption-label">GESCHICHTS-VERLAUF (<span id="dt-history-count">0</span>)</span>
+            </button>
+          </div>
+          <div class="eval-history-body">
+            <ul id="dt-history-list" class="dt-history-list"></ul>
+          </div>
+        </div>
+
+        <!-- Simulierter Modul-Zustand & Akzeptanz in der Sandbox -->
+        <div class="dt-sim-status-box">
+          <div class="section-header-line" style="margin-bottom:10px;">
+            <span class="caption-label">SIMULIERTER ZUSTAND DER MODULE (TESTLAUF)</span>
+          </div>
+          <div id="dt-modules-summary-grid" class="modules-eval-grid"></div>
+
+          <div class="eval-acceptance-bar" style="margin-top:12px;">
+            <span class="caption-label">AKZEPTANZ (TEST):</span>
+            <div class="eval-acceptance-group" id="dt-acceptance-group">
+              <button type="button" class="btn-acceptance" data-level="Willing to Try">TRY</button>
+              <button type="button" class="btn-acceptance" data-level="Willing to Buy">BUY</button>
+              <button type="button" class="btn-acceptance" data-level="Willing to Adopt">ADOPT</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RECHTE SPALTE: Hypertext-Antwortmöglichkeiten nach Modulen (1 Klick führt weiter) -->
+      <section class="dt-right-choices">
+        <div class="section-header-line" style="margin-bottom:12px;">
+          <span class="caption-label">WÄHLE DEINEN GEDANKEN-LINK (FÜHRT DIE GESCHICHTE DIREKT WEITER)</span>
+        </div>
+        <div id="dt-choices-container" class="dt-choices-grid"></div>
+      </section>
+    </div>
   </div>
 
   <!-- Pop-Up Modal für Reiz-Details, Bearbeitung & Empirische Auswertung -->

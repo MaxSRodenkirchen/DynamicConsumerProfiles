@@ -1,4 +1,5 @@
 // Frontend-Logik für Konsumentenprofile & IPS-Reizbewertung (MVP)
+import { getDecisionTreeContentForStimulus } from './decisionTreeData.js';
 
 // 1. Die 6 Wahrnehmungsmodule
 const MODULES = [
@@ -212,13 +213,40 @@ let avatarDeleted = false;
 const navBtnHome = document.getElementById('nav-btn-home');
 const navBtnProfiles = document.getElementById('nav-btn-profiles');
 const navBtnEvaluation = document.getElementById('nav-btn-evaluation');
+const navBtnDecisionTree = document.getElementById('nav-btn-decision-tree');
 const navBtnStimuli = document.getElementById('nav-btn-stimuli');
 const viewHome = document.getElementById('view-home');
 const homeBentoGrid = document.getElementById('home-bento-grid');
 const viewProfiles = document.getElementById('view-profiles');
 const viewEvaluation = document.getElementById('view-evaluation');
+const viewDecisionTree = document.getElementById('view-decision-tree');
 const viewStimuli = document.getElementById('view-stimuli');
 const btnJumpToEval = document.getElementById('btn-jump-to-eval');
+
+// Decision Tree Prototype Elements
+const btnDtRestart = document.getElementById('btn-dt-restart');
+const dtChapterLabel = document.getElementById('dt-chapter-label');
+const dtStimName = document.getElementById('dt-stim-name');
+const dtStimCategory = document.getElementById('dt-stim-category');
+const dtStimFunction = document.getElementById('dt-stim-function');
+const dtStimModulesDisplay = document.getElementById('dt-stim-modules-display');
+const dtStimAlgoReason = document.getElementById('dt-stim-algo-reason');
+const dtStoryNarrative = document.getElementById('dt-story-narrative');
+const dtStimMediaContainer = document.getElementById('dt-stim-media-container');
+const dtStimContent = document.getElementById('dt-stim-content');
+const dtHistoryBox = document.getElementById('dt-history-box');
+const btnToggleDtHistory = document.getElementById('btn-toggle-dt-history');
+const dtHistoryCount = document.getElementById('dt-history-count');
+const dtHistoryList = document.getElementById('dt-history-list');
+const dtModulesSummaryGrid = document.getElementById('dt-modules-summary-grid');
+const dtAcceptanceButtons = document.querySelectorAll('#dt-acceptance-group .btn-acceptance');
+const dtChoicesContainer = document.getElementById('dt-choices-container');
+
+// Decision Tree Sandbox State (unabhängig von gespeicherten Profilen!)
+let dtSessionProfile = null;
+let dtStorySteps = [];
+let dtCurrentStimulusId = null;
+let dtCurrentAlgoReason = '';
 
 // Profile View Elements
 const listRealEl = document.getElementById('list-real');
@@ -796,10 +824,12 @@ function switchView(viewName) {
   if (viewHome) viewHome.style.display = 'none';
   viewProfiles.style.display = 'none';
   viewEvaluation.style.display = 'none';
+  if (viewDecisionTree) viewDecisionTree.style.display = 'none';
   viewStimuli.style.display = 'none';
   if (navBtnHome) navBtnHome.classList.remove('active');
   navBtnProfiles.classList.remove('active');
   navBtnEvaluation.classList.remove('active');
+  if (navBtnDecisionTree) navBtnDecisionTree.classList.remove('active');
   navBtnStimuli.classList.remove('active');
 
   if (viewName === 'home') {
@@ -810,6 +840,11 @@ function switchView(viewName) {
     viewEvaluation.style.display = 'block';
     navBtnEvaluation.classList.add('active');
     renderEvaluationView();
+  } else if (viewName === 'decision-tree') {
+    if (viewDecisionTree) viewDecisionTree.style.display = 'block';
+    if (navBtnDecisionTree) navBtnDecisionTree.classList.add('active');
+    initDecisionTreeSession(false);
+    renderDecisionTreeView();
   } else if (viewName === 'stimuli') {
     viewStimuli.style.display = 'block';
     navBtnStimuli.classList.add('active');
@@ -828,6 +863,7 @@ function switchView(viewName) {
 if (navBtnHome) navBtnHome.addEventListener('click', () => switchView('home'));
 navBtnProfiles.addEventListener('click', () => switchView('profiles'));
 navBtnEvaluation.addEventListener('click', () => switchView('evaluation'));
+if (navBtnDecisionTree) navBtnDecisionTree.addEventListener('click', () => switchView('decision-tree'));
 navBtnStimuli.addEventListener('click', () => switchView('stimuli'));
 btnJumpToEval.addEventListener('click', () => switchView('evaluation'));
 
@@ -1932,6 +1968,10 @@ if (headerProfileSelect) {
     if (viewEvaluation && viewEvaluation.style.display !== 'none') {
       renderEvaluationView(false);
     }
+    if (viewDecisionTree && viewDecisionTree.style.display !== 'none') {
+      initDecisionTreeSession(true);
+      renderDecisionTreeView();
+    }
   });
 }
 
@@ -2045,6 +2085,389 @@ btnClearHistory.addEventListener('click', async () => {
   } catch (err) {
     alert('Fehler beim Zurücksetzen: ' + err.message);
   }
+});
+
+// ==========================================
+// SEITE 2B: PROTOTYP DECISION TREE (HYPERTEXT FICTION SANDBOX)
+// ==========================================
+
+/**
+ * Initialisiert oder setzt die Sandbox-Session für den Decision Tree zurück.
+ * Arbeitet mit einer unabhängigen In-Memory-Kopie des aktuell gewählten Profils
+ * (Startzustand: nur die Basis-Kontextantworten ohne gespeicherte Reizhistorie),
+ * sodass gespeicherte Profile niemals verändert werden.
+ */
+function initDecisionTreeSession(forceReset = false) {
+  if (!currentProfileId && profiles.length > 0) {
+    currentProfileId = profiles[0].id;
+  }
+  const baseProfile = profiles.find(p => p.id === currentProfileId) || profiles[0];
+  if (!baseProfile) return;
+
+  if (!dtSessionProfile || forceReset || dtSessionProfile.id !== baseProfile.id) {
+    dtSessionProfile = {
+      ...JSON.parse(JSON.stringify(baseProfile)),
+      stimulusEvaluations: []
+    };
+    dtStorySteps = [];
+    dtCurrentStimulusId = null;
+    dtCurrentAlgoReason = '';
+  }
+}
+
+function updateDtAcceptanceButtonsUI() {
+  const currentAcc = dtSessionProfile?.acceptance || '';
+  dtAcceptanceButtons.forEach(btn => {
+    if (btn.dataset.level === currentAcc) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+function renderDecisionTreeView() {
+  initDecisionTreeSession(false);
+  updateHeaderProfileDisplay();
+  updateDtAcceptanceButtonsUI();
+
+  if (!dtSessionProfile) return;
+
+  // Nächsten Reiz nach exakt demselben IPS-Algorithmus bestimmen
+  const recommendation = recommendNextStimulus(dtSessionProfile);
+  dtCurrentStimulusId = recommendation.stimulus ? recommendation.stimulus.id : null;
+  dtCurrentAlgoReason = recommendation.reason;
+
+  const currentChapterNum = dtStorySteps.length + 1;
+  if (dtChapterLabel) {
+    dtChapterLabel.textContent = dtCurrentStimulusId
+      ? `KAPITEL ${currentChapterNum}`
+      : 'GESCHICHTE ABGESCHLOSSEN';
+  }
+
+  renderDecisionTreeStimulusCard();
+  renderDecisionTreeSimulatedModules();
+  renderDecisionTreeHistory();
+  renderDecisionTreeHypertextChoices();
+}
+
+function renderDecisionTreeStimulusCard() {
+  const stim = stimuli.find(s => s.id === dtCurrentStimulusId);
+  if (!stim) {
+    if (dtStimName) dtStimName.textContent = 'Alle Reize durchlaufen';
+    if (dtStimCategory) dtStimCategory.textContent = '-';
+    if (dtStimFunction) dtStimFunction.textContent = '-';
+    if (dtStimModulesDisplay) dtStimModulesDisplay.textContent = '-';
+    if (dtStimAlgoReason) dtStimAlgoReason.textContent = dtCurrentAlgoReason || 'Keine weiteren Reize offen.';
+    if (dtStoryNarrative) {
+      dtStoryNarrative.textContent = 'Die interaktive Geschichte hat alle verfügbaren Reize durchlaufen. Klicke oben auf „Geschichte neu starten“, um einen anderen Pfad durch den Decision Tree zu erkunden.';
+    }
+    if (dtStimMediaContainer) dtStimMediaContainer.innerHTML = '';
+    if (dtStimContent) {
+      dtStimContent.textContent = '';
+      dtStimContent.style.display = 'none';
+    }
+    return;
+  }
+
+  const dtContent = getDecisionTreeContentForStimulus(stim);
+
+  if (dtStimName) dtStimName.textContent = stim.name;
+  if (dtStimCategory) dtStimCategory.textContent = stim.category || 'Allgemein';
+  if (dtStimFunction) dtStimFunction.textContent = stim.primaryFunction || '-';
+
+  if (dtStimModulesDisplay) {
+    const modNames = (stim.primaryModules || [])
+      .map(mId => MODULES.find(m => m.id === mId)?.name || `Modul ${mId}`)
+      .join(', ');
+    dtStimModulesDisplay.textContent = modNames || 'Keine Angabe';
+  }
+
+  if (dtStimAlgoReason) {
+    dtStimAlgoReason.textContent = dtCurrentAlgoReason || 'Automatische Auswahl nach IPS-Regeln';
+  }
+
+  if (dtStoryNarrative) {
+    dtStoryNarrative.textContent = dtContent.story;
+  }
+
+  if (dtStimMediaContainer) {
+    renderStimulusMediaInto(dtStimMediaContainer, stim);
+  }
+
+  if (dtStimContent) {
+    if (stim.content) {
+      dtStimContent.textContent = stim.content;
+      dtStimContent.style.display = 'block';
+    } else {
+      dtStimContent.textContent = '';
+      dtStimContent.style.display = 'none';
+    }
+  }
+}
+
+function renderDecisionTreeSimulatedModules() {
+  if (!dtModulesSummaryGrid || !dtSessionProfile) return;
+  dtModulesSummaryGrid.innerHTML = '';
+
+  const stats = computeModuleStats(dtSessionProfile);
+
+  MODULES.forEach(m => {
+    const s = stats[m.id];
+    const card = document.createElement('div');
+    card.className = 'module-visual-card readonly';
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'module-visual-title';
+    titleEl.textContent = m.name;
+
+    const tokensArea = document.createElement('div');
+    tokensArea.className = 'module-tokens-area';
+
+    s.barrierItems.forEach(barrier => {
+      const token = createBarrierTokenElement({
+        barrier,
+        isAlreadyLegitimized: Boolean(barrier.legitimizedBy),
+        isSelectedNow: false,
+        currentStimLabel: '',
+        onToggleLegit: null
+      });
+      tokensArea.appendChild(token);
+    });
+
+    s.driverItems.forEach(driver => {
+      const token = createDriverTokenElement({
+        label: driver.label,
+        isPending: false,
+        onTogglePending: null
+      });
+      tokensArea.appendChild(token);
+    });
+
+    card.appendChild(titleEl);
+    card.appendChild(tokensArea);
+    dtModulesSummaryGrid.appendChild(card);
+  });
+}
+
+function renderDecisionTreeHistory() {
+  if (!dtHistoryList || !dtHistoryCount) return;
+  dtHistoryCount.textContent = dtStorySteps.length;
+  dtHistoryList.innerHTML = '';
+
+  if (dtStorySteps.length === 0) {
+    const li = document.createElement('li');
+    li.style.color = '#666';
+    li.textContent = 'Noch keine Entscheidung getroffen – wähle rechts deinen ersten Gedanken-Link.';
+    dtHistoryList.appendChild(li);
+  } else {
+    dtStorySteps.forEach((step, idx) => {
+      const li = document.createElement('li');
+      const effectLabel = step.actionType === 'legit'
+        ? '0 Legitimation'
+        : step.actionType === 'barrier'
+          ? '-1 Barriere'
+          : '+1 Enabler';
+      li.innerHTML = `<strong>Kapitel ${idx + 1} (${step.stimulusName}):</strong> [${step.optionCode} · Modul ${step.moduleId} · ${effectLabel}] „${step.chosenText}“`;
+      dtHistoryList.appendChild(li);
+    });
+  }
+
+  // Letzter Punkt im Verlauf: "Aktuell" (warum der Algorithmus das aktuelle Kapitel zeigt)
+  const currentLi = document.createElement('li');
+  currentLi.className = 'eval-history-outlook';
+  const currentStim = stimuli.find(s => s.id === dtCurrentStimulusId);
+  if (currentStim) {
+    currentLi.innerHTML = `<strong>Aktuell (Kapitel ${dtStorySteps.length + 1}):</strong> ${currentStim.name} [${currentStim.primaryFunction}]<br><span class="caption-text">${dtCurrentAlgoReason || 'Automatische Auswahl nach IPS-Regeln'}</span>`;
+  } else {
+    currentLi.innerHTML = `<strong>Aktuell:</strong> Keine weiteren offenen Reize (${dtCurrentAlgoReason || 'Alle Reize durchlaufen'})`;
+  }
+  dtHistoryList.appendChild(currentLi);
+}
+
+/**
+ * Rendert die anklickbaren Hypertext-Entscheidungslinks pro Modul (1 bis 6).
+ * Pro Reiz hat der Nutzer genau eine Wahl:
+ * - Legitimation (0) wird in einem Modul NUR angeboten, wenn dort aktuell mindestens eine aktive Barriere existiert.
+ * - Barriere (-1) ist immer wählbar.
+ * - Enabler / Treiber (+1) ist immer wählbar.
+ * Ein Klick auf einen Link wendet die Wahl sofort auf die Sandbox-Session an und blättert zum nächsten Reiz-Kapitel.
+ */
+function renderDecisionTreeHypertextChoices() {
+  if (!dtChoicesContainer) return;
+  dtChoicesContainer.innerHTML = '';
+
+  const stim = stimuli.find(s => s.id === dtCurrentStimulusId);
+  if (!stim || !dtSessionProfile) {
+    const doneBox = document.createElement('div');
+    doneBox.className = 'dt-module-card';
+    doneBox.innerHTML = `
+      <span class="caption-label">ENDE DER SIMULATION</span>
+      <p style="margin:6px 0 0 0;">Alle verfügbaren Reize wurden in dieser Sitzung besucht. Starte die Geschichte oben neu oder wechsle im Header zu einer anderen Person.</p>
+    `;
+    dtChoicesContainer.appendChild(doneBox);
+    return;
+  }
+
+  const stats = computeModuleStats(dtSessionProfile);
+  const dtContent = getDecisionTreeContentForStimulus(stim);
+
+  MODULES.forEach(m => {
+    const modStat = stats[m.id];
+    const modTexts = dtContent.modules[m.id] || {
+      legit: 'Das entkräftet meine bisherigen Bedenken in diesem Punkt.',
+      barrier: 'Das löst bei mir an dieser Stelle eher Skepsis und Widerstand aus.',
+      driver: 'Das überzeugt mich und schafft für mich einen echten Mehrwert.'
+    };
+
+    const hasActiveBarrier = modStat.activeBarrierItems.length > 0;
+    const firstActiveBarrier = modStat.activeBarrierItems[0] || null;
+
+    const moduleCard = document.createElement('div');
+    moduleCard.className = 'dt-module-card';
+
+    const headerEl = document.createElement('div');
+    headerEl.className = 'dt-module-card-header';
+
+    const statusBadgeText = hasActiveBarrier
+      ? `${modStat.activeBarrierItems.length} aktive Barriere${modStat.activeBarrierItems.length > 1 ? 'n' : ''} · Legitimation möglich`
+      : 'Keine aktive Barriere';
+
+    headerEl.innerHTML = `
+      <span class="dt-module-card-title">${m.name}</span>
+      <span class="caption-tag">${statusBadgeText}</span>
+    `;
+    moduleCard.appendChild(headerEl);
+
+    const linksList = document.createElement('div');
+    linksList.className = 'dt-links-list';
+
+    let subIdx = 1;
+
+    // 1) LEGITIMATION (0): Nur anzeigen, wenn im Modul eine aktive Barriere vorhanden ist!
+    if (hasActiveBarrier && firstActiveBarrier) {
+      const optionCode = `${m.id}.${subIdx++}`;
+      const btnLegit = document.createElement('button');
+      btnLegit.type = 'button';
+      btnLegit.className = 'dt-hypertext-link link-legit';
+      btnLegit.innerHTML = `
+        <span class="dt-link-text">${optionCode} ${modTexts.legit}</span>
+        <span class="dt-link-tag">Legitimation (hebt „${firstActiveBarrier.label}“ auf)</span>
+      `;
+      btnLegit.addEventListener('click', () => {
+        handleDecisionTreeChoice({
+          stimulus: stim,
+          moduleId: m.id,
+          actionType: 'legit',
+          optionCode,
+          chosenText: modTexts.legit,
+          targetBarrierId: firstActiveBarrier.id
+        });
+      });
+      linksList.appendChild(btnLegit);
+    }
+
+    // 2) BARRIERE (-1)
+    {
+      const optionCode = `${m.id}.${subIdx++}`;
+      const btnBarrier = document.createElement('button');
+      btnBarrier.type = 'button';
+      btnBarrier.className = 'dt-hypertext-link link-barrier';
+      btnBarrier.innerHTML = `
+        <span class="dt-link-text">${optionCode} ${modTexts.barrier}</span>
+        <span class="dt-link-tag">Barriere (-1)</span>
+      `;
+      btnBarrier.addEventListener('click', () => {
+        handleDecisionTreeChoice({
+          stimulus: stim,
+          moduleId: m.id,
+          actionType: 'barrier',
+          optionCode,
+          chosenText: modTexts.barrier
+        });
+      });
+      linksList.appendChild(btnBarrier);
+    }
+
+    // 3) ENABLER / TREIBER (+1)
+    {
+      const optionCode = `${m.id}.${subIdx++}`;
+      const btnDriver = document.createElement('button');
+      btnDriver.type = 'button';
+      btnDriver.className = 'dt-hypertext-link link-driver';
+      btnDriver.innerHTML = `
+        <span class="dt-link-text">${optionCode} ${modTexts.driver}</span>
+        <span class="dt-link-tag">Enabler (+1)</span>
+      `;
+      btnDriver.addEventListener('click', () => {
+        handleDecisionTreeChoice({
+          stimulus: stim,
+          moduleId: m.id,
+          actionType: 'driver',
+          optionCode,
+          chosenText: modTexts.driver
+        });
+      });
+      linksList.appendChild(btnDriver);
+    }
+
+    moduleCard.appendChild(linksList);
+    dtChoicesContainer.appendChild(moduleCard);
+  });
+}
+
+function handleDecisionTreeChoice({ stimulus, moduleId, actionType, optionCode, chosenText, targetBarrierId }) {
+  if (!dtSessionProfile || !stimulus) return;
+
+  const moduleActions = {
+    [moduleId]: {
+      legitimizedBarrierIds: actionType === 'legit' && targetBarrierId ? [targetBarrierId] : [],
+      addBarrier: actionType === 'barrier',
+      addDriver: actionType === 'driver'
+    }
+  };
+
+  // Nur im Sandbox-Profil speichern (kein Backend-Call, echte Profile bleiben unberührt!)
+  dtSessionProfile.stimulusEvaluations.push({
+    stimulusId: stimulus.id,
+    timestamp: new Date().toISOString(),
+    moduleActions,
+    acceptance: dtSessionProfile.acceptance || null
+  });
+
+  dtStorySteps.push({
+    stimulusId: stimulus.id,
+    stimulusName: stimulus.name,
+    moduleId,
+    actionType,
+    optionCode,
+    chosenText
+  });
+
+  renderDecisionTreeView();
+}
+
+if (btnDtRestart) {
+  btnDtRestart.addEventListener('click', () => {
+    initDecisionTreeSession(true);
+    renderDecisionTreeView();
+  });
+}
+
+if (btnToggleDtHistory && dtHistoryBox) {
+  btnToggleDtHistory.addEventListener('click', () => {
+    const isCollapsed = dtHistoryBox.classList.toggle('collapsed');
+    btnToggleDtHistory.setAttribute('aria-expanded', String(!isCollapsed));
+  });
+}
+
+dtAcceptanceButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (!dtSessionProfile) return;
+    const level = btn.dataset.level;
+    dtSessionProfile.acceptance = (dtSessionProfile.acceptance === level) ? '' : level;
+    updateDtAcceptanceButtonsUI();
+  });
 });
 
 // ==========================================
