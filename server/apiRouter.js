@@ -13,6 +13,23 @@ const __dirname = path.dirname(__filename);
 const PROFILES_PATH = path.resolve(__dirname, '../profiles.json');
 const STIMULI_PATH = path.resolve(__dirname, '../stimuli.json');
 const EVALUATIONS_PATH = path.resolve(__dirname, '../evaluations.json');
+const STIMULI_IMAGES_DIR = path.resolve(__dirname, '../public/stimuli-images');
+
+async function ensureStimuliImagesDir() {
+  await fs.mkdir(STIMULI_IMAGES_DIR, { recursive: true });
+}
+
+export async function saveStimulusImage(stimulusId, base64Data) {
+  if (!base64Data) return null;
+  if (base64Data.startsWith('/stimuli-images/')) return base64Data;
+  await ensureStimuliImagesDir();
+  const cleanBase64 = base64Data.replace(/^data:image\/[^;]+;base64,/, '');
+  const buffer = Buffer.from(cleanBase64, 'base64');
+  const filename = `${stimulusId || 'stim-' + Date.now()}.jpg`;
+  const filePath = path.join(STIMULI_IMAGES_DIR, filename);
+  await fs.writeFile(filePath, buffer);
+  return `/stimuli-images/${filename}?v=${Date.now()}`;
+}
 
 export const apiRouter = Router();
 
@@ -56,15 +73,21 @@ async function readStimuli() {
   try {
     const data = await fs.readFile(STIMULI_PATH, 'utf-8');
     const parsed = JSON.parse(data);
-    return parsed.map(s => ({
-      ...s,
-      mediaType: s.mediaType || (s.imageUrl ? 'image' : s.iframeUrl ? 'iframe' : 'text'),
-      imageUrl: s.imageUrl || '',
-      iframeUrl: s.iframeUrl || '',
-      content: s.content || '',
-      primaryFunction: s.primaryFunction || 'legitimierend',
-      primaryModules: Array.isArray(s.primaryModules) ? s.primaryModules.map(Number) : []
-    }));
+    return parsed.map(s => {
+      const funcs = Array.isArray(s.functions) && s.functions.length > 0
+        ? s.functions
+        : (s.primaryFunction ? [s.primaryFunction] : ['legitimierend']);
+      return {
+        ...s,
+        functions: funcs,
+        primaryFunction: funcs[0] || 'legitimierend',
+        mediaType: s.mediaType || (s.imageUrl ? 'image' : s.iframeUrl ? 'iframe' : 'text'),
+        imageUrl: s.imageUrl || '',
+        iframeUrl: s.iframeUrl || '',
+        content: s.content || '',
+        primaryModules: Array.isArray(s.primaryModules) ? s.primaryModules.map(Number) : []
+      };
+    });
   } catch (error) {
     if (error.code === 'ENOENT') {
       await fs.writeFile(STIMULI_PATH, '[]', 'utf-8');
@@ -169,25 +192,51 @@ apiRouter.get('/stimuli', async (req, res) => {
   }
 });
 
+// Upload stimulus image directly (e.g. paste from clipboard or drag & drop)
+apiRouter.post('/stimuli/upload-image', async (req, res) => {
+  try {
+    const { imageData, stimulusId } = req.body;
+    if (!imageData) {
+      return res.status(400).json({ error: 'Keine Bilddaten übermittelt' });
+    }
+    const imageUrl = await saveStimulusImage(stimulusId, imageData);
+    res.json({ imageUrl });
+  } catch (err) {
+    res.status(500).json({ error: 'Fehler beim Speichern des Bildes', details: err.message });
+  }
+});
+
 // POST create stimulus
 apiRouter.post('/stimuli', async (req, res) => {
   try {
     const stimuli = await readStimuli();
     const id = generateNextStimulusId(stimuli);
 
+    const funcs = Array.isArray(req.body.functions) && req.body.functions.length > 0
+      ? req.body.functions
+      : (req.body.primaryFunction ? [req.body.primaryFunction] : ['legitimierend']);
+
+    let imageUrl = (req.body.imageUrl || '').trim();
+    const rawImage = req.body.imageData || (imageUrl.startsWith('data:image/') ? imageUrl : null);
+    if (rawImage) {
+      imageUrl = await saveStimulusImage(id, rawImage);
+    }
+
     const newStimulus = {
+      ...req.body,
       id,
       name: (req.body.name || '').trim() || 'Unbenannter Reiz',
-      category: (req.body.category || '').trim(),
-      mediaType: req.body.mediaType || 'text',
+      functions: funcs,
+      primaryFunction: funcs[0] || 'legitimierend',
+      mediaType: req.body.mediaType || (imageUrl ? 'image' : req.body.iframeUrl ? 'iframe' : 'text'),
       content: (req.body.content || '').trim(),
-      imageUrl: (req.body.imageUrl || '').trim(),
+      imageUrl,
       iframeUrl: (req.body.iframeUrl || '').trim(),
-      primaryFunction: req.body.primaryFunction || 'legitimierend',
       primaryModules: Array.isArray(req.body.primaryModules)
         ? req.body.primaryModules.map(Number).filter(n => n >= 1 && n <= 6)
         : []
     };
+    delete newStimulus.imageData;
 
     stimuli.push(newStimulus);
     await writeStimuli(stimuli);
@@ -206,21 +255,33 @@ apiRouter.put('/stimuli/:id', async (req, res) => {
       return res.status(404).json({ error: 'Reiz nicht gefunden' });
     }
 
+    const existing = stimuli[index];
+    const funcs = Array.isArray(req.body.functions) && req.body.functions.length > 0
+      ? req.body.functions
+      : (req.body.primaryFunction ? [req.body.primaryFunction] : (existing.functions || (existing.primaryFunction ? [existing.primaryFunction] : ['legitimierend'])));
+
+    let imageUrl = (req.body.imageUrl ?? existing.imageUrl ?? '').trim();
+    const rawImage = req.body.imageData || (imageUrl.startsWith('data:image/') ? imageUrl : null);
+    if (rawImage) {
+      imageUrl = await saveStimulusImage(existing.id, rawImage);
+    }
+
     const updatedStimulus = {
-      ...stimuli[index],
+      ...existing,
       ...req.body,
-      id: stimuli[index].id,
-      name: (req.body.name ?? stimuli[index].name ?? '').trim(),
-      category: (req.body.category ?? stimuli[index].category ?? '').trim(),
-      mediaType: req.body.mediaType || stimuli[index].mediaType || 'text',
-      content: (req.body.content ?? stimuli[index].content ?? '').trim(),
-      imageUrl: (req.body.imageUrl ?? stimuli[index].imageUrl ?? '').trim(),
-      iframeUrl: (req.body.iframeUrl ?? stimuli[index].iframeUrl ?? '').trim(),
-      primaryFunction: req.body.primaryFunction || stimuli[index].primaryFunction || 'legitimierend',
+      id: existing.id,
+      name: (req.body.name ?? existing.name ?? '').trim(),
+      functions: funcs,
+      primaryFunction: funcs[0] || 'legitimierend',
+      mediaType: req.body.mediaType || (imageUrl ? 'image' : (req.body.iframeUrl || existing.iframeUrl) ? 'iframe' : 'text'),
+      content: (req.body.content ?? existing.content ?? '').trim(),
+      imageUrl,
+      iframeUrl: (req.body.iframeUrl ?? existing.iframeUrl ?? '').trim(),
       primaryModules: Array.isArray(req.body.primaryModules)
         ? req.body.primaryModules.map(Number).filter(n => n >= 1 && n <= 6)
-        : stimuli[index].primaryModules
+        : existing.primaryModules
     };
+    delete updatedStimulus.imageData;
 
     stimuli[index] = updatedStimulus;
     await writeStimuli(stimuli);

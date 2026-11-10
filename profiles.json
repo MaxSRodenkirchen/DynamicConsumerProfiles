@@ -2,151 +2,163 @@
   {
     "id": "P-001",
     "dataType": "fiktiv",
-    "firstName": "Anna",
-    "lastName": "Meier",
+    "personaRole": "Geekelte Person mit Food-Neophobie",
+    "bio": "Isst hauptsächlich unbearbeitete Lebensmittel und kocht viel selber. Hat Angst vor industrieller Herstellung und chemischen Prozessen sowie Misstrauen in Lebensmittelkonzerne. Kauft gerne auf dem Markt oder im Bioladen. Lebt aus Kostengründen bei Bio-Fleisch größtenteils vegetarisch. Wurde durch Labor-Bilder im TV direkt von kultiviertem Fleisch abgeschreckt.",
+    "firstName": "Josi",
+    "lastName": "Sommer",
     "gender": "weiblich",
-    "age": 28,
-    "nationality": "Deutsch",
-    "religion": "Konfessionslos / Keine",
-    "maritalStatus": "ledig",
-    "countryOfResidence": "Deutschland",
-    "livingSituation": "Wohngemeinschaft (WG)",
-    "dietaryHabits": "Flexitarisch",
-    "avatarUrl": "/avatars/P-001.jpg?v=1792792085495",
-    "livingEnvironment": "",
-    "primaryMotivations": [],
-    "acceptance": "",
-    "contextAnswers": {},
-    "stimulusEvaluations": []
-  },
-  {
-    "id": "P-002",
-    "dataType": "real",
-    "firstName": "Markus",
-    "lastName": "Weber",
-    "gender": "männlich",
-    "age": 54,
-    "nationality": "Deutsch",
-    "religion": "Christentum (evangelisch)",
-    "maritalStatus": "verheiratet",
-    "countryOfResidence": "Deutschland",
-    "livingSituation": "Eigenheim (Einfamilienhaus)",
-    "dietaryHabits": "Omnivor (traditionell fleischbetont)",
-    "avatarUrl": "/avatars/P-002.jpg?v=1792792479661",
-    "livingEnvironment": "",
-    "primaryMotivations": [],
-    "acceptance": "Willing to Try",
-    "contextAnswers": {},
-    "stimulusEvaluations": [
-      {
-        "stimulusId": "S-002",
-        "timestamp": "2026-10-29T23:52:55.490Z",
-        "moduleActions": {
-          "1": {
-            "legitimizedBarrierIds": [],
-            "addBarrier": true,
-            "addDriver": false
-          }
-        }
-      },
-      {
-        "stimulusId": "S-007",
-        "timestamp": "2026-10-30T10:38:15.799Z",
-        "moduleActions": {
-          "1": {
-            "legitimizedBarrierIds": [],
-            "addBarrier": true,
-            "addDriver": false
-          },
-          "5": {
-            "legitimizedBarrierIds": [],
-            "addBarrier": false,
-            "addDriver": true
-          }
-        }
-      }
-    ]
-  },
-  {
-    "id": "P-003",
-    "dataType": "fiktiv",
-    "firstName": "Sarah",
-    "lastName": "Al-Mansoor",
-    "gender": "weiblich",
-    "age": 34,
-    "nationality": "Österreichisch",
-    "religion": "Islam",
-    "maritalStatus": "verheiratet",
-    "countryOfResidence": "Österreich",
-    "livingSituation": "Mietwohnung",
-    "dietaryHabits": "Halal / Flexitarisch",
-    "avatarUrl": null,
-    "livingEnvironment": "",
-    "primaryMotivations": [],
-    "acceptance": "",
-    "contextAnswers": {},
-    "stimulusEvaluations": []
-  },
-  {
-    "id": "P-004",
-    "dataType": "fiktiv",
-    "firstName": "Lukas",
-    "lastName": "Chen",
-    "gender": "männlich",
-    "age": 22,
-    "nationality": "Deutsch",
-    "religion": "Keine",
-    "maritalStatus": "ledig",
-    "countryOfResidence": "Deutschland",
-    "livingSituation": "Studentenwohnheim",
-    "dietaryHabits": "Vegan",
-    "avatarUrl": null,
-    "livingEnvironment": "",
-    "primaryMotivations": [],
-    "acceptance": "",
-    "contextAnswers": {},
-    "stimulusEvaluations": []
-  },
-  {
-    "id": "P-005",
-    "dataType": "fiktiv",
-    "firstName": "Elena",
-    "lastName": "Rossi",
-    "gender": "weiblich",
-    "age": 41,
-    "nationality": "Italienisch",
-    "religion": "Christentum (katholisch)",
-    "maritalStatus": "geschieden",
-    "countryOfResidence": "Schweiz",
-    "livingSituation": "Mietwohnung",
-    "dietaryHabits": "Pescetarisch",
-    "avatarUrl": null,
-    "livingEnvironment": "",
-    "primaryMotivations": [],
-    "acceptance": "",
-    "contextAnswers": {},
-    "stimulusEvaluations": []
-  },
-  {
-    "id": "P-006",
-    "dataType": "real",
-    "firstName": "Max",
-    "lastName": "Rodenkirchen",
-    "gender": "männlich",
     "age": 29,
     "nationality": "Deutsch",
     "religion": "Konfessionslos / Keine",
     "maritalStatus": "ledig",
     "countryOfResidence": "Deutschland",
-    "livingSituation": "Wohngemeinschaft (WG)",
-    "dietaryHabits": "Vegetarisch",
-    "avatarUrl": "/avatars/P-006.jpg?v=1793367574887",
     "livingEnvironment": "Eher städtisch (Urban)",
-    "primaryMotivations": [],
-    "acceptance": "Willing to Try",
+    "livingSituation": "Mietwohnung",
+    "dietaryHabits": "Vegetarisch",
+    "avatarUrl": "/avatars/P-001.jpg?v=1794318197997",
+    "acceptance": "",
+    "contextAnswers": {
+      "foodNeophobia": -1,
+      "foodTechNeophobia": -1,
+      "disgustSensitivity": -1,
+      "generalInnovativeness": 0,
+      "priorFamiliarity": 0,
+      "alreadyTried": -1,
+      "technicalUnderstanding": -1,
+      "naturalnessPreference": -1,
+      "valueAlignment": 1,
+      "trustScience": 0,
+      "trustRegulators": 0,
+      "trustIndustry": -1
+    },
+    "stimulusEvaluations": [],
+    "primaryMotivations": []
+  },
+  {
+    "id": "P-002",
+    "dataType": "fiktiv",
+    "personaRole": "Person mit gesundheitlichen Bedenken",
+    "bio": "Sportler, achtet strikt auf Mikro- und Makronährstoffe. Kauft Lebensmittel vor allem nach Nährwerten ein, Geschmack steht an zweiter Stelle. Isst viel Fleisch zur Nährstoffdeckung. Betrachtet neuartige Produkte sehr kritisch und hinterfragt, ob kultiviertes Fleisch gesundheitlich mit gewachsenem Fleisch mithalten kann.",
+    "firstName": "Boris",
+    "lastName": "Richter",
+    "gender": "männlich",
+    "age": 26,
+    "nationality": "Deutsch",
+    "religion": "Konfessionslos / Keine",
+    "maritalStatus": "ledig",
+    "countryOfResidence": "Deutschland",
+    "livingEnvironment": "Eher städtisch (Urban)",
+    "livingSituation": "Mietwohnung",
+    "dietaryHabits": "Omnivor (traditionell fleischbetont)",
+    "avatarUrl": "/avatars/P-002.jpg?v=1794318285998",
+    "acceptance": "",
     "contextAnswers": {
       "foodNeophobia": 0,
       "foodTechNeophobia": -1,
+      "disgustSensitivity": 0,
+      "generalInnovativeness": 0,
+      "priorFamiliarity": 0,
+      "alreadyTried": -1,
+      "technicalUnderstanding": 0,
+      "naturalnessPreference": -1,
+      "valueAlignment": -1,
+      "trustScience": 0,
+      "trustRegulators": -1,
+      "trustIndustry": -1
+    },
+    "stimulusEvaluations": [],
+    "primaryMotivations": []
+  },
+  {
+    "id": "P-003",
+    "dataType": "fiktiv",
+    "personaRole": "Essensliebhaber mit sensorisch hohen Ansprüchen (Köchin)",
+    "bio": "Köchin mit eigenem Restaurant im Stadtzentrum (saisonal, lokal, Feinschmeckerbereich). Probiert gerne neue Kreationen, achtet jedoch auf feinste Geschmacksnuancen und Texturen. Skeptisch, ob kultiviertes Fleisch dasselbe sensorische Erlebnis darbieten kann wie traditionelles Fleisch.",
+    "firstName": "Mei",
+    "lastName": "Lin",
+    "gender": "weiblich",
+    "age": 38,
+    "nationality": "Deutsch",
+    "religion": "Konfessionslos / Keine",
+    "maritalStatus": "in fester Partnerschaft",
+    "countryOfResidence": "Deutschland",
+    "livingEnvironment": "Eher städtisch (Urban)",
+    "livingSituation": "Mietwohnung",
+    "dietaryHabits": "Omnivor (ausgewogen)",
+    "avatarUrl": "/avatars/P-003.jpg?v=1794318323658",
+    "acceptance": "",
+    "contextAnswers": {
+      "foodNeophobia": 1,
+      "foodTechNeophobia": 0,
+      "disgustSensitivity": 0,
+      "generalInnovativeness": 1,
+      "priorFamiliarity": 0,
+      "alreadyTried": -1,
+      "technicalUnderstanding": 0,
+      "naturalnessPreference": -1,
+      "valueAlignment": 0,
+      "trustScience": 1,
+      "trustRegulators": 0,
+      "trustIndustry": 0
+    },
+    "stimulusEvaluations": [],
+    "primaryMotivations": []
+  },
+  {
+    "id": "P-004",
+    "dataType": "fiktiv",
+    "personaRole": "Person aus der traditionellen Fleischzucht (Farmer)",
+    "bio": "Auf dem Land groß geworden, führt den Familienbetrieb zur Fleischzucht weiter. Legt viel Wert auf hochwertige Erzeugnisse. Sieht den gesellschaftlichen Wandel und ist grundsätzlich aufgeschlossen, fürchtet jedoch Marktverdrängung und Existenzverlust durch die industrielle Zellkultur.",
+    "firstName": "Mitch",
+    "lastName": "McKenley",
+    "gender": "männlich",
+    "age": 46,
+    "nationality": "US-amerikanisch",
+    "religion": "Christentum (katholisch)",
+    "maritalStatus": "verheiratet",
+    "countryOfResidence": "USA",
+    "livingEnvironment": "Eher ländlich (Rural)",
+    "livingSituation": "Eigenheim (Einfamilienhaus)",
+    "dietaryHabits": "Omnivor (traditionell fleischbetont)",
+    "avatarUrl": "/avatars/P-004.jpg?v=1794318355644",
+    "acceptance": "",
+    "contextAnswers": {
+      "foodNeophobia": -1,
+      "foodTechNeophobia": -1,
+      "disgustSensitivity": 0,
+      "generalInnovativeness": 0,
+      "priorFamiliarity": 0,
+      "alreadyTried": -1,
+      "technicalUnderstanding": 0,
+      "naturalnessPreference": -1,
+      "valueAlignment": -1,
+      "trustScience": 0,
+      "trustRegulators": -1,
+      "trustIndustry": -1
+    },
+    "stimulusEvaluations": [],
+    "primaryMotivations": []
+  },
+  {
+    "id": "P-005",
+    "dataType": "fiktiv",
+    "avatarUrl": "/avatars/P-005.jpg?v=1794351961131",
+    "firstName": "Max",
+    "lastName": "Rodenkirchen",
+    "gender": "",
+    "age": 0,
+    "nationality": "",
+    "religion": "",
+    "maritalStatus": "",
+    "countryOfResidence": "",
+    "livingSituation": "",
+    "livingEnvironment": "",
+    "dietaryHabits": "",
+    "primaryMotivations": [],
+    "acceptance": "",
+    "contextAnswers": {
+      "foodNeophobia": 0,
+      "foodTechNeophobia": 0,
       "disgustSensitivity": 0,
       "generalInnovativeness": 0,
       "priorFamiliarity": 0,
@@ -154,137 +166,11 @@
       "technicalUnderstanding": 0,
       "naturalnessPreference": 0,
       "valueAlignment": 0,
-      "trustScience": -1,
+      "trustScience": 0,
       "trustRegulators": 0,
       "trustIndustry": 0
     },
-    "stimulusEvaluations": [
-      {
-        "stimulusId": "S-007",
-        "timestamp": "2026-10-29T23:41:58.544Z",
-        "ratings": {
-          "1": 0,
-          "5": 1
-        }
-      },
-      {
-        "stimulusId": "S-015",
-        "timestamp": "2026-10-29T23:46:46.836Z",
-        "ratings": {
-          "6": 0
-        }
-      },
-      {
-        "stimulusId": "S-002",
-        "timestamp": "2026-10-29T23:47:24.644Z",
-        "ratings": {
-          "3": -1
-        }
-      },
-      {
-        "stimulusId": "S-014",
-        "timestamp": "2026-10-30T09:38:36.834Z",
-        "moduleActions": {
-          "3": {
-            "legitimizedBarrierIds": [
-              "eval:2:S-002:m3"
-            ],
-            "addBarrier": false,
-            "addDriver": false
-          },
-          "5": {
-            "legitimizedBarrierIds": [],
-            "addBarrier": false,
-            "addDriver": true
-          }
-        }
-      },
-      {
-        "stimulusId": "S-003",
-        "timestamp": "2026-10-30T11:01:32.166Z",
-        "moduleActions": {
-          "2": {
-            "legitimizedBarrierIds": [],
-            "addBarrier": true,
-            "addDriver": false
-          },
-          "4": {
-            "legitimizedBarrierIds": [],
-            "addBarrier": false,
-            "addDriver": true
-          }
-        }
-      },
-      {
-        "stimulusId": "S-016",
-        "timestamp": "2026-10-30T13:08:32.553Z",
-        "moduleActions": {
-          "6": {
-            "legitimizedBarrierIds": [],
-            "addBarrier": false,
-            "addDriver": true
-          }
-        },
-        "acceptance": "Willing to Try",
-        "previousAcceptance": null,
-        "acceptanceChanged": true
-      },
-      {
-        "stimulusId": "S-017",
-        "timestamp": "2026-10-30T13:42:15.452Z",
-        "moduleActions": {
-          "2": {
-            "legitimizedBarrierIds": [
-              "eval:4:S-003:m2"
-            ],
-            "addBarrier": false,
-            "addDriver": false
-          }
-        },
-        "acceptance": "Willing to Try",
-        "previousAcceptance": "Willing to Try",
-        "acceptanceChanged": false
-      }
-    ]
-  },
-  {
-    "id": "P-007",
-    "dataType": "real",
-    "firstName": "Markus",
-    "lastName": "Kirschgens",
-    "gender": "männlich",
-    "age": 29,
-    "nationality": "Deutsch",
-    "religion": "Christentum (katholisch)",
-    "maritalStatus": "ledig",
-    "countryOfResidence": "Deutschland",
-    "livingSituation": "Studentenwohnheim",
-    "dietaryHabits": "Vegetarisch",
-    "avatarUrl": null,
-    "livingEnvironment": "",
-    "primaryMotivations": [],
-    "acceptance": "",
-    "contextAnswers": {},
-    "stimulusEvaluations": []
-  },
-  {
-    "id": "P-008",
-    "dataType": "real",
-    "firstName": "Helen",
-    "lastName": "Boss",
-    "gender": "weiblich",
-    "age": 27,
-    "nationality": "Deutsch",
-    "religion": "Buddhismus",
-    "maritalStatus": "ledig",
-    "countryOfResidence": "Deutschland",
-    "livingSituation": "Wohngemeinschaft (WG)",
-    "dietaryHabits": "Flexitarisch",
-    "avatarUrl": null,
-    "livingEnvironment": "",
-    "primaryMotivations": [],
-    "acceptance": "",
-    "contextAnswers": {},
-    "stimulusEvaluations": []
+    "stimulusEvaluations": [],
+    "bio": "Nicer Typ"
   }
 ]

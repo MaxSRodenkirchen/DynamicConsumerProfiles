@@ -11,7 +11,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "widerstands-mindernd"
+    ]
   },
   {
     "id": "S-002",
@@ -26,7 +29,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-schaffend"
+    ]
   },
   {
     "id": "S-003",
@@ -40,7 +46,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-schaffend"
+    ]
   },
   {
     "id": "S-004",
@@ -54,7 +63,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-mindernd"
+    ]
   },
   {
     "id": "S-005",
@@ -68,7 +80,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "widerstands-mindernd"
+    ]
   },
   {
     "id": "S-006",
@@ -82,7 +97,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-schaffend"
+    ]
   },
   {
     "id": "S-007",
@@ -96,7 +114,10 @@
       1,
       4
     ],
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-008",
@@ -109,7 +130,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-schaffend"
+    ]
   },
   {
     "id": "S-009",
@@ -123,7 +147,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-schaffend"
+    ]
   },
   {
     "id": "S-010",
@@ -136,7 +163,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-schaffend"
+    ]
   },
   {
     "id": "S-011",
@@ -150,7 +180,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-mindernd"
+    ]
   },
   {
     "id": "S-012",
@@ -163,7 +196,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-schaffend"
+    ]
   },
   {
     "id": "S-013",
@@ -177,7 +213,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "wert-schaffend"
+    ]
   },
   {
     "id": "S-014",
@@ -191,7 +230,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-015",
@@ -205,7 +247,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-016",
@@ -219,7 +264,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-017",
@@ -233,7 +281,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-018",
@@ -248,7 +299,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-019",
@@ -262,7 +316,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-020",
@@ -276,7 +333,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-021",
@@ -290,7 +350,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-022",
@@ -304,7 +367,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-023",
@@ -317,7 +383,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-024",
@@ -331,7 +400,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-025",
@@ -344,7 +416,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-026",
@@ -358,7 +433,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-027",
@@ -372,7 +450,10 @@
     ],
     "mediaType": "text",
     "imageUrl": "",
-    "iframeUrl": ""
+    "iframeUrl": "",
+    "functions": [
+      "legitimierend"
+    ]
   },
   {
     "id": "S-028",
@@ -386,6 +467,377 @@
     "primaryModules": [
       1,
       2
+    ],
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-029",
+    "name": "„Grüne“ Öko-Verpackung",
+    "category": "Verpackung & Design",
+    "content": "Gestaltung der Produktverpackung in warmen Erdtönen und hellem Grün, hergestellt aus 100 % kompostierbaren Biomaterialien. Sendet visuelle Signale von Naturnähe, Frische und ökologischer Achtsamkeit statt industrieller Künstlichkeit.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      4,
+      1
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-029.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Josi"
+    ],
+    "personaTarget": "Josi",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-030",
+    "name": "Bilder eines natürlichen Gär- & Brauprozesses",
+    "category": "Visuelle Kommunikation",
+    "content": "Authentische Fotografien, die die Kultivierung in sauberen Edelstahl-Fermentern analog zum Bierbrauen oder zur Käse- und Joghurtreifung darstellen – als natürlicher biologischer Vermehrungsprozess statt steriler Labor- oder Spritzenbilder.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1,
+      4
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-030.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Josi"
+    ],
+    "personaTarget": "Josi",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-031",
+    "name": "Prüfsiegel unabhängiger Kontrollinstitutionen",
+    "category": "Zertifizierungen & Siegel",
+    "content": "Prominente Siegel staatlicher Lebensmittel- und Umweltkontrollstellen (z. B. EFSA-Zulassung, Stiftung Warentest „Sehr Gut“, Öko-Kontrollsiegel): Zertifiziert rückstandsfrei, gentechnikfrei und mikrobiologisch rein.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1,
+      2
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-031.jpg?v=1794327816113",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Josi"
+    ],
+    "personaTarget": "Josi",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-032",
+    "name": "Kitchen-Story einer Micro-Influencer Köchin",
+    "category": "Social Media & Influencer",
+    "content": "Instagram- und TikTok-Einblicke einer unabhängigen Bio-Köchin: Sie bereitet das kultivierte Fleisch in ihrer eigenen Küche zu, riecht daran, brät es an und teilt ehrlich ihre positive Überraschung über die Natürlichkeit und Bekömmlichkeit.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      3
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-032.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Josi"
+    ],
+    "personaTarget": "Josi",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-033",
+    "name": "Hervorgehobene Nährwertvorteile auf der Frontseite",
+    "category": "Verpackung & Nährwerte",
+    "content": "Großflächiges Nährwert-Dashboard auf der Vorderseite: „24 g Protein pro 100 g, alle essenziellen Aminosäuren, reich an bioverfügbarem Eisen & Vitamin B12, 0 % Cholesterin, 0 % Antibiotika“ – maximaler funktioneller Nährwert für Sport und Fitness.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1,
+      4
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-033.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Boris"
+    ],
+    "personaTarget": "Boris",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-034",
+    "name": "Produkt-Framing als „Healthy Meat“",
+    "category": "Terminologie & Naming",
+    "content": "Klare Produktbezeichnung als gesundheitsoptimiertes Fleisch („Healthy Meat“): Frei von tierischen Krankheitserregern, ohne gesättigte Schlachthof-Fette und streng auf Reinquelle geprüft – konzipiert für bewusste Nährstoffversorgung.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      1,
+      6
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-034.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Boris"
+    ],
+    "personaTarget": "Boris",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-035",
+    "name": "Kompakte Infografik zum Herstellungsprozess",
+    "category": "Aufklärung & Infografik",
+    "content": "Kurze, visuell prägnante 4-Schritte-Grafik: 1. Schmerzfreie Stammzellspende -> 2. Fütterung mit natürlichen Nährstoffen (Vitamine, Aminosäuren) -> 3. Reifung im Kessel -> 4. Saubere Ernte des reinen Muskelfleisches. Beseitigt Unklarheiten in Sekunden.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      6,
+      1
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-035.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Boris"
+    ],
+    "personaTarget": "Boris",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-036",
+    "name": "YouTube-Erfahrungsbericht eines Leistungssportlers",
+    "category": "Social Media & Video",
+    "content": "Authentisches Video eines bekannten Kraftsportlers: „4 Wochen Cell-Based Meat im Ernährungsplan – Nährstoff-Tracking, Blutwerte, Regeneration und Leistungssteigerung im Gym“. Positives Fazit zu Bekömmlichkeit und Proteinqualität.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      1
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-036.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Boris"
+    ],
+    "personaTarget": "Boris",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-037",
+    "name": "Live-Cooking Probierstation im Supermarkt",
+    "category": "Direktverkostung & POS",
+    "content": "Offene Kochstation im Feinkost- und Supermarkt: Ein professioneller Koch brät frische Medaillons vor den Augen der Kunden an. Kunden können Bissfestigkeit, Saftigkeit, Duft und Röstaromen kostenlos selbst probieren und vergleichen.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      3,
+      6
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-037.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Mei"
+    ],
+    "personaTarget": "Mei",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-038",
+    "name": "Verifizierte Gourmet- & Gastronomie-Erfahrungsberichte",
+    "category": "Social Proof & Reviews",
+    "content": "Öffentlich einsehbare Testberichte von Küchenchefs und Feinschmeckern: Detaillierte Beurteilung der Faserstruktur, des Bratverhaltens, der Maillard-Reaktion und des vollmundigen Umami-Geschmacks mit durchschnittlich 4,9 von 5 Sternen.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      3,
+      2
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-038.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Mei"
+    ],
+    "personaTarget": "Mei",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-039",
+    "name": "Herstellungsdossier zu Geschmacks- & Fasertechnologie",
+    "category": "Kulinarische Sensorik",
+    "content": "Facheinblick für anspruchsvolle Gourmets: Erläuterung der gezielten Ausrichtung von Myozyten und Bindegewebsmatrix sowie kontrollierter Reifung für ein unverfälschtes Mundgefühl, authentische Fleischfasern und tiefes Rindfleischaroma.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      3,
+      6
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-039.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Mei"
+    ],
+    "personaTarget": "Mei",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-040",
+    "name": "Gourmet-Zubereitungshinweise auf der Verpackung",
+    "category": "Verpackung & Anleitung",
+    "content": "Spezifische Anleitung für die perfekte Zubereitung auf der Packungsrückseite: Empfohlene Bratzeit (2 Min. pro Seite scharf anbraten), optimale Kerntemperatur (56 °C Medium) und Empfehlung zum Ruhenlassen für maximale Saftigkeit.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      3,
+      4
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-040.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Mei"
+    ],
+    "personaTarget": "Mei",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-041",
+    "name": "Agrar-Dialogkonferenz: Politik, Wissenschaft & Bauernverband",
+    "category": "Politik & Agrardialog",
+    "content": "Berichterstattung über einen runden Tisch von Landwirtschaftsministerium, Bauernverbänden und Forschern: Vereinbarung verbindlicher Förderprogramme und faire Schutzregeln für traditionelle Zuchtbetriebe im Zuge des Proteinwandels.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      6
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-041.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Mitch"
+    ],
+    "personaTarget": "Mitch",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-042",
+    "name": "Transformationsbericht: Schutz lokaler Agrarwirtschaft",
+    "category": "Agrar- & Wirtschaftsstudie",
+    "content": "Wissenschaftlicher Strategiebericht: Aufzeigen von Partnerschaftsmodellen, damit die zelluläre Fleischwirtschaft nicht in die Hände weniger Tech-Monopole gerät, sondern regionale landwirtschaftliche Kooperativen gezielt stützt.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      6
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-042.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Mitch"
+    ],
+    "personaTarget": "Mitch",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-043",
+    "name": "Herstellungserklärung in bodenständiger Sprache",
+    "category": "Transparenz & Kommunikation",
+    "content": "Bodenständige, ehrliche Dokumentation ohne Marketing-Geschwätz: Beschreibt die Zellentnahme, Fütterung und Ernte in einfachen, landwirtschaftlich vertrauten Begriffen und räumt mit Mythen über „künstliche Chemie“ auf.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      6,
+      2
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-043.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Mitch"
+    ],
+    "personaTarget": "Mitch",
+    "functions": [
+      "legitimierend"
+    ]
+  },
+  {
+    "id": "S-044",
+    "name": "Mitmach-Leitfaden für Landwirte durch Agrarwissenschaftler",
+    "category": "Kooperation & Partizipation",
+    "content": "Praxisnaher Experten-Talk und Leitfaden: Konkrete Einstiegsmöglichkeiten für Höfe als zertifizierte Zellspender-Betriebe, Erzeuger pflanzlicher Nährmedien oder Betreiber lokaler Bioraffinerien. Schafft Perspektiven statt Verdrängung.",
+    "primaryFunction": "legitimierend",
+    "primaryModules": [
+      2,
+      6
+    ],
+    "mediaType": "image",
+    "imageUrl": "/stimuli-images/S-044.jpg",
+    "iframeUrl": "",
+    "isMvp": true,
+    "tags": [
+      "MVP",
+      "Mitch"
+    ],
+    "personaTarget": "Mitch",
+    "functions": [
+      "legitimierend"
     ]
   }
 ]

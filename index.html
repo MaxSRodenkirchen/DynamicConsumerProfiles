@@ -4,9 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dynamic Consumer Profiles</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
@@ -17,23 +14,23 @@
       </div>
       <nav class="header-nav">
         <button type="button" id="nav-btn-home" class="active">
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16.612 2.214a1.01 1.01 0 0 0-1.242 0L1 13.419l1.243 1.572L4 13.621V26a2.004 2.004 0 0 0 2 2h20a2.004 2.004 0 0 0 2-2V13.63L29.757 15 31 13.428zM18 26h-4v-8h4zm2 0v-8a2.002 2.002 0 0 0-2-2h-4a2.002 2.002 0 0 0-2 2v8H6V12.062l10-7.79 10 7.8V26z"/></svg>
+          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16.6123,2.2138a1.01,1.01,0,0,0-1.2427,0L1,13.4194l1.2427,1.5717L4,13.6209V26a2.0041,2.0041,0,0,0,2,2H26a2.0037,2.0037,0,0,0,2-2V13.63L29.7573,15,31,13.4282ZM18,26H14V18h4Zm2,0V18a2.0023,2.0023,0,0,0-2-2H14a2.002,2.002,0,0,0-2,2v8H6V12.0615l10-7.79,10,7.8005V26Z"/></svg>
           <span>Home</span>
         </button>
         <button type="button" id="nav-btn-profiles">
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4a5 5 0 1 1-5 5 5 5 0 0 1 5-5m0-2a7 7 0 1 0 7 7 7 7 0 0 0-7-7zm10 28h-2v-5a5 5 0 0 0-5-5h-6a5 5 0 0 0-5 5v5H6v-5a7 7 0 0 1 7-7h6a7 7 0 0 1 7 7z"/></svg>
+          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16,4a5,5,0,1,1-5,5,5,5,0,0,1,5-5m0-2a7,7,0,1,0,7,7A7,7,0,0,0,16,2Z"/><path d="M26,30H24V25a5,5,0,0,0-5-5H13a5,5,0,0,0-5,5v5H6V25a7,7,0,0,1,7-7h6a7,7,0,0,1,7,7Z"/></svg>
           <span>Profile</span>
         </button>
         <button type="button" id="nav-btn-evaluation">
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M30 6V4H2v2h13v22H8v2h16v-2h-7V6h13z"/><path d="M8 16l-5-5 1.41-1.41L8 13.17l6.59-6.58L16 8l-8 8z"/></svg>
+          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M22 27.18 19.41 24.59 18 26 22 30 30 22 28.59 20.59 22 27.18z"/><path d="M25,5H22V4a2.0058,2.0058,0,0,0-2-2H12a2.0058,2.0058,0,0,0-2,2V5H7A2.0058,2.0058,0,0,0,5,7V28a2.0058,2.0058,0,0,0,2,2h9V28H7V7h3v3H22V7h3V18h2V7A2.0058,2.0058,0,0,0,25,5ZM20,8H12V4h8Z"/></svg>
           <span>Reizbewertung</span>
         </button>
         <button type="button" id="nav-btn-stimuli">
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M26 6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM6 24V8h20v16z"/><path d="M11 14a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm0-4a1 1 0 1 1-1 1 1 1 0 0 1 1-1zm13 12l-5-6-4 4.5-2.5-3L8 22h16z"/></svg>
+          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M19,14a3,3,0,1,0-3-3A3,3,0,0,0,19,14Zm0-4a1,1,0,1,1-1,1A1,1,0,0,1,19,10Z"/><path d="M26,4H6A2,2,0,0,0,4,6V26a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V6A2,2,0,0,0,26,4Zm0,22H6V20l5-5,5.59,5.59a2,2,0,0,0,2.82,0L21,19l5,5Zm0-4.83-3.59-3.59a2,2,0,0,0-2.82,0L18,19.17l-5.59-5.59a2,2,0,0,0-2.82,0L6,17.17V6H26Z"/></svg>
           <span>Reizsammlung</span>
         </button>
         <button type="button" id="nav-btn-decision-tree">
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M26 18a3.995 3.995 0 0 0-3.858 3H18a3.003 3.003 0 0 1-3-3v-4h7.142a4 4 0 1 0 0-2H15V8a3.003 3.003 0 0 1 3-3h4.142A4 4 0 1 0 26 2a3.995 3.995 0 0 0-3.858 3H18a5.006 5.006 0 0 0-5 5v5H9.858a4 4 0 1 0 0 2H13v1a5.006 5.006 0 0 0 5 5h4.142A4 4 0 1 0 26 18zm0-14a2 2 0 1 1-2 2 2.002 2.002 0 0 1 2-2zm0 12a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2zM6 18a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2zm20 6a2 2 0 1 1 2-2 2.002 2.002 0 0 1-2 2z"/></svg>
+          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M30,30H22V22h8Zm-6-2h4V24H24Z"/><path d="M20,27H8A6,6,0,0,1,8,15h2v2H8a4,4,0,0,0,0,8H20Z"/><path d="M20,20H12V12h8Zm-6-2h4V14H14Z"/><path d="M24,17H22V15h2a4,4,0,0,0,0-8H12V5H24a6,6,0,0,1,0,12Z"/><path d="M10,10H2V2h8ZM4,8H8V4H4Z"/></svg>
           <span>Prototyp Decision Tree</span>
         </button>
       </nav>
@@ -61,7 +58,7 @@
       <div class="sidebar-top">
         <span class="caption-label">PROFILE</span>
         <button id="btn-new" type="button" class="btn-icon-text">
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 15V8h-2v7H8v2h7v7h2v-7h7v-2h-7z"/></svg>
+          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"/></svg>
           <span>Neues Profil</span>
         </button>
       </div>
@@ -80,236 +77,288 @@
     <main class="content">
       <div class="content-header-row">
         <h2 id="form-title">Profil</h2>
-        <button type="button" id="btn-jump-to-eval" class="btn-icon-text">
-          <span>Zur Reizbewertung</span>
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M18 6l-1.43 1.393L24.15 15H4v2h20.15l-7.58 7.573L18 26l10-10L18 6z"/></svg>
-        </button>
+        <div class="content-header-actions">
+          <button type="button" id="btn-reset" class="btn-icon-only" title="Profil zurücksetzen" aria-label="Profil zurücksetzen">
+            <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M18,28A12,12,0,1,0,6,16v6.2L2.4,18.6,1,20l6,6,6-6-1.4-1.4L8,22.2V16H8A10,10,0,1,1,18,26Z"/></svg>
+          </button>
+          <button type="button" id="btn-delete" class="btn-icon-only btn-danger-icon" style="display: none;" title="Profil löschen" aria-label="Profil löschen">
+            <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 12H14V24H12z"/><path d="M18 12H20V24H18z"/><path d="M4,6V8H6V28a2,2,0,0,0,2,2H24a2,2,0,0,0,2-2V8h2V6ZM8,28V8H24V28Z"/><path d="M12 2H20V4H12z"/></svg>
+          </button>
+          <button type="submit" id="btn-save" form="profile-form" class="btn-icon-only btn-primary" title="Profil speichern" aria-label="Profil speichern">
+            <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M27.71,9.29l-5-5A1,1,0,0,0,22,4H6A2,2,0,0,0,4,6V26a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V10A1,1,0,0,0,27.71,9.29ZM12,6h8v4H12Zm8,20H12V18h8Zm2,0V18a2,2,0,0,0-2-2H12a2,2,0,0,0-2,2v8H6V6h4v4a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V6.41l4,4V26Z"/></svg>
+          </button>
+        </div>
       </div>
+
+      <!-- Reiter im Personenprofil -->
+      <nav class="profile-tabs-nav" id="profile-tabs-nav">
+        <button type="button" class="profile-tab-btn active" data-tab="personendaten">
+          <span>1. Personendaten</span>
+        </button>
+        <button type="button" class="profile-tab-btn" data-tab="reizbewertungen">
+          <span>2. Reizbewertungen</span>
+        </button>
+        <button type="button" class="profile-tab-btn" data-tab="steckbrief">
+          <span>3. Steckbrief</span>
+        </button>
+      </nav>
       
-      <form id="profile-form">
-        <!-- Visuelle Modul-Übersicht im Profil -->
-        <section class="clean-section">
+      <!-- REITER 1: PERSONENDATEN -->
+      <div id="profile-tab-personendaten" class="profile-tab-panel">
+        <form id="profile-form">
+          <!-- Proxydaten Container -->
+          <section class="clean-section proxy-section">
+            <div class="proxy-main-layout">
+              <!-- Links: Größeres rundes Bild mit kleinen Icons darunter -->
+              <div class="proxy-avatar-column">
+                <div class="avatar-preview-box">
+                  <img id="avatar-preview" src="" alt="Profilbild" style="display:none;" />
+                  <span id="avatar-placeholder" class="avatar-placeholder-icon">
+                    <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16,4a5,5,0,1,1-5,5,5,5,0,0,1,5-5m0-2a7,7,0,1,0,7,7A7,7,0,0,0,16,2Z"/><path d="M26,30H24V25a5,5,0,0,0-5-5H13a5,5,0,0,0-5,5v5H6V25a7,7,0,0,1,7-7h6a7,7,0,0,1,7,7Z"/></svg>
+                  </span>
+                </div>
+                <div class="avatar-controls avatar-controls-small">
+                  <button type="button" id="btn-avatar-tpde" class="btn-icon-sm" title="Zufälliges Porträt" aria-label="Zufälliges Porträt">
+                    <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M19,14a3,3,0,1,0-3-3A3,3,0,0,0,19,14Zm0-4a1,1,0,1,1-1,1A1,1,0,0,1,19,10Z"/><path d="M26,4H6A2,2,0,0,0,4,6V26a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V6A2,2,0,0,0,26,4Zm0,22H6V20l5-5,5.59,5.59a2,2,0,0,0,2.82,0L21,19l5,5Zm0-4.83-3.59-3.59a2,2,0,0,0-2.82,0L18,19.17l-5.59-5.59a2,2,0,0,0-2.82,0L6,17.17V6H26Z"/></svg>
+                  </button>
+                  <button type="button" id="btn-avatar-webcam" class="btn-icon-sm" title="Webcam Foto" aria-label="Webcam Foto">
+                    <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M29,26H3a1,1,0,0,1-1-1V8A1,1,0,0,1,3,7H9.46l1.71-2.55A1,1,0,0,1,12,4h8a1,1,0,0,1,.83.45L22.54,7H29a1,1,0,0,1,1,1V25A1,1,0,0,1,29,26ZM4,24H28V9H22a1,1,0,0,1-.83-.45L19.46,6H12.54L10.83,8.55A1,1,0,0,1,10,9H4Z"/><path d="M16,22a6,6,0,1,1,6-6A6,6,0,0,1,16,22Zm0-10a4,4,0,1,0,4,4A4,4,0,0,0,16,12Z"/></svg>
+                  </button>
+                  <button type="button" id="btn-avatar-remove" class="btn-icon-sm btn-danger-icon" title="Bild entfernen" aria-label="Bild entfernen" style="display:none;">
+                    <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 12H14V24H12z"/><path d="M18 12H20V24H18z"/><path d="M4,6V8H6V28a2,2,0,0,0,2,2H24a2,2,0,0,0,2-2V8h2V6ZM8,28V8H24V28Z"/><path d="M12 2H20V4H12z"/></svg>
+                  </button>
+                </div>
+                <div id="avatar-status" class="caption-text"></div>
+              </div>
+
+              <!-- Rechts: Namen direkt neben dem Bild und weitere Proxydaten darunter -->
+              <div class="proxy-names-column">
+                <div class="form-row-2col">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="field-firstName">Vorname</label>
+                    <input type="text" id="field-firstName" name="firstName" required />
+                  </div>
+
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="field-lastName">Nachname</label>
+                    <input type="text" id="field-lastName" name="lastName" required />
+                  </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="field-bio">Beschreibung</label>
+                  <textarea id="field-bio" name="bio" rows="2" placeholder="Beschreibung der Person..."></textarea>
+                </div>
+
+                <div class="proxy-names-actions">
+                  <button type="button" id="btn-toggle-proxy-details" class="btn-toggle-proxy" aria-expanded="false">
+                    <svg id="icon-proxy-toggle" class="carbon-icon-sm proxy-toggle-chevron" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 22 6 12 7.4 10.6 16 19.2 24.6 10.6 26 12z"/></svg>
+                    <span id="text-proxy-toggle">Weitere Proxydaten anzeigen</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Symbol für fiktive / reale Daten rechts oben -->
+              <div class="proxy-status-column">
+                <div id="display-datatype" class="datatype-symbol" title="Fiktive Daten" aria-label="Fiktive Daten"></div>
+              </div>
+            </div>
+
+            <!-- Einklappbare weitere Proxydaten (standardmäßig eingeklappt) -->
+            <div id="proxy-details-container" class="proxy-details-container" style="display: none;">
+                <div class="form-row-2col">
+                  <div class="form-group">
+                    <label for="field-age">Alter</label>
+                    <input type="number" id="field-age" name="age" min="0" max="120" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="field-gender">Geschlecht</label>
+                    <select id="field-gender" name="gender">
+                      <option value="">-- Bitte wählen --</option>
+                      <option value="weiblich">weiblich</option>
+                      <option value="männlich">männlich</option>
+                      <option value="divers">divers</option>
+                      <option value="keine Angabe">keine Angabe</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row-2col">
+                  <div class="form-group">
+                    <label for="field-nationality">Nationalität</label>
+                    <select id="field-nationality" name="nationality">
+                      <option value="">-- Bitte wählen --</option>
+                      <option value="Deutsch">Deutsch</option>
+                      <option value="Österreichisch">Österreichisch</option>
+                      <option value="Schweizerisch">Schweizerisch</option>
+                      <option value="Italienisch">Italienisch</option>
+                      <option value="Französisch">Französisch</option>
+                      <option value="Spanisch">Spanisch</option>
+                      <option value="Türkisch">Türkisch</option>
+                      <option value="Polnisch">Polnisch</option>
+                      <option value="Britisch">Britisch</option>
+                      <option value="US-amerikanisch">US-amerikanisch</option>
+                      <option value="Sonstige">Sonstige</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="field-religion">Religion</label>
+                    <select id="field-religion" name="religion">
+                      <option value="">-- Bitte wählen --</option>
+                      <option value="Konfessionslos / Keine">Konfessionslos / Keine</option>
+                      <option value="Christentum (evangelisch)">Christentum (evangelisch)</option>
+                      <option value="Christentum (katholisch)">Christentum (katholisch)</option>
+                      <option value="Christentum (orthodox)">Christentum (orthodox)</option>
+                      <option value="Islam">Islam</option>
+                      <option value="Judentum">Judentum</option>
+                      <option value="Buddhismus">Buddhismus</option>
+                      <option value="Hinduismus">Hinduismus</option>
+                      <option value="Sonstige">Sonstige</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row-2col">
+                  <div class="form-group">
+                    <label for="field-maritalStatus">Familienstand</label>
+                    <select id="field-maritalStatus" name="maritalStatus">
+                      <option value="">-- Bitte wählen --</option>
+                      <option value="ledig">ledig</option>
+                      <option value="verheiratet">verheiratet</option>
+                      <option value="in fester Partnerschaft">in fester Partnerschaft</option>
+                      <option value="geschieden">geschieden</option>
+                      <option value="getrennt lebend">getrennt lebend</option>
+                      <option value="verwitwet">verwitwet</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="field-countryOfResidence">Wohnhaft in Land</label>
+                    <select id="field-countryOfResidence" name="countryOfResidence">
+                      <option value="">-- Bitte wählen --</option>
+                      <option value="Deutschland">Deutschland</option>
+                      <option value="Österreich">Österreich</option>
+                      <option value="Schweiz">Schweiz</option>
+                      <option value="Italien">Italien</option>
+                      <option value="Frankreich">Frankreich</option>
+                      <option value="Spanien">Spanien</option>
+                      <option value="Niederlande">Niederlande</option>
+                      <option value="Großbritannien">Großbritannien</option>
+                      <option value="USA">USA</option>
+                      <option value="Sonstiges">Sonstiges</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row-2col">
+                  <div class="form-group">
+                    <label for="field-livingEnvironment">Wohnumfeld</label>
+                    <select id="field-livingEnvironment" name="livingEnvironment">
+                      <option value="">-- Bitte wählen --</option>
+                      <option value="Eher städtisch (Urban)">Eher städtisch (Urban)</option>
+                      <option value="Eher ländlich (Rural)">Eher ländlich (Rural)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="field-livingSituation">Wohnform</label>
+                    <select id="field-livingSituation" name="livingSituation">
+                      <option value="">-- Bitte wählen --</option>
+                      <option value="Mietwohnung">Mietwohnung</option>
+                      <option value="Eigenheim (Einfamilienhaus)">Eigenheim (Einfamilienhaus)</option>
+                      <option value="Wohngemeinschaft (WG)">Wohngemeinschaft (WG)</option>
+                      <option value="Studentenwohnheim">Studentenwohnheim</option>
+                      <option value="Reihenhaus / Doppelhaushälfte">Reihenhaus / Doppelhaushälfte</option>
+                      <option value="Zur Untermiete">Zur Untermiete</option>
+                      <option value="Sonstige">Sonstige</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-row-2col">
+                  <div class="form-group">
+                    <label for="field-dietaryHabits">Ernährung</label>
+                    <select id="field-dietaryHabits" name="dietaryHabits">
+                      <option value="">-- Bitte wählen --</option>
+                      <option value="Omnivor (traditionell fleischbetont)">Omnivor (traditionell fleischbetont)</option>
+                      <option value="Omnivor (ausgewogen)">Omnivor (ausgewogen)</option>
+                      <option value="Flexitarisch">Flexitarisch</option>
+                      <option value="Vegetarisch">Vegetarisch</option>
+                      <option value="Vegan">Vegan</option>
+                      <option value="Pescetarisch">Pescetarisch</option>
+                      <option value="Halal / Flexitarisch">Halal / Flexitarisch</option>
+                      <option value="Halal">Halal</option>
+                      <option value="Koscher">Koscher</option>
+                      <option value="Sonstige">Sonstige</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+          </section>
+
+          <!-- 2. Kontext-Fragen -->
+          <section class="clean-section context-questions-section">
+            <div id="context-questions-container"></div>
+          </section>
+
+          <!-- 3. Akzeptanz -->
+          <section class="clean-section">
+            <div class="section-header-line">
+              <span class="caption-label">3. AKZEPTANZ</span>
+            </div>
+            <div class="acceptance-options" id="profile-acceptance-group">
+              <label class="radio-box">
+                <input type="radio" name="acceptance" value="" checked />
+                <span>Keine Auswahl</span>
+              </label>
+              <label class="radio-box">
+                <input type="radio" name="acceptance" value="Willing to Try" />
+                <span>Willing to Try</span>
+              </label>
+              <label class="radio-box">
+                <input type="radio" name="acceptance" value="Willing to Buy" />
+                <span>Willing to Buy</span>
+              </label>
+              <label class="radio-box">
+                <input type="radio" name="acceptance" value="Willing to Adopt" />
+                <span>Willing to Adopt</span>
+              </label>
+            </div>
+          </section>
+
+          <div id="status-message" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <!-- REITER 2: REIZBEWERTUNGEN -->
+      <div id="profile-tab-reizbewertungen" class="profile-tab-panel" style="display: none;">
+        <!-- Visuelle Modul-Übersicht auch im Reizbewertungs-Reiter oben -->
+        <section class="clean-section" style="border-top: none; padding-top: 0; margin-bottom: 24px;">
           <div class="section-header-line">
             <span class="caption-label">WAHRNEHMUNGSMODULE</span>
           </div>
-          <div id="profile-modules-summary" class="modules-eval-grid"></div>
+          <div id="profile-eval-modules-summary" class="modules-eval-grid"></div>
         </section>
 
-        <!-- 1. Proxydaten -->
-        <section class="clean-section">
-          <div class="section-header-line">
-            <span class="caption-label">1. PROXYDATEN</span>
-            <span id="display-datatype" class="caption-tag"></span>
+        <div class="eval-history-box" id="eval-history-box">
+          <div class="eval-history-header">
+            <span class="caption-label">REIZBEWERTUNGSVERLAUF (<span id="eval-history-count">0</span>)</span>
+            <button type="button" id="btn-clear-history" class="btn-icon-only" title="Verlauf zurücksetzen">
+              <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 12H14V24H12z"/><path d="M18 12H20V24H18z"/><path d="M4,6V8H6V28a2,2,0,0,0,2,2H24a2,2,0,0,0,2-2V8h2V6ZM8,28V8H24V28Z"/><path d="M12 2H20V4H12z"/></svg>
+            </button>
           </div>
-
-          <div class="form-group avatar-form-group">
-            <div class="avatar-wrapper">
-              <div class="avatar-preview-box">
-                <img id="avatar-preview" src="" alt="Profilbild" style="display:none;" />
-                <span id="avatar-placeholder" class="caption-text">Kein Bild</span>
-              </div>
-              <div class="avatar-controls">
-                <button type="button" id="btn-avatar-tpde" class="btn-icon-text">
-                  <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M26 6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2zM6 24V8h20v16z"/><path d="M11 14a3 3 0 1 0-3-3 3 3 0 0 0 3 3zm0-4a1 1 0 1 1-1 1 1 1 0 0 1 1-1zm13 12l-5-6-4 4.5-2.5-3L8 22h16z"/></svg>
-                  <span>Zufälliges Porträt</span>
-                </button>
-                <button type="button" id="btn-avatar-webcam" class="btn-icon-text">
-                  <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M29 26H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h6.46l1.71-2.55A1 1 0 0 1 12 4h8a1 1 0 0 1 .83.45L22.54 7H29a1 1 0 0 1 1 1v17a1 1 0 0 1-1 1zM4 24h24V9h-6a1 1 0 0 1-.83-.45L19.46 6h-6.92l-1.71 2.55A1 1 0 0 1 10 9H4v15z"/><path d="M16 22a6 6 0 1 1 6-6 6 6 0 0 1-6 6zm0-10a4 4 0 1 0 4 4 4 4 0 0 0-4-4z"/></svg>
-                  <span>Webcam Foto</span>
-                </button>
-                <button type="button" id="btn-avatar-remove" class="btn-icon-text" style="display:none;">
-                  <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
-                  <span>Bild entfernen</span>
-                </button>
-                <div id="avatar-status" class="caption-text"></div>
-              </div>
-            </div>
+          <div id="eval-history-body" class="eval-history-body">
+            <ul id="eval-history-list"></ul>
           </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label for="field-firstName">Vorname</label>
-              <input type="text" id="field-firstName" name="firstName" required />
-            </div>
-
-            <div class="form-group">
-              <label for="field-lastName">Nachname</label>
-              <input type="text" id="field-lastName" name="lastName" required />
-            </div>
-          </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label for="field-age">Alter</label>
-              <input type="number" id="field-age" name="age" min="0" max="120" />
-            </div>
-
-            <div class="form-group">
-              <label for="field-gender">Geschlecht</label>
-              <select id="field-gender" name="gender">
-                <option value="">-- Bitte wählen --</option>
-                <option value="weiblich">weiblich</option>
-                <option value="männlich">männlich</option>
-                <option value="divers">divers</option>
-                <option value="keine Angabe">keine Angabe</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label for="field-nationality">Nationalität</label>
-              <select id="field-nationality" name="nationality">
-                <option value="">-- Bitte wählen --</option>
-                <option value="Deutsch">Deutsch</option>
-                <option value="Österreichisch">Österreichisch</option>
-                <option value="Schweizerisch">Schweizerisch</option>
-                <option value="Italienisch">Italienisch</option>
-                <option value="Französisch">Französisch</option>
-                <option value="Spanisch">Spanisch</option>
-                <option value="Türkisch">Türkisch</option>
-                <option value="Polnisch">Polnisch</option>
-                <option value="Britisch">Britisch</option>
-                <option value="US-amerikanisch">US-amerikanisch</option>
-                <option value="Sonstige">Sonstige</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="field-religion">Religion</label>
-              <select id="field-religion" name="religion">
-                <option value="">-- Bitte wählen --</option>
-                <option value="Konfessionslos / Keine">Konfessionslos / Keine</option>
-                <option value="Christentum (evangelisch)">Christentum (evangelisch)</option>
-                <option value="Christentum (katholisch)">Christentum (katholisch)</option>
-                <option value="Christentum (orthodox)">Christentum (orthodox)</option>
-                <option value="Islam">Islam</option>
-                <option value="Judentum">Judentum</option>
-                <option value="Buddhismus">Buddhismus</option>
-                <option value="Hinduismus">Hinduismus</option>
-                <option value="Sonstige">Sonstige</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label for="field-maritalStatus">Familienstand</label>
-              <select id="field-maritalStatus" name="maritalStatus">
-                <option value="">-- Bitte wählen --</option>
-                <option value="ledig">ledig</option>
-                <option value="verheiratet">verheiratet</option>
-                <option value="in fester Partnerschaft">in fester Partnerschaft</option>
-                <option value="geschieden">geschieden</option>
-                <option value="getrennt lebend">getrennt lebend</option>
-                <option value="verwitwet">verwitwet</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="field-countryOfResidence">Wohnhaft in Land</label>
-              <select id="field-countryOfResidence" name="countryOfResidence">
-                <option value="">-- Bitte wählen --</option>
-                <option value="Deutschland">Deutschland</option>
-                <option value="Österreich">Österreich</option>
-                <option value="Schweiz">Schweiz</option>
-                <option value="Italien">Italien</option>
-                <option value="Frankreich">Frankreich</option>
-                <option value="Spanien">Spanien</option>
-                <option value="Niederlande">Niederlande</option>
-                <option value="Großbritannien">Großbritannien</option>
-                <option value="USA">USA</option>
-                <option value="Sonstiges">Sonstiges</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label for="field-livingEnvironment">Wohnumfeld</label>
-              <select id="field-livingEnvironment" name="livingEnvironment">
-                <option value="">-- Bitte wählen --</option>
-                <option value="Eher städtisch (Urban)">Eher städtisch (Urban)</option>
-                <option value="Eher ländlich (Rural)">Eher ländlich (Rural)</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="field-livingSituation">Wohnform</label>
-              <select id="field-livingSituation" name="livingSituation">
-                <option value="">-- Bitte wählen --</option>
-                <option value="Mietwohnung">Mietwohnung</option>
-                <option value="Eigenheim (Einfamilienhaus)">Eigenheim (Einfamilienhaus)</option>
-                <option value="Wohngemeinschaft (WG)">Wohngemeinschaft (WG)</option>
-                <option value="Studentenwohnheim">Studentenwohnheim</option>
-                <option value="Reihenhaus / Doppelhaushälfte">Reihenhaus / Doppelhaushälfte</option>
-                <option value="Zur Untermiete">Zur Untermiete</option>
-                <option value="Sonstige">Sonstige</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label for="field-dietaryHabits">Ernährung</label>
-              <select id="field-dietaryHabits" name="dietaryHabits">
-                <option value="">-- Bitte wählen --</option>
-                <option value="Omnivor (traditionell fleischbetont)">Omnivor (traditionell fleischbetont)</option>
-                <option value="Omnivor (ausgewogen)">Omnivor (ausgewogen)</option>
-                <option value="Flexitarisch">Flexitarisch</option>
-                <option value="Vegetarisch">Vegetarisch</option>
-                <option value="Vegan">Vegan</option>
-                <option value="Pescetarisch">Pescetarisch</option>
-                <option value="Halal / Flexitarisch">Halal / Flexitarisch</option>
-                <option value="Halal">Halal</option>
-                <option value="Koscher">Koscher</option>
-                <option value="Sonstige">Sonstige</option>
-              </select>
-            </div>
-          </div>
-        </section>
-
-        <!-- 2. Kontext-Fragen -->
-        <section class="clean-section">
-          <div class="section-header-line">
-            <span class="caption-label">2. KONTEXT-FRAGEN</span>
-          </div>
-          <div id="context-questions-container"></div>
-        </section>
-
-        <!-- 3. Akzeptanz -->
-        <section class="clean-section">
-          <div class="section-header-line">
-            <span class="caption-label">3. AKZEPTANZ</span>
-          </div>
-          <div class="acceptance-options" id="profile-acceptance-group">
-            <label class="radio-box">
-              <input type="radio" name="acceptance" value="" checked />
-              <span>Keine Auswahl</span>
-            </label>
-            <label class="radio-box">
-              <input type="radio" name="acceptance" value="Willing to Try" />
-              <span>Willing to Try</span>
-            </label>
-            <label class="radio-box">
-              <input type="radio" name="acceptance" value="Willing to Buy" />
-              <span>Willing to Buy</span>
-            </label>
-            <label class="radio-box">
-              <input type="radio" name="acceptance" value="Willing to Adopt" />
-              <span>Willing to Adopt</span>
-            </label>
-          </div>
-        </section>
-
-        <div class="form-actions">
-          <button type="submit" id="btn-save" class="btn-primary">Speichern</button>
-          <button type="button" id="btn-delete" style="display: none;">Löschen</button>
-          <button type="button" id="btn-reset">Zurücksetzen</button>
         </div>
+      </div>
 
-        <div id="status-message" aria-live="polite"></div>
-      </form>
+      <!-- REITER 3: STECKBRIEF -->
+      <div id="profile-tab-steckbrief" class="profile-tab-panel" style="display: none;">
+        <div id="steckbrief-container" class="steckbrief-container"></div>
+      </div>
     </main>
   </div>
 
@@ -323,14 +372,13 @@
           <div class="stimulus-meta">
             <h3 id="stim-name" style="margin:0;"></h3>
             <span class="info-hover" tabindex="0">
-              <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 22v-8h-4v2h2v6h-3v2h8v-2h-3zM16 8a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 16 8z"/><path d="M16 30a14 14 0 1 1 14-14 14 14 0 0 1-14 14zm0-26a12 12 0 1 0 12 12A12 12 0 0 0 16 4z"/></svg>
+              <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 22 17 14 13 14 13 16 15 16 15 22 12 22 12 24 20 24 20 22 17 22z"/><path d="M16,8a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,16,8Z"/><path d="M16,30A14,14,0,1,1,30,16,14,14,0,0,1,16,30ZM16,4A12,12,0,1,0,28,16,12,12,0,0,0,16,4Z"/></svg>
               <span class="info-popover">
-                <div><strong>Kategorie:</strong> <span id="stim-category"></span></div>
-                <div><strong>Primärfunktion:</strong> <span id="stim-function"></span></div>
+                <div><strong>Funktion(en):</strong> <span id="stim-function"></span></div>
                 <div><strong>Zielmodule:</strong> <span id="stim-modules-display"></span></div>
-                <div id="stim-algo-reason-container" style="margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.25);">
+                <div id="stim-algo-reason-container" style="margin-top:8px;">
                   <strong>Algorithmus-Begründung:</strong>
-                  <div id="stim-algo-reason" style="margin-top:2px; font-size:11px; line-height:15px; color:#ffffff;"></div>
+                  <div id="stim-algo-reason" class="caption-text" style="margin-top:2px;"></div>
                 </div>
               </span>
             </span>
@@ -339,43 +387,40 @@
           <div id="stim-media-container" class="stim-media-container"></div>
           <p id="stim-content" class="stim-content-box"></p>
         </div>
-
-        <div class="eval-history-box" id="eval-history-box">
-          <div class="eval-history-header">
-            <button type="button" id="btn-toggle-history" class="btn-history-toggle" aria-expanded="true">
-              <svg id="icon-history-chevron" class="carbon-icon-sm history-chevron" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 22L6 12l1.4-1.4 8.6 8.6 8.6-8.6L26 12z"/></svg>
-              <span class="caption-label">VERLAUF (<span id="eval-history-count">0</span>)</span>
-            </button>
-            <button type="button" id="btn-clear-history" class="btn-icon-only" title="Verlauf zurücksetzen">
-              <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 12h2v12h-2zm6 0h2v12h-2z"/><path d="M4 6v2h2v20a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8h2V6zm4 22V8h16v20zm4-26h8v2h-8z"/></svg>
-            </button>
-          </div>
-          <div id="eval-history-body" class="eval-history-body">
-            <ul id="eval-history-list"></ul>
-          </div>
-        </div>
       </section>
 
-      <!-- RECHTE SPALTE: Aufgeräumtes Grid mit den 6 Modulen -->
+      <!-- RECHTE SPALTE: Aufforderung & Bewertungsmodule -->
       <section class="eval-right-modules">
-        <div id="eval-modules-grid" class="modules-eval-grid"></div>
-
-        <!-- 3 Buttons unter den Modulbewertungen: TRY, BUY, ADOPT -->
-        <div class="eval-acceptance-bar">
-          <span class="caption-label">AKZEPTANZ:</span>
-          <div class="eval-acceptance-group" id="eval-acceptance-group">
-            <button type="button" class="btn-acceptance" data-level="Willing to Try">TRY</button>
-            <button type="button" class="btn-acceptance" data-level="Willing to Buy">BUY</button>
-            <button type="button" class="btn-acceptance" data-level="Willing to Adopt">ADOPT</button>
+        <div class="eval-prompt-block" id="eval-prompt-block">
+          <h2 class="eval-prompt-heading" id="eval-prompt-heading">Wie nimmst du die gegebenen Informationen wahr?</h2>
+          <div class="eval-prompt-actions">
+            <button type="button" id="btn-reveal-modules" class="btn-primary btn-reveal-modules">
+              <span>Bewertungen einordnen</span>
+              <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M18 6 16.57 7.393 24.15 15 4 15 4 17 24.15 17 16.57 24.573 18 26 28 16 18 6z"/></svg>
+            </button>
+            <span id="eval-status-msg" class="caption-text eval-status-msg"></span>
           </div>
         </div>
 
-        <div class="eval-submit-bar">
-          <button type="button" id="btn-submit-evaluation" class="btn-primary">
-            <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 24l-9-9 1.414-1.414L13 21.171 26.586 7.586 28 9 13 24z"/></svg>
-            <span>Weiter</span>
-          </button>
-          <span id="eval-status-msg" class="caption-text"></span>
+        <div id="eval-modules-wrapper" class="eval-modules-wrapper" style="display: none;">
+          <div id="eval-modules-grid" class="modules-eval-grid"></div>
+
+          <!-- 3 Buttons unter den Modulbewertungen: TRY, BUY, ADOPT -->
+          <div class="eval-acceptance-bar">
+            <span class="caption-label">AKZEPTANZ:</span>
+            <div class="eval-acceptance-group" id="eval-acceptance-group">
+              <button type="button" class="btn-acceptance" data-level="Willing to Try">TRY</button>
+              <button type="button" class="btn-acceptance" data-level="Willing to Buy">BUY</button>
+              <button type="button" class="btn-acceptance" data-level="Willing to Adopt">ADOPT</button>
+            </div>
+          </div>
+
+          <div class="eval-submit-bar">
+            <button type="button" id="btn-submit-evaluation" class="btn-primary">
+              <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M13 24 4 15 5.414 13.586 13 21.171 26.586 7.586 28 9 13 24z"/></svg>
+              <span>Weiter</span>
+            </button>
+          </div>
         </div>
       </section>
     </div>
@@ -408,12 +453,19 @@
             <button type="button" class="btn-filter" data-module="6" title="6. Alltagshürden">6</button>
           </div>
         </div>
+
+        <div class="stimuli-filter-block">
+          <span class="caption-label">SAMMLUNG</span>
+          <div class="filter-btn-group" id="stim-filter-mvp-group">
+            <button type="button" class="btn-filter" id="btn-filter-mvp" data-mvp="true">MVP</button>
+          </div>
+        </div>
       </div>
 
       <div class="stimuli-topbar-actions">
         <span class="caption-label"><span id="count-stimuli">0</span> REIZE</span>
         <button id="btn-new-stimulus" type="button" class="btn-primary">
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 15V8h-2v7H8v2h7v7h2v-7h7v-2h-7z"/></svg>
+          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17 24 15z"/></svg>
           <span>Neuer Reiz</span>
         </button>
       </div>
@@ -427,12 +479,14 @@
   <div id="view-decision-tree" style="display: none;">
     <div class="dt-sandbox-bar">
       <div class="dt-sandbox-info">
-        <span class="caption-tag" style="background:var(--petal-frost); border-color:var(--wine-plum);">SANDBOX-MODUS</span>
-        <span class="caption-text">Eigenständige Hypertext-Simulation – das gespeicherte Personenprofil wird nicht verändert. Pro Reiz führt genau <strong>ein</strong> angeklickter Gedanken-Link die Geschichte weiter.</span>
+        <span class="caption-tag">SANDBOX-MODUS</span>
+        <span class="info-hover" tabindex="0">
+          <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 22 17 14 13 14 13 16 15 16 15 22 12 22 12 24 20 24 20 22 17 22z"/><path d="M16,8a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,16,8Z"/><path d="M16,30A14,14,0,1,1,30,16,14,14,0,0,1,16,30ZM16,4A12,12,0,1,0,28,16,12,12,0,0,0,16,4Z"/></svg>
+          <span class="info-popover">Eigenständige Hypertext-Simulation – das gespeicherte Personenprofil wird nicht verändert. Pro Reiz führt genau ein angeklickter Gedanken-Link die Geschichte weiter.</span>
+        </span>
       </div>
-      <button type="button" id="btn-dt-restart" class="btn-icon-text" title="Simulation auf Ausgangszustand des Profils zurücksetzen">
-        <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M18 28A12 12 0 1 0 6 16v6.2l-3.6-3.6L1 20l6 6 6-6-1.4-1.4L8 22.2V16a10 10 0 1 1 10 10z"/></svg>
-        <span>Geschichte neu starten</span>
+      <button type="button" id="btn-dt-restart" class="btn-icon-only" title="Simulation auf Ausgangszustand des Profils zurücksetzen" aria-label="Simulation auf Ausgangszustand des Profils zurücksetzen">
+        <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M18,28A12,12,0,1,0,6,16v6.2L2.4,18.6,1,20l6,6,6-6-1.4-1.4L8,22.2V16H8A10,10,0,1,1,18,26Z"/></svg>
       </button>
     </div>
 
@@ -446,14 +500,13 @@
           <div class="stimulus-meta">
             <h3 id="dt-stim-name" style="margin:0;"></h3>
             <span class="info-hover" tabindex="0">
-              <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 22v-8h-4v2h2v6h-3v2h8v-2h-3zM16 8a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 16 8z"/><path d="M16 30a14 14 0 1 1 14-14 14 14 0 0 1-14 14zm0-26a12 12 0 1 0 12 12A12 12 0 0 0 16 4z"/></svg>
+              <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 22 17 14 13 14 13 16 15 16 15 22 12 22 12 24 20 24 20 22 17 22z"/><path d="M16,8a1.5,1.5,0,1,0,1.5,1.5A1.5,1.5,0,0,0,16,8Z"/><path d="M16,30A14,14,0,1,1,30,16,14,14,0,0,1,16,30ZM16,4A12,12,0,1,0,28,16,12,12,0,0,0,16,4Z"/></svg>
               <span class="info-popover">
-                <div><strong>Kategorie:</strong> <span id="dt-stim-category"></span></div>
-                <div><strong>Primärfunktion:</strong> <span id="dt-stim-function"></span></div>
+                <div><strong>Funktion(en):</strong> <span id="dt-stim-function"></span></div>
                 <div><strong>Zielmodule:</strong> <span id="dt-stim-modules-display"></span></div>
-                <div style="margin-top:6px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.25);">
+                <div style="margin-top:8px;">
                   <strong>Algorithmus-Begründung:</strong>
-                  <div id="dt-stim-algo-reason" style="margin-top:2px; font-size:11px; line-height:15px; color:#ffffff;"></div>
+                  <div id="dt-stim-algo-reason" class="caption-text" style="margin-top:2px;"></div>
                 </div>
               </span>
             </span>
@@ -471,7 +524,7 @@
         <div class="eval-history-box" id="dt-history-box" style="margin-bottom: 16px;">
           <div class="eval-history-header">
             <button type="button" id="btn-toggle-dt-history" class="btn-history-toggle" aria-expanded="true">
-              <svg class="carbon-icon-sm history-chevron" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 22L6 12l1.4-1.4 8.6 8.6 8.6-8.6L26 12z"/></svg>
+              <svg class="carbon-icon-sm history-chevron" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 22 6 12 7.4 10.6 16 19.2 24.6 10.6 26 12z"/></svg>
               <span class="caption-label">GESCHICHTS-VERLAUF (<span id="dt-history-count">0</span>)</span>
             </button>
           </div>
@@ -511,97 +564,87 @@
   <!-- Pop-Up Modal für Reiz-Details, Bearbeitung & Empirische Auswertung -->
   <dialog id="modal-stimulus-detail" class="modal-stimulus-detail">
     <div class="modal-stimulus-inner">
-      <div class="modal-stimulus-header">
-        <h2 id="stimulus-form-title" style="margin:0;">Reiz bearbeiten</h2>
-        <button type="button" id="btn-close-stimulus-modal" class="btn-icon-only" title="Schließen">
-          <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M24 9.4L22.6 8 16 14.6 9.4 8 8 9.4 14.6 16 8 22.6 9.4 24 16 17.4 22.6 24 24 22.6 17.4 16 24 9.4z"/></svg>
-        </button>
-      </div>
-
       <form id="stimulus-form">
-        <section class="clean-section">
-          <div class="section-header-line">
-            <span class="caption-label">BASISDATEN &amp; FUNKTION</span>
+        <!-- 1. Header-Row: Reiztitel (groß) | Speichern-Button (rechts oben) -->
+        <div class="modal-stimulus-topbar">
+          <input type="text" id="stim-field-name" name="name" class="stim-title-large-input" placeholder="Reiztitel eingeben..." required />
+          <div class="modal-stimulus-topbar-actions">
+            <button type="button" id="btn-reset-stimulus" class="btn-icon-only" title="Reiz zurücksetzen" aria-label="Reiz zurücksetzen">
+              <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M18,28A12,12,0,1,0,6,16v6.2L2.4,18.6,1,20l6,6,6-6-1.4-1.4L8,22.2V16H8A10,10,0,1,1,18,26Z"/></svg>
+            </button>
+            <button type="button" id="btn-delete-stimulus" class="btn-icon-only btn-danger-icon" style="display: none;" title="Diesen Reiz löschen" aria-label="Diesen Reiz löschen">
+              <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M12 12H14V24H12z"/><path d="M18 12H20V24H18z"/><path d="M4,6V8H6V28a2,2,0,0,0,2,2H24a2,2,0,0,0,2-2V8h2V6ZM8,28V8H24V28Z"/><path d="M12 2H20V4H12z"/></svg>
+            </button>
+            <button type="submit" id="btn-save-stimulus" class="btn-icon-only btn-primary" title="Reiz speichern" aria-label="Reiz speichern">
+              <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M27.71,9.29l-5-5A1,1,0,0,0,22,4H6A2,2,0,0,0,4,6V26a2,2,0,0,0,2,2H26a2,2,0,0,0,2-2V10A1,1,0,0,0,27.71,9.29ZM12,6h8v4H12Zm8,20H12V18h8Zm2,0V18a2,2,0,0,0-2-2H12a2,2,0,0,0-2,2v8H6V6h4v4a2,2,0,0,0,2,2h8a2,2,0,0,0,2-2V6.41l4,4V26Z"/></svg>
+            </button>
+            <button type="button" id="btn-close-stimulus-modal" class="btn-icon-only" title="Schließen" aria-label="Schließen">
+              <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M17.4141 16 24 9.4141 22.5859 8 16 14.5859 9.4143 8 8 9.4141 14.5859 16 8 22.5859 9.4143 24 16 17.4141 22.5859 24 24 22.5859 17.4141 16z"/></svg>
+            </button>
           </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label for="stim-field-name">Titel</label>
-              <input type="text" id="stim-field-name" name="name" required />
-            </div>
-
-            <div class="form-group">
-              <label for="stim-field-category">Kategorie</label>
-              <input type="text" id="stim-field-category" name="category" placeholder="z.B. Verpackung &amp; sensorische Informationen" />
-            </div>
-          </div>
-
-          <div class="form-row-2col">
-            <div class="form-group">
-              <label for="stim-field-function">Primäre Funktion</label>
-              <select id="stim-field-function" name="primaryFunction">
-                <option value="legitimierend">legitimierend</option>
-                <option value="wert-schaffend">wert-schaffend</option>
-                <option value="widerstands-mindernd">widerstands-mindernd</option>
-                <option value="wert-mindernd">wert-mindernd</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="stim-field-mediatype">Medientyp</label>
-              <select id="stim-field-mediatype" name="mediaType">
-                <option value="text">Text</option>
-                <option value="image">Bildlink (URL)</option>
-                <option value="iframe">Iframe / Embed-Link</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Primäre Wahrnehmungsmodule (für Algorithmus)</label>
-            <div id="stim-modules-checkboxes" class="stim-modules-check-grid"></div>
-          </div>
-        </section>
-
-        <section class="clean-section">
-          <div class="section-header-line">
-            <span class="caption-label">INHALT &amp; MEDIEN</span>
-          </div>
-
-          <div id="stim-field-image-group" class="form-group" style="display: none;">
-            <label for="stim-field-image">Bildlink (URL)</label>
-            <input type="url" id="stim-field-image" name="imageUrl" placeholder="https://example.com/bild.jpg" />
-          </div>
-
-          <div id="stim-field-iframe-group" class="form-group" style="display: none;">
-            <label for="stim-field-iframe">Iframe-URL oder &lt;iframe&gt;-Code</label>
-            <input type="text" id="stim-field-iframe" name="iframeUrl" placeholder="https://example.com oder <iframe src=&quot;...&quot;></iframe>" />
-          </div>
-
-          <div class="form-group">
-            <label for="stim-field-content">Text / Beschreibung (optional bei Bild oder Iframe)</label>
-            <textarea id="stim-field-content" name="content" rows="4"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label class="caption-label">VORSCHAU</label>
-            <div id="stim-form-preview" class="stimulus-box"></div>
-          </div>
-        </section>
-
-        <div class="form-actions">
-          <button type="submit" id="btn-save-stimulus" class="btn-primary">Speichern</button>
-          <button type="button" id="btn-delete-stimulus" style="display: none;">Löschen</button>
-          <button type="button" id="btn-reset-stimulus">Zurücksetzen</button>
         </div>
 
         <div id="stimulus-status-message" aria-live="polite"></div>
+
+        <!-- 2. Mediencontainer (wenn leer Uploadfeld für Bild, Bildlink oder iFrame) -->
+        <div id="stim-media-slot" class="stim-modal-media-slot"></div>
+
+        <!-- Versteckte Inputs für Medienstatus -->
+        <input type="hidden" id="stim-field-image" name="imageUrl" value="" />
+        <input type="hidden" id="stim-field-iframe" name="iframeUrl" value="" />
+        <input type="hidden" id="stim-field-mediatype" name="mediaType" value="text" />
+
+        <!-- 3. Beschreibung -->
+        <div class="form-group" style="margin-top: 16px;">
+          <label for="stim-field-content" class="caption-label">BESCHREIBUNG</label>
+          <textarea id="stim-field-content" name="content" rows="3" placeholder="Beschreibung des Reizes..."></textarea>
+        </div>
+
+        <!-- Trennlinie --- -->
+        <hr class="stim-modal-divider" />
+
+        <!-- 4. Primäre Funktionen -->
+        <div class="form-group">
+          <label class="caption-label">PRIMÄRE FUNKTIONEN</label>
+          <div id="stim-functions-checkboxes" class="stim-functions-check-grid">
+            <label class="stim-function-toggle">
+              <input type="checkbox" name="stim_function" value="legitimierend" />
+              <span>legitimierend</span>
+            </label>
+            <label class="stim-function-toggle">
+              <input type="checkbox" name="stim_function" value="wert-schaffend" />
+              <span>wert-schaffend</span>
+            </label>
+            <label class="stim-function-toggle">
+              <input type="checkbox" name="stim_function" value="widerstands-mindernd" />
+              <span>widerstands-mindernd</span>
+            </label>
+            <label class="stim-function-toggle">
+              <input type="checkbox" name="stim_function" value="wert-mindernd" />
+              <span>wert-mindernd</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 5. Primäre Wahrnehmungsmodule -->
+        <div class="form-group">
+          <label class="caption-label">PRIMÄRE WAHRNEHMUNGSMODULE</label>
+          <div id="stim-modules-checkboxes" class="stim-modules-check-grid"></div>
+        </div>
+
+        <!-- 6. Vorschau in klein -->
+        <div class="form-group">
+          <label class="caption-label">VORSCHAU IN KLEIN</label>
+          <div class="stim-mini-preview-container">
+            <div id="stim-form-preview" class="stim-thumb-card stim-thumb-card-mini"></div>
+          </div>
+        </div>
       </form>
 
-      <!-- Auswertung & empirische Bewertungen dieses Reizes durch unterschiedliche Personen -->
-      <section class="clean-section" id="stimulus-evaluation-section" style="margin-top:24px; margin-bottom:0;">
+      <!-- 7. Auswertung -->
+      <section class="stim-modal-eval-section" id="stimulus-evaluation-section">
         <div class="section-header-line">
-          <span class="caption-label">EMPIRISCHE AUSWERTUNG &amp; BEWERTUNGEN DURCH KONSUMENTEN</span>
+          <span class="caption-label">AUSWERTUNG</span>
           <span id="stim-eval-summary-badge" class="caption-tag"></span>
         </div>
 

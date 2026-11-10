@@ -1,5 +1,6 @@
 // Frontend-Logik für Konsumentenprofile & IPS-Reizbewertung (MVP)
 import { getDecisionTreeContentForStimulus } from './decisionTreeData.js';
+import { ICONS, icon } from './icons.js';
 
 // 1. Die 6 Wahrnehmungsmodule
 const MODULES = [
@@ -170,6 +171,7 @@ let editingStimulusId = null;
 
 let activeFunctionFilter = 'all';
 let activeModuleFilter = 'all';
+let activeMvpFilter = false;
 
 /**
  * pendingModuleActions speichert die aktuelle (noch nicht abgeschickte) Bewertung für den aktuellen Reiz pro Modul:
@@ -221,7 +223,6 @@ const viewProfiles = document.getElementById('view-profiles');
 const viewEvaluation = document.getElementById('view-evaluation');
 const viewDecisionTree = document.getElementById('view-decision-tree');
 const viewStimuli = document.getElementById('view-stimuli');
-const btnJumpToEval = document.getElementById('btn-jump-to-eval');
 
 // Decision Tree Prototype Elements
 const btnDtRestart = document.getElementById('btn-dt-restart');
@@ -262,7 +263,13 @@ const btnDelete = document.getElementById('btn-delete');
 const btnReset = document.getElementById('btn-reset');
 const statusMessageEl = document.getElementById('status-message');
 const contextQuestionsContainer = document.getElementById('context-questions-container');
-const profileModulesSummary = document.getElementById('profile-modules-summary');
+const profileEvalModulesSummary = document.getElementById('profile-eval-modules-summary');
+const profileTabButtons = document.querySelectorAll('.profile-tab-btn');
+const profileTabPanels = document.querySelectorAll('.profile-tab-panel');
+const btnToggleProxyDetails = document.getElementById('btn-toggle-proxy-details');
+const textProxyToggle = document.getElementById('text-proxy-toggle');
+const proxyDetailsContainer = document.getElementById('proxy-details-container');
+const steckbriefContainer = document.getElementById('steckbrief-container');
 
 // Avatar DOM Elemente
 const avatarPreview = document.getElementById('avatar-preview');
@@ -308,6 +315,10 @@ const evalHistoryCount = document.getElementById('eval-history-count');
 const evalHistoryList = document.getElementById('eval-history-list');
 const btnClearHistory = document.getElementById('btn-clear-history');
 
+const evalPromptBlock = document.getElementById('eval-prompt-block');
+const evalPromptHeading = document.getElementById('eval-prompt-heading');
+const btnRevealModules = document.getElementById('btn-reveal-modules');
+const evalModulesWrapper = document.getElementById('eval-modules-wrapper');
 const evalModulesGrid = document.getElementById('eval-modules-grid');
 const evalAcceptanceGroup = document.getElementById('eval-acceptance-group');
 const evalAcceptanceButtons = document.querySelectorAll('#eval-acceptance-group .btn-acceptance');
@@ -324,18 +335,14 @@ const stimuliCardsGridEl = document.getElementById('stimuli-cards-grid');
 const modalStimulusDetail = document.getElementById('modal-stimulus-detail');
 const btnCloseStimulusModal = document.getElementById('btn-close-stimulus-modal');
 const btnNewStimulus = document.getElementById('btn-new-stimulus');
-const stimulusFormTitleEl = document.getElementById('stimulus-form-title');
 const stimulusForm = document.getElementById('stimulus-form');
 const stimFieldName = document.getElementById('stim-field-name');
-const stimFieldCategory = document.getElementById('stim-field-category');
-const stimFieldFunction = document.getElementById('stim-field-function');
 const stimFieldMediatype = document.getElementById('stim-field-mediatype');
-const stimModulesCheckboxes = document.getElementById('stim-modules-checkboxes');
-const stimFieldImageGroup = document.getElementById('stim-field-image-group');
 const stimFieldImage = document.getElementById('stim-field-image');
-const stimFieldIframeGroup = document.getElementById('stim-field-iframe-group');
 const stimFieldIframe = document.getElementById('stim-field-iframe');
 const stimFieldContent = document.getElementById('stim-field-content');
+const stimMediaSlot = document.getElementById('stim-media-slot');
+const stimModulesCheckboxes = document.getElementById('stim-modules-checkboxes');
 const stimFormPreview = document.getElementById('stim-form-preview');
 const btnDeleteStimulus = document.getElementById('btn-delete-stimulus');
 const btnResetStimulus = document.getElementById('btn-reset-stimulus');
@@ -343,6 +350,7 @@ const stimulusStatusMessageEl = document.getElementById('stimulus-status-message
 
 const stimFilterFunctionGroup = document.getElementById('stim-filter-function-group');
 const stimFilterModuleGroup = document.getElementById('stim-filter-module-group');
+const btnFilterMvp = document.getElementById('btn-filter-mvp');
 const stimEvalContainer = document.getElementById('stim-eval-container');
 const stimEvalSummaryBadge = document.getElementById('stim-eval-summary-badge');
 
@@ -350,6 +358,7 @@ const stimEvalSummaryBadge = document.getElementById('stim-eval-summary-badge');
 const fieldNames = [
   'firstName',
   'lastName',
+  'bio',
   'gender',
   'age',
   'nationality',
@@ -536,6 +545,32 @@ function computeModuleStats(profile) {
  * - Regel 2: Wenn es keine Barrieren mehr gibt, wird in den Modulen, wo noch kein Treiber
  *            bewertet wurde, ein noch unbewerteter "wert-schaffend" Reiz aus dem Modul gespielt.
  */
+function stimulusMatchesFunction(s, fn) {
+  if (!s) return false;
+  if (Array.isArray(s.functions) && s.functions.includes(fn)) return true;
+  return s.primaryFunction === fn;
+}
+
+function getStimulusFunctionsDisplay(s) {
+  if (!s) return '-';
+  if (Array.isArray(s.functions) && s.functions.length > 0) {
+    return s.functions.join(', ');
+  }
+  return s.primaryFunction || '-';
+}
+
+function getSelectedStimulusFunctions() {
+  const checked = Array.from(document.querySelectorAll('input[name="stim_function"]:checked')).map(cb => cb.value);
+  return checked.length > 0 ? checked : ['legitimierend'];
+}
+
+function setSelectedStimulusFunctions(funcs) {
+  const set = new Set(Array.isArray(funcs) && funcs.length > 0 ? funcs : (funcs ? [funcs] : ['legitimierend']));
+  document.querySelectorAll('input[name="stim_function"]').forEach(cb => {
+    cb.checked = set.has(cb.value);
+  });
+}
+
 function recommendNextStimulus(profile, extraExcludeIds = []) {
   if (!stimuli.length) {
     return { stimulus: null, reason: 'Keine Reize in stimuli.json vorhanden.' };
@@ -570,15 +605,15 @@ function recommendNextStimulus(profile, extraExcludeIds = []) {
   if (modulesWithBarriers.length > 0) {
     for (const targetMod of modulesWithBarriers) {
       const legitimizingForMod = unseenStimuli.filter(
-        s => (s.primaryFunction === 'legitimierend' || s.primaryFunction === 'widerstands-mindernd') &&
+        s => (stimulusMatchesFunction(s, 'legitimierend') || stimulusMatchesFunction(s, 'widerstands-mindernd')) &&
              Array.isArray(s.primaryModules) && s.primaryModules.includes(targetMod.id)
       );
-      const chosen = legitimizingForMod.find(s => s.primaryFunction === 'legitimierend') || legitimizingForMod[0];
+      const chosen = legitimizingForMod.find(s => stimulusMatchesFunction(s, 'legitimierend')) || legitimizingForMod[0];
       if (chosen) {
         const barrierNames = targetMod.activeBarrierItems.map(b => b.label).join(', ');
         return {
           stimulus: chosen,
-          reason: `Regel 1 (Barriere vorhanden): Modul "${targetMod.name}" hat ${targetMod.activeBarriers} aktive Barriere(n) [${barrierNames}]. Es wird ein unbewerteter ${chosen.primaryFunction}er Reiz für dieses Modul vorgeschlagen.`
+          reason: `Regel 1 (Barriere vorhanden): Modul "${targetMod.name}" hat ${targetMod.activeBarriers} aktive Barriere(n) [${barrierNames}]. Es wird ein unbewerteter ${getStimulusFunctionsDisplay(chosen)}er Reiz für dieses Modul vorgeschlagen.`
         };
       }
     }
@@ -592,7 +627,7 @@ function recommendNextStimulus(profile, extraExcludeIds = []) {
   if (modulesWithoutDrivers.length > 0) {
     for (const targetMod of modulesWithoutDrivers) {
       const valueCreatingForMod = unseenStimuli.filter(
-        s => s.primaryFunction === 'wert-schaffend' && Array.isArray(s.primaryModules) && s.primaryModules.includes(targetMod.id)
+        s => stimulusMatchesFunction(s, 'wert-schaffend') && Array.isArray(s.primaryModules) && s.primaryModules.includes(targetMod.id)
       );
       if (valueCreatingForMod.length > 0) {
         return {
@@ -604,7 +639,7 @@ function recommendNextStimulus(profile, extraExcludeIds = []) {
   }
 
   // FALLBACK: Nur aus den noch NICHT bewerteten Reizen wählen!
-  const unseenValueCreating = unseenStimuli.filter(s => s.primaryFunction === 'wert-schaffend');
+  const unseenValueCreating = unseenStimuli.filter(s => stimulusMatchesFunction(s, 'wert-schaffend'));
   const fallbackChosen = unseenValueCreating[0] || unseenStimuli[0];
   return {
     stimulus: fallbackChosen,
@@ -676,48 +711,62 @@ function renderHomeDashboard() {
   const driverPct = totalReactions > 0 ? Math.round((totalDrivers / totalReactions) * 100) : 0;
   const barrierPct = totalReactions > 0 ? Math.max(0, 100 - legitPct - driverPct) : 0;
 
-  // 1. BENTO-MODUL: DATEN-ÜBERSICHT (Summe Reize bewertet, von wie vielen Leuten, ...)
+  // 1. BENTO-MODUL: DATEN-ÜBERSICHT (Aufgeräumt, Details hinter Hover-Icons)
+  const coveragePct = totalStimuli > 0 ? Math.round((uniqueStimuliEvaluated / totalStimuli) * 100) : 0;
   const dataCard = document.createElement('section');
   dataCard.className = 'bento-card bento-span-2';
   dataCard.innerHTML = `
     <div class="bento-card-header">
       <span class="caption-label">DATEN &amp; ERHEBUNGS-ÜBERSICHT</span>
-      <span class="caption-tag">${totalStimuli} Reize im Katalog</span>
+      <span class="info-hover" tabindex="0">
+        ${ICONS.informationSm}
+        <span class="info-popover">
+          <div>Katalog: ${totalStimuli} Reize (${coveragePct}% abgedeckt)</div>
+          <div>Reaktionen gesamt: ${totalReactions} Aktionen</div>
+          <div>Akzeptanz-Wechsel: ${acceptanceChanges}x</div>
+        </span>
+      </span>
     </div>
     <div class="bento-kpi-grid">
       <div class="bento-kpi-box">
-        <span class="caption-label">SUMME REIZE BEWERTET</span>
+        <div class="bento-kpi-top">
+          <span class="caption-label">REIZE BEWERTET</span>
+          <span class="info-hover" tabindex="0">
+            ${ICONS.informationSm}
+            <span class="info-popover">${uniqueStimuliEvaluated} von ${totalStimuli} verschiedenen Reizen getestet (${coveragePct}% Abdeckung)</span>
+          </span>
+        </div>
         <div class="bento-kpi-value">${totalEvaluations}</div>
-        <span class="bento-kpi-sub">${uniqueStimuliEvaluated} von ${totalStimuli} versch. Reizen getestet</span>
       </div>
       <div class="bento-kpi-box">
-        <span class="caption-label">BEWERTENDE PERSONEN</span>
-        <div class="bento-kpi-value">${evaluatedPeopleCount} <span style="font-size:18px;font-weight:400;">/ ${totalProfiles}</span></div>
-        <span class="bento-kpi-sub">${evaluatedRealCount} real · ${evaluatedFictionalCount} fiktiv aktiv</span>
+        <div class="bento-kpi-top">
+          <span class="caption-label">AKTIVE PERSONEN</span>
+          <span class="info-hover" tabindex="0">
+            ${ICONS.informationSm}
+            <span class="info-popover">${evaluatedPeopleCount} von ${totalProfiles} Profilen aktiv (${evaluatedRealCount} real · ${evaluatedFictionalCount} fiktiv)</span>
+          </span>
+        </div>
+        <div class="bento-kpi-value">${evaluatedPeopleCount}</div>
       </div>
       <div class="bento-kpi-box">
-        <span class="caption-label">Ø REIZE PRO PERSON</span>
+        <div class="bento-kpi-top">
+          <span class="caption-label">Ø PRO PERSON</span>
+          <span class="info-hover" tabindex="0">
+            ${ICONS.informationSm}
+            <span class="info-popover">Durchschnittlich bewertete Reize bei aktiven Testpersonen</span>
+          </span>
+        </div>
         <div class="bento-kpi-value">${avgPerPerson}</div>
-        <span class="bento-kpi-sub">bei aktiven Testpersonen</span>
       </div>
       <div class="bento-kpi-box">
-        <span class="caption-label">PROFILE GESAMT</span>
+        <div class="bento-kpi-top">
+          <span class="caption-label">PROFILE GESAMT</span>
+          <span class="info-hover" tabindex="0">
+            ${ICONS.informationSm}
+            <span class="info-popover">${realProfilesCount} reale Profile · ${fictionalProfilesCount} fiktive Profile angelegt</span>
+          </span>
+        </div>
         <div class="bento-kpi-value">${totalProfiles}</div>
-        <span class="bento-kpi-sub">${realProfilesCount} real · ${fictionalProfilesCount} fiktiv angelegt</span>
-      </div>
-    </div>
-    <div class="bento-stat-list">
-      <div class="bento-stat-row">
-        <span>Abdeckung des Reizkatalogs (mind. 1x bewertet)</span>
-        <strong>${totalStimuli > 0 ? Math.round((uniqueStimuliEvaluated / totalStimuli) * 100) : 0}% (${uniqueStimuliEvaluated} / ${totalStimuli})</strong>
-      </div>
-      <div class="bento-stat-row">
-        <span>Ausgelöste Modul-Reaktionen insgesamt</span>
-        <strong>${totalReactions} Aktionen</strong>
-      </div>
-      <div class="bento-stat-row">
-        <span>Erfasste Akzeptanz-Stufenwechsel durch Reize</span>
-        <strong>${acceptanceChanges}x verändert</strong>
       </div>
     </div>
   `;
@@ -732,10 +781,18 @@ function renderHomeDashboard() {
   impactCard.className = 'bento-card';
   impactCard.innerHTML = `
     <div class="bento-card-header">
-      <span class="caption-label">REAKTIONS- &amp; AKZEPTANZDATEN</span>
+      <span class="caption-label">REAKTIONEN &amp; AKZEPTANZ</span>
+      <span class="info-hover" tabindex="0">
+        ${ICONS.informationSm}
+        <span class="info-popover">
+          <div>Legitimation (0): ${totalLegit}x (${legitPct}%)</div>
+          <div>Treiber (+1): ${totalDrivers}x (${driverPct}%)</div>
+          <div>Barriere (-1): ${totalBarriers}x (${barrierPct}%)</div>
+          <div style="margin-top:4px;">Ohne Akzeptanz-Auswahl: ${noneCount}</div>
+        </span>
+      </span>
     </div>
     <div>
-      <div class="caption-text" style="margin-bottom:6px;">Verteilung der Modul-Reaktionen (${totalReactions})</div>
       <div class="bento-bar-track">
         <div class="bento-bar-seg-legit" style="width:${legitPct}%" title="Legitimation: ${totalLegit}"></div>
         <div class="bento-bar-seg-driver" style="width:${driverPct}%" title="Treiber: ${totalDrivers}"></div>
@@ -744,37 +801,40 @@ function renderHomeDashboard() {
     </div>
     <div class="bento-stat-list">
       <div class="bento-stat-row">
-        <span>Legitimationen (0 Barriere aufgehoben)</span>
-        <strong>${totalLegit}x (${legitPct}%)</strong>
+        <span>Legitimationen</span>
+        <strong>${totalLegit}</strong>
       </div>
       <div class="bento-stat-row">
-        <span>Treiber (+1 Wert geschaffen)</span>
-        <strong>${totalDrivers}x (${driverPct}%)</strong>
+        <span>Treiber</span>
+        <strong>${totalDrivers}</strong>
       </div>
       <div class="bento-stat-row">
-        <span>Barrieren (-1 Widerstand erzeugt)</span>
-        <strong>${totalBarriers}x (${barrierPct}%)</strong>
+        <span>Barrieren</span>
+        <strong>${totalBarriers}</strong>
       </div>
     </div>
-    <div style="border-top:1px solid var(--ash-grey); padding-top:10px;">
-      <div class="caption-label" style="margin-bottom:6px;">AKTUELLE AKZEPTANZSTUFEN (PROFILE)</div>
-      <div class="bento-stat-list">
-        <div class="bento-stat-row"><span>TRY (Willing to Try)</span><strong>${tryCount}</strong></div>
-        <div class="bento-stat-row"><span>BUY (Willing to Buy)</span><strong>${buyCount}</strong></div>
-        <div class="bento-stat-row"><span>ADOPT (Willing to Adopt)</span><strong>${adoptCount}</strong></div>
-        <div class="bento-stat-row"><span>Noch ohne Auswahl</span><span>${noneCount}</span></div>
-      </div>
+    <div class="bento-acceptance-pills">
+      <span class="caption-tag">TRY: ${tryCount}</span>
+      <span class="caption-tag">BUY: ${buyCount}</span>
+      <span class="caption-tag">ADOPT: ${adoptCount}</span>
     </div>
   `;
 
   // 3. BENTO-MODUL: BEWERTUNGSAKTIVITÄT PRO PERSON
   const peopleActivityRows = profiles.map(p => {
     const count = (p.stimulusEvaluations || []).length;
-    const acc = formatAcceptanceShort(p.acceptance) || 'Keine';
+    const acc = formatAcceptanceShort(p.acceptance) || 'Keine Auswahl';
+    const typeLabel = p.dataType === 'real' ? 'Reales Profil' : 'Fiktives Profil';
     return `
       <div class="bento-stat-row">
-        <span>${p.firstName} ${p.lastName} <span class="caption-tag">${p.dataType === 'real' ? 'Real' : 'Fiktiv'}</span></span>
-        <span><strong>${count}</strong> Reize · <span class="caption-tag">${acc}</span></span>
+        <span>${p.firstName} ${p.lastName}</span>
+        <span class="bento-row-right">
+          <strong>${count}</strong>
+          <span class="info-hover" tabindex="0">
+            ${ICONS.informationSm}
+            <span class="info-popover">${typeLabel} · Akzeptanz: ${acc}${p.personaRole ? ` · ${p.personaRole}` : ''}</span>
+          </span>
+        </span>
       </div>
     `;
   }).join('');
@@ -784,7 +844,6 @@ function renderHomeDashboard() {
   peopleCard.innerHTML = `
     <div class="bento-card-header">
       <span class="caption-label">BEWERTUNGEN PRO PERSON</span>
-      <span class="caption-tag">${totalProfiles} Personen</span>
     </div>
     <div class="bento-stat-list">
       ${peopleActivityRows || '<span class="caption-text">Noch keine Profile vorhanden.</span>'}
@@ -797,7 +856,13 @@ function renderHomeDashboard() {
     return `
       <div class="bento-stat-row">
         <span>${m.name}</span>
-        <span>${act.legit}x Legit. · ${act.driver}x Treiber · ${act.barrier}x Barriere (<strong>${act.total}</strong>)</span>
+        <span class="bento-row-right">
+          <strong>${act.total}</strong>
+          <span class="info-hover" tabindex="0">
+            ${ICONS.informationSm}
+            <span class="info-popover">${act.legit}x Legitimation · ${act.driver}x Treiber · ${act.barrier}x Barriere</span>
+          </span>
+        </span>
       </div>
     `;
   }).join('');
@@ -806,8 +871,7 @@ function renderHomeDashboard() {
   modulesCard.className = 'bento-card bento-span-2';
   modulesCard.innerHTML = `
     <div class="bento-card-header">
-      <span class="caption-label">DATEN NACH WAHRNEHMUNGSMODUL (1–6)</span>
-      <span class="caption-tag">Kumulierte Reaktionen</span>
+      <span class="caption-label">WAHRNEHMUNGSMODULE (1–6)</span>
     </div>
     <div class="bento-stat-list">
       ${moduleRows}
@@ -865,7 +929,6 @@ navBtnProfiles.addEventListener('click', () => switchView('profiles'));
 navBtnEvaluation.addEventListener('click', () => switchView('evaluation'));
 if (navBtnDecisionTree) navBtnDecisionTree.addEventListener('click', () => switchView('decision-tree'));
 navBtnStimuli.addEventListener('click', () => switchView('stimuli'));
-btnJumpToEval.addEventListener('click', () => switchView('evaluation'));
 
 // ==========================================
 // PROFILSEITE: KONTEXT-FRAGEN & MODULE
@@ -882,48 +945,71 @@ function renderContextQuestionsForm() {
       .map(id => `Modul ${id}`)
       .join(', ');
 
-    const header = document.createElement('div');
-    header.className = 'context-question-header';
-    header.innerHTML = `
-      <span class="context-question-title">${q.title}</span>
-      <span class="info-hover" tabindex="0">
-        <svg class="carbon-icon-sm" viewBox="0 0 32 32" aria-hidden="true"><path d="M17 22v-8h-4v2h2v6h-3v2h8v-2h-3zM16 8a1.5 1.5 0 1 0 1.5 1.5A1.5 1.5 0 0 0 16 8z"/><path d="M16 30a14 14 0 1 1 14-14 14 14 0 0 1-14 14zm0-26a12 12 0 1 0 12 12A12 12 0 0 0 16 4z"/></svg>
-        <span class="info-popover">${q.category} | Wirkt auf: ${modLabels}</span>
+    // Fragetext mit Hover-Tooltip für Titel, Kategorie & Wirkungsmodule
+    const questionWrapper = document.createElement('div');
+    questionWrapper.className = 'context-question-wrapper';
+    questionWrapper.setAttribute('tabindex', '0');
+    questionWrapper.innerHTML = `
+      <span class="context-question-text">${q.question}</span>
+      <span class="context-question-tooltip">
+        <strong>${q.title}</strong>
+        <span class="context-question-sub">${q.category} · Wirkt auf: ${modLabels}</span>
       </span>
     `;
 
-    const p = document.createElement('p');
-    p.className = 'context-question-text';
-    p.textContent = q.question;
+    // 3 Icons rechts: Negativ (-), Neutral (), Positiv (+)
+    const actionsRow = document.createElement('div');
+    actionsRow.className = 'context-question-actions';
 
-    const optionsRow = document.createElement('div');
-    optionsRow.className = 'context-options-row';
+    const choiceDefs = [
+      {
+        val: -1,
+        cls: 'choice-neg',
+        title: q.labels['-1'],
+        iconSvg: `<svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16,4c6.6,0,12,5.4,12,12s-5.4,12-12,12S4,22.6,4,16S9.4,4,16,4 M16,2C8.3,2,2,8.3,2,16s6.3,14,14,14s14-6.3,14-14S23.7,2,16,2z"/><path d="M8 15H24V17H8z"/></svg>`
+      },
+      {
+        val: 0,
+        cls: 'choice-neu',
+        title: q.labels['0'],
+        iconSvg: `<svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16,2A14,14,0,1,0,30,16,14,14,0,0,0,16,2Zm0,26A12,12,0,1,1,28,16,12,12,0,0,1,16,28Z"/></svg>`
+      },
+      {
+        val: 1,
+        cls: 'choice-pos',
+        title: q.labels['1'],
+        iconSvg: `<svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true"><path d="M16,4c6.6,0,12,5.4,12,12s-5.4,12-12,12S4,22.6,4,16S9.4,4,16,4 M16,2C8.3,2,2,8.3,2,16s6.3,14,14,14s14-6.3,14-14S23.7,2,16,2z"/><path d="M24 15 17 15 17 8 15 8 15 15 8 15 8 17 15 17 15 24 17 24 17 17 24 17z"/></svg>`
+      }
+    ];
 
-    [-1, 0, 1].forEach(val => {
+    choiceDefs.forEach(def => {
       const label = document.createElement('label');
-      label.className = 'context-option-label';
+      label.className = `context-icon-choice ${def.cls}`;
+      label.title = def.title;
+      label.setAttribute('aria-label', def.title);
 
       const input = document.createElement('input');
       input.type = 'radio';
       input.name = `ctx_${q.id}`;
-      input.value = String(val);
-      if (val === 0) input.checked = true; // 0 ist vorausgewählt!
+      input.value = String(def.val);
+      input.className = 'sr-only';
+      if (def.val === 0) input.checked = true;
 
       input.addEventListener('change', () => {
+        actionsRow.querySelectorAll('.context-icon-choice').forEach(c => c.classList.remove('active'));
+        label.classList.add('active');
         updateProfileModulesSummaryFromForm();
       });
 
-      const span = document.createElement('span');
-      span.textContent = q.labels[String(val)];
-
       label.appendChild(input);
-      label.appendChild(span);
-      optionsRow.appendChild(label);
+      label.insertAdjacentHTML('beforeend', def.iconSvg);
+      if (def.val === 0) label.classList.add('active');
+
+      actionsRow.appendChild(label);
     });
 
-    item.appendChild(header);
-    item.appendChild(p);
-    item.appendChild(optionsRow);
+    item.appendChild(questionWrapper);
+    item.appendChild(actionsRow);
     contextQuestionsContainer.appendChild(item);
   });
 }
@@ -948,6 +1034,18 @@ function setContextAnswersInForm(contextAnswers = {}) {
       if (defaultRadio) defaultRadio.checked = true;
     }
   });
+
+  // Aktive Klassen für Labels synchronisieren
+  if (contextQuestionsContainer) {
+    contextQuestionsContainer.querySelectorAll('.context-question-item').forEach(item => {
+      const checkedRadio = item.querySelector('input[type="radio"]:checked');
+      item.querySelectorAll('.context-icon-choice').forEach(c => c.classList.remove('active'));
+      if (checkedRadio) {
+        const parentLabel = checkedRadio.closest('.context-icon-choice');
+        if (parentLabel) parentLabel.classList.add('active');
+      }
+    });
+  }
 }
 
 function getAcceptanceFromForm() {
@@ -1059,15 +1157,9 @@ function createPendingBarrierTokenElement({ currentStimLabel, onTogglePending })
   return wrap;
 }
 
-function updateProfileModulesSummaryFromForm() {
-  const existingProfile = profiles.find(p => p.id === currentProfileId);
-  const draftProfile = {
-    contextAnswers: getContextAnswersFromForm(),
-    stimulusEvaluations: existingProfile ? existingProfile.stimulusEvaluations : []
-  };
-
-  const stats = computeModuleStats(draftProfile);
-  profileModulesSummary.innerHTML = '';
+function renderModuleCardsIntoContainer(container, stats) {
+  if (!container) return;
+  container.innerHTML = '';
 
   MODULES.forEach(m => {
     const s = stats[m.id];
@@ -1107,8 +1199,19 @@ function updateProfileModulesSummaryFromForm() {
 
     card.appendChild(titleEl);
     card.appendChild(tokensArea);
-    profileModulesSummary.appendChild(card);
+    container.appendChild(card);
   });
+}
+
+function updateProfileModulesSummaryFromForm() {
+  const existingProfile = profiles.find(p => p.id === currentProfileId);
+  const draftProfile = {
+    contextAnswers: getContextAnswersFromForm(),
+    stimulusEvaluations: existingProfile ? existingProfile.stimulusEvaluations : []
+  };
+
+  const stats = computeModuleStats(draftProfile);
+  renderModuleCardsIntoContainer(profileEvalModulesSummary, stats);
 }
 
 // ==========================================
@@ -1129,14 +1232,58 @@ function updateAvatarDisplay(src) {
     avatarPreview.src = src;
     avatarPreview.style.display = 'block';
     avatarPlaceholder.style.display = 'none';
-    btnAvatarRemove.style.display = 'inline-block';
+    btnAvatarRemove.style.display = 'inline-flex';
   } else {
     avatarPreview.src = '';
     avatarPreview.style.display = 'none';
-    avatarPlaceholder.style.display = 'block';
+    avatarPlaceholder.style.display = 'flex';
     btnAvatarRemove.style.display = 'none';
   }
   updateHeaderProfileDisplay();
+}
+
+function updateDatatypeSymbol(dataType) {
+  if (!displayDatatypeEl) return;
+  if (dataType === 'real') {
+    displayDatatypeEl.className = 'datatype-symbol is-real';
+    displayDatatypeEl.title = 'Reale Daten';
+    displayDatatypeEl.setAttribute('aria-label', 'Reale Daten');
+    displayDatatypeEl.innerHTML = `
+      <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16,4a5,5,0,1,1-5,5,5,5,0,0,1,5-5m0-2a7,7,0,1,0,7,7A7,7,0,0,0,16,2Z"/>
+        <path d="M26,30H24V25a5,5,0,0,0-5-5H13a5,5,0,0,0-5,5v5H6V25a7,7,0,0,1,7-7h6a7,7,0,0,1,7,7Z"/>
+      </svg>
+      <span class="datatype-tooltip">Reale Daten</span>
+    `;
+  } else if (dataType === 'fictional') {
+    displayDatatypeEl.className = 'datatype-symbol is-fictional';
+    displayDatatypeEl.title = 'Fiktive Daten';
+    displayDatatypeEl.setAttribute('aria-label', 'Fiktive Daten');
+    displayDatatypeEl.innerHTML = `
+      <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M25.232 12.866H29.232V14.866H25.232z" transform="rotate(30 27.232 13.866)"/>
+        <path d="M26 8H30V10H26z"/>
+        <path d="M2.768 12.866H6.768V14.866H2.768z" transform="rotate(150 4.768 13.866)"/>
+        <path d="M26,30H24V25a5.0059,5.0059,0,0,0-5-5H13a5.0059,5.0059,0,0,0-5,5v5H6V25a7.0082,7.0082,0,0,1,7-7h6a7.0082,7.0082,0,0,1,7,7Z"/>
+        <path d="M16,4a5,5,0,1,1-5,5,5,5,0,0,1,5-5m0-2a7,7,0,1,0,7,7A7,7,0,0,0,16,2Z"/>
+        <path d="M25.232 3.134H29.232V5.134H25.232z" transform="rotate(-30 27.232 4.134)"/>
+        <path d="M2 8H6V10H2z"/>
+        <path d="M2.768 3.134H6.768V5.134H2.768z" transform="rotate(210 4.768 4.134)"/>
+      </svg>
+      <span class="datatype-tooltip">Fiktive Daten</span>
+    `;
+  } else {
+    displayDatatypeEl.className = 'datatype-symbol is-new';
+    displayDatatypeEl.title = 'Wird beim Speichern festgelegt';
+    displayDatatypeEl.setAttribute('aria-label', 'Wird beim Speichern festgelegt');
+    displayDatatypeEl.innerHTML = `
+      <svg class="carbon-icon" viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16,4a5,5,0,1,1-5,5,5,5,0,0,1,5-5m0-2a7,7,0,1,0,7,7A7,7,0,0,0,16,2Z"/>
+        <path d="M26,30H24V25a5,5,0,0,0-5-5H13a5,5,0,0,0-5,5v5H6V25a7,7,0,0,1,7-7h6a7,7,0,0,1,7,7Z"/>
+      </svg>
+      <span class="datatype-tooltip">Wird beim Speichern festgelegt</span>
+    `;
+  }
 }
 
 async function fetchTpdeAvatar() {
@@ -1294,15 +1441,49 @@ function renderSidebar() {
     if (profile.avatarUrl) {
       const img = document.createElement('img');
       img.src = profile.avatarUrl;
-      img.alt = '';
+      img.alt = `${profile.firstName} ${profile.lastName}`;
       img.className = 'sidebar-thumb';
       a.appendChild(img);
+    } else {
+      const ph = document.createElement('span');
+      ph.className = 'sidebar-avatar-placeholder';
+      ph.textContent = `${profile.firstName?.charAt(0) || ''}${profile.lastName?.charAt(0) || ''}`.trim() || '?';
+      a.appendChild(ph);
     }
 
+    const nameCol = document.createElement('div');
+    nameCol.style.display = 'flex';
+    nameCol.style.alignItems = 'center';
+    nameCol.style.justifyContent = 'space-between';
+    nameCol.style.gap = '6px';
+    nameCol.style.flex = '1';
+    nameCol.style.minWidth = '0';
+
     const spanText = document.createElement('span');
-    const accLabel = profile.acceptance ? ` [${profile.acceptance}]` : '';
-    spanText.textContent = `${profile.firstName} ${profile.lastName}${accLabel}`;
-    a.appendChild(spanText);
+    spanText.style.fontWeight = '500';
+    spanText.style.whiteSpace = 'nowrap';
+    spanText.style.overflow = 'hidden';
+    spanText.style.textOverflow = 'ellipsis';
+    spanText.textContent = `${profile.firstName} ${profile.lastName}`;
+    nameCol.appendChild(spanText);
+
+    if (profile.personaRole || profile.acceptance) {
+      const infoDetails = [
+        profile.personaRole,
+        profile.acceptance ? `Akzeptanz: ${profile.acceptance}` : null
+      ].filter(Boolean).join(' · ');
+
+      const infoSpan = document.createElement('span');
+      infoSpan.className = 'info-hover';
+      infoSpan.tabIndex = 0;
+      infoSpan.innerHTML = `
+        ${ICONS.informationSm}
+        <span class="info-popover">${infoDetails}</span>
+      `;
+      nameCol.appendChild(infoSpan);
+    }
+
+    a.appendChild(nameCol);
 
     a.addEventListener('click', (e) => {
       e.preventDefault();
@@ -1375,6 +1556,141 @@ function setFieldValue(field, val) {
   }
 }
 
+function switchProfileTab(tabName) {
+  profileTabButtons.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tabName);
+  });
+  profileTabPanels.forEach(panel => {
+    panel.style.display = (panel.id === `profile-tab-${tabName}`) ? 'block' : 'none';
+  });
+
+  const activeProfile = profiles.find(p => p.id === currentProfileId);
+  if (tabName === 'reizbewertungen') {
+    renderEvaluationHistory(activeProfile);
+    updateProfileModulesSummaryFromForm();
+  } else if (tabName === 'steckbrief') {
+    renderProfileSteckbrief(activeProfile);
+  }
+}
+
+function renderProfileSteckbrief(profile) {
+  if (!steckbriefContainer) return;
+  steckbriefContainer.innerHTML = '';
+
+  if (!profile) {
+    const emptyMsg = document.createElement('p');
+    emptyMsg.className = 'caption-text';
+    emptyMsg.style.margin = '20px 0';
+    emptyMsg.textContent = 'Kein Profil ausgewählt. Wähle ein Profil aus der Seitenleiste oder lege ein neues an.';
+    steckbriefContainer.appendChild(emptyMsg);
+    return;
+  }
+
+  // Steckbrief: Linke Spalte (Bild + Proxydaten in Caption-Größe) | Rechte Spalte (Name & Beschreibung)
+  const card = document.createElement('div');
+  card.className = 'steckbrief-card';
+
+  // Linke Spalte
+  const leftCol = document.createElement('div');
+  leftCol.className = 'steckbrief-left-col';
+
+  // Bild (groß und rund)
+  const avatarBox = document.createElement('div');
+  avatarBox.className = 'steckbrief-avatar';
+  if (profile.avatarUrl) {
+    const img = document.createElement('img');
+    img.src = profile.avatarUrl;
+    img.alt = `${profile.firstName} ${profile.lastName}`;
+    avatarBox.appendChild(img);
+  } else {
+    const initials = document.createElement('span');
+    initials.className = 'steckbrief-avatar-initials';
+    initials.textContent = `${profile.firstName?.charAt(0) || ''}${profile.lastName?.charAt(0) || ''}`.trim() || '?';
+    avatarBox.appendChild(initials);
+  }
+  leftCol.appendChild(avatarBox);
+
+  // Proxydaten in Caption-Größe unter dem Bild
+  const proxyFields = [
+    { label: 'Datentyp', value: (profile.dataType === 'real' || profile.dataType === 'reale') ? 'Reale Daten' : (profile.dataType ? 'Fiktive Daten' : null) },
+    { label: 'Alter', value: profile.age ? `${profile.age} Jahre` : null },
+    { label: 'Geschlecht', value: profile.gender },
+    { label: 'Herkunft', value: profile.nationality },
+    { label: 'Wohnort', value: profile.countryOfResidence },
+    { label: 'Umfeld', value: profile.livingEnvironment },
+    { label: 'Wohnform', value: profile.livingSituation },
+    { label: 'Familienstand', value: profile.maritalStatus },
+    { label: 'Religion', value: profile.religion },
+    { label: 'Ernährung', value: profile.dietaryHabits }
+  ].filter(item => item.value != null && String(item.value).trim() !== '');
+
+  if (proxyFields.length > 0) {
+    const proxyBox = document.createElement('div');
+    proxyBox.className = 'steckbrief-proxy-data';
+    proxyFields.forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'steckbrief-proxy-item';
+      const labelEl = document.createElement('span');
+      labelEl.className = 'steckbrief-proxy-label';
+      labelEl.textContent = item.label;
+      const valEl = document.createElement('span');
+      valEl.className = 'steckbrief-proxy-val';
+      valEl.textContent = item.value;
+      row.appendChild(labelEl);
+      row.appendChild(valEl);
+      proxyBox.appendChild(row);
+    });
+    leftCol.appendChild(proxyBox);
+  }
+
+  card.appendChild(leftCol);
+
+  // Rechte Spalte: Name, Rolle & Beschreibung
+  const content = document.createElement('div');
+  content.className = 'steckbrief-content';
+
+  const nameRow = document.createElement('div');
+  nameRow.className = 'steckbrief-header-row';
+
+  const nameTitle = document.createElement('h3');
+  nameTitle.className = 'steckbrief-name';
+  nameTitle.textContent = `${profile.firstName} ${profile.lastName}`;
+  nameRow.appendChild(nameTitle);
+
+  content.appendChild(nameRow);
+
+  if (profile.personaRole) {
+    const roleBadge = document.createElement('span');
+    roleBadge.className = 'steckbrief-role';
+    roleBadge.textContent = profile.personaRole;
+    content.appendChild(roleBadge);
+  }
+
+  const bio = document.createElement('p');
+  bio.className = 'steckbrief-bio';
+  if (profile.bio && profile.bio.trim()) {
+    bio.textContent = profile.bio;
+  } else {
+    bio.textContent = 'Keine Beschreibung hinterlegt.';
+    bio.style.fontStyle = 'italic';
+  }
+  content.appendChild(bio);
+
+  card.appendChild(content);
+  steckbriefContainer.appendChild(card);
+}
+
+function setProxyDetailsCollapsed(collapsed) {
+  if (!proxyDetailsContainer || !btnToggleProxyDetails) return;
+  proxyDetailsContainer.style.display = collapsed ? 'none' : 'block';
+  btnToggleProxyDetails.setAttribute('aria-expanded', String(!collapsed));
+  if (textProxyToggle) {
+    textProxyToggle.textContent = collapsed
+      ? 'Weitere Proxydaten anzeigen'
+      : 'Weitere Proxydaten ausblenden';
+  }
+}
+
 function selectProfile(id) {
   const profile = profiles.find(p => p.id === id);
   if (!profile) return;
@@ -1385,9 +1701,7 @@ function selectProfile(id) {
   const isReal = profile.dataType === 'real';
   formTitleEl.textContent = `${profile.firstName} ${profile.lastName}`;
   
-  if (displayDatatypeEl) {
-    displayDatatypeEl.textContent = isReal ? 'Reale Daten' : 'Fiktive Daten';
-  }
+  updateDatatypeSymbol(profile.dataType);
 
   currentAvatarData = null;
   currentAvatarUrl = profile.avatarUrl || null;
@@ -1402,9 +1716,11 @@ function selectProfile(id) {
   setContextAnswersInForm(profile.contextAnswers || {});
   setAcceptanceInForm(profile.acceptance || '');
   updateProfileModulesSummaryFromForm();
+  renderEvaluationHistory(profile);
+  renderProfileSteckbrief(profile);
+  setProxyDetailsCollapsed(true);
 
-  btnDelete.style.display = 'inline-block';
-  btnJumpToEval.style.display = 'inline-block';
+  btnDelete.style.display = 'inline-flex';
 }
 
 function startNewProfile() {
@@ -1412,9 +1728,7 @@ function startNewProfile() {
   renderSidebar();
 
   formTitleEl.textContent = 'Neues Profil';
-  if (displayDatatypeEl) {
-    displayDatatypeEl.textContent = 'Wird beim Speichern festgelegt';
-  }
+  updateDatatypeSymbol(null);
 
   profileForm.reset();
   profileForm.querySelectorAll('option[data-dynamic="true"]').forEach(opt => opt.remove());
@@ -1428,9 +1742,12 @@ function startNewProfile() {
   setContextAnswersInForm({});
   setAcceptanceInForm('');
   updateProfileModulesSummaryFromForm();
+  renderEvaluationHistory(null);
+  renderProfileSteckbrief(null);
+  switchProfileTab('personendaten');
+  setProxyDetailsCollapsed(true);
 
   btnDelete.style.display = 'none';
-  btnJumpToEval.style.display = 'none';
   document.getElementById('field-firstName').focus();
 }
 
@@ -1691,6 +2008,19 @@ function updateAcceptanceButtonsUI() {
   });
 }
 
+function hideEvaluationModules() {
+  if (evalModulesWrapper) evalModulesWrapper.style.display = 'none';
+  if (btnRevealModules) {
+    const hasStimulus = Boolean(stimuli.find(s => s.id === currentStimulusId));
+    btnRevealModules.style.display = hasStimulus ? 'inline-flex' : 'none';
+  }
+}
+
+function showEvaluationModules() {
+  if (evalModulesWrapper) evalModulesWrapper.style.display = 'block';
+  if (btnRevealModules) btnRevealModules.style.display = 'none';
+}
+
 function renderEvaluationView(keepCurrentStimulus = false) {
   if (!currentProfileId && profiles.length > 0) {
     currentProfileId = profiles[0].id;
@@ -1713,6 +2043,9 @@ function renderEvaluationView(keepCurrentStimulus = false) {
     currentStimulusAlgoReason = recommendation.reason;
   }
 
+  // Eingangs immer Module ausblenden & nur Aufforderung mit Einordnen-Button zeigen
+  hideEvaluationModules();
+
   renderCurrentStimulusCard();
   renderEvaluationModulesGrid(activeProfile);
   renderEvaluationHistory(activeProfile);
@@ -1730,14 +2063,16 @@ function renderCurrentStimulusCard() {
     if (stimModulesDisplay) stimModulesDisplay.textContent = '-';
     if (stimAlgoReason) stimAlgoReason.textContent = currentStimulusAlgoReason || 'Keine weiteren Reize offen.';
     if (btnSubmitEvaluation) btnSubmitEvaluation.disabled = true;
+    if (btnRevealModules) btnRevealModules.style.display = 'none';
+    if (evalModulesWrapper) evalModulesWrapper.style.display = 'none';
     return;
   }
 
   if (btnSubmitEvaluation) btnSubmitEvaluation.disabled = false;
 
-  stimCategoryEl.textContent = stim.category || 'Allgemein';
+  if (stimCategoryEl) stimCategoryEl.textContent = stim.category || '';
   stimNameEl.textContent = stim.name;
-  stimFunctionEl.textContent = stim.primaryFunction;
+  stimFunctionEl.textContent = getStimulusFunctionsDisplay(stim);
 
   if (stimModulesDisplay) {
     const modNames = (stim.primaryModules || [])
@@ -1889,15 +2224,18 @@ function renderEvaluationModulesGrid(activeProfile) {
 
 function renderEvaluationHistory(activeProfile) {
   const evals = activeProfile?.stimulusEvaluations || [];
-  evalHistoryCount.textContent = evals.length;
+  if (evalHistoryCount) evalHistoryCount.textContent = evals.length;
+  if (!evalHistoryList) return;
   evalHistoryList.innerHTML = '';
 
-  if (evals.length === 0) {
+  if (!activeProfile || evals.length === 0) {
     const li = document.createElement('li');
-    li.style.color = '#666';
-    li.textContent = 'Noch keine abgeschlossenen Reizbewertungen für dieses Profil.';
+    li.textContent = activeProfile
+      ? 'Noch keine abgeschlossenen Reizbewertungen für dieses Profil.'
+      : 'Kein Profil ausgewählt.';
     evalHistoryList.appendChild(li);
-  } else {
+    return;
+  }
     evals.forEach((ev, idx) => {
       const stim = stimuli.find(s => s.id === ev.stimulusId);
       const stimTitle = stim ? stim.name : 'Reiz';
@@ -1936,7 +2274,6 @@ function renderEvaluationHistory(activeProfile) {
       li.textContent = `${idx + 1}. ${stimTitle} -> ${summaryParts.join(' | ') || 'Keine Modul-Wertung'}${acceptancePart}`;
       evalHistoryList.appendChild(li);
     });
-  }
 
   // Letzter Punkt im Verlauf: "Aktuell" (warum der Algorithmus den aktuellen Reiz zeigt)
   const outlookLi = document.createElement('li');
@@ -1944,7 +2281,7 @@ function renderEvaluationHistory(activeProfile) {
 
   const currentStim = stimuli.find(s => s.id === currentStimulusId);
   if (currentStim) {
-    outlookLi.innerHTML = `<strong>Aktuell:</strong> ${currentStim.name} [${currentStim.primaryFunction}]<br><span class="caption-text">${currentStimulusAlgoReason || 'Automatische Auswahl nach IPS-Regeln'}</span>`;
+    outlookLi.innerHTML = `<strong>Aktuell:</strong> ${currentStim.name} [${getStimulusFunctionsDisplay(currentStim)}]<br><span class="caption-text">${currentStimulusAlgoReason || 'Automatische Auswahl nach IPS-Regeln'}</span>`;
   } else {
     outlookLi.innerHTML = `<strong>Aktuell:</strong> Keine weiteren offenen Reize (${currentStimulusAlgoReason || 'Alle Reize bewertet'})`;
   }
@@ -1972,6 +2309,13 @@ if (headerProfileSelect) {
       initDecisionTreeSession(true);
       renderDecisionTreeView();
     }
+  });
+}
+
+// Reizbewertung: Module einblenden per Button
+if (btnRevealModules) {
+  btnRevealModules.addEventListener('click', () => {
+    showEvaluationModules();
   });
 }
 
@@ -2078,6 +2422,7 @@ btnClearHistory.addEventListener('click', async () => {
       await fetchProfiles();
       await fetchEvaluations();
       renderEvaluationView(false);
+      selectProfile(activeProfile.id);
       if (editingStimulusId) {
         renderStimulusEvaluationStats(editingStimulusId);
       }
@@ -2173,8 +2518,8 @@ function renderDecisionTreeStimulusCard() {
   const dtContent = getDecisionTreeContentForStimulus(stim);
 
   if (dtStimName) dtStimName.textContent = stim.name;
-  if (dtStimCategory) dtStimCategory.textContent = stim.category || 'Allgemein';
-  if (dtStimFunction) dtStimFunction.textContent = stim.primaryFunction || '-';
+  if (dtStimCategory) dtStimCategory.textContent = stim.category || '';
+  if (dtStimFunction) dtStimFunction.textContent = getStimulusFunctionsDisplay(stim);
 
   if (dtStimModulesDisplay) {
     const modNames = (stim.primaryModules || [])
@@ -2257,7 +2602,6 @@ function renderDecisionTreeHistory() {
 
   if (dtStorySteps.length === 0) {
     const li = document.createElement('li');
-    li.style.color = '#666';
     li.textContent = 'Noch keine Entscheidung getroffen – wähle rechts deinen ersten Gedanken-Link.';
     dtHistoryList.appendChild(li);
   } else {
@@ -2278,7 +2622,7 @@ function renderDecisionTreeHistory() {
   currentLi.className = 'eval-history-outlook';
   const currentStim = stimuli.find(s => s.id === dtCurrentStimulusId);
   if (currentStim) {
-    currentLi.innerHTML = `<strong>Aktuell (Kapitel ${dtStorySteps.length + 1}):</strong> ${currentStim.name} [${currentStim.primaryFunction}]<br><span class="caption-text">${dtCurrentAlgoReason || 'Automatische Auswahl nach IPS-Regeln'}</span>`;
+    currentLi.innerHTML = `<strong>Aktuell (Kapitel ${dtStorySteps.length + 1}):</strong> ${currentStim.name} [${getStimulusFunctionsDisplay(currentStim)}]<br><span class="caption-text">${dtCurrentAlgoReason || 'Automatische Auswahl nach IPS-Regeln'}</span>`;
   } else {
     currentLi.innerHTML = `<strong>Aktuell:</strong> Keine weiteren offenen Reize (${dtCurrentAlgoReason || 'Alle Reize durchlaufen'})`;
   }
@@ -2502,9 +2846,10 @@ function renderStimulusModuleCheckboxes() {
 
 function getFilteredStimuli() {
   return stimuli.filter(s => {
-    const matchFunction = activeFunctionFilter === 'all' || s.primaryFunction === activeFunctionFilter;
+    const matchFunction = activeFunctionFilter === 'all' || stimulusMatchesFunction(s, activeFunctionFilter);
     const matchModule = activeModuleFilter === 'all' || (Array.isArray(s.primaryModules) && s.primaryModules.includes(Number(activeModuleFilter)));
-    return matchFunction && matchModule;
+    const matchMvp = !activeMvpFilter || Boolean(s.isMvp || s.mvp || (Array.isArray(s.tags) && s.tags.includes('MVP')) || s.category === 'MVP');
+    return matchFunction && matchModule && matchMvp;
   });
 }
 
@@ -2523,6 +2868,9 @@ function renderStimuliSidebar() {
     stimFilterModuleGroup.querySelectorAll('.btn-filter').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.module === activeModuleFilter);
     });
+  }
+  if (btnFilterMvp) {
+    btnFilterMvp.classList.toggle('active', activeMvpFilter);
   }
 
   if (filtered.length === 0) {
@@ -2563,28 +2911,55 @@ function renderStimuliSidebar() {
       mediaBox.appendChild(textPreview);
     }
 
-    if (s.primaryFunction) {
-      const funcBadge = document.createElement('span');
-      funcBadge.className = 'stim-thumb-badge-func';
-      funcBadge.textContent = s.primaryFunction;
-      mediaBox.appendChild(funcBadge);
-    }
+    const stimFuncs = Array.isArray(s.functions) && s.functions.length > 0
+      ? s.functions
+      : (s.primaryFunction ? [s.primaryFunction] : []);
 
-    // 2. Karten-Body (Titel, optionaler Text-Auszug bei Bild/Iframe, Modul- & Bewertungs-Tags)
+    const evalCount = allEvaluations.filter(e => String(e.stimulusId) === String(s.id)).length;
+    const isMvpStim = Boolean(s.isMvp || s.mvp || (Array.isArray(s.tags) && s.tags.includes('MVP')));
+
+    // 2. Karten-Body: Minimalistisch nur mit Titel, einem kompakten Tag und Hover-Info-Icon
     const body = document.createElement('div');
     body.className = 'stim-thumb-body';
+
+    const titleRow = document.createElement('div');
+    titleRow.className = 'stim-thumb-header-row';
 
     const titleEl = document.createElement('h4');
     titleEl.className = 'stim-thumb-title';
     titleEl.textContent = s.name;
-    body.appendChild(titleEl);
+    titleRow.appendChild(titleEl);
 
-    if ((imgUrl || iframeSrc) && s.content) {
-      const snippetEl = document.createElement('p');
-      snippetEl.className = 'stim-thumb-snippet';
-      snippetEl.textContent = s.content;
-      body.appendChild(snippetEl);
+    const popoverLines = [];
+    if (stimFuncs.length > 0) {
+      popoverLines.push(`<div><strong>Funktion:</strong> ${stimFuncs.join(', ')}</div>`);
     }
+    if (Array.isArray(s.primaryModules) && s.primaryModules.length > 0) {
+      popoverLines.push(`<div><strong>Modul:</strong> ${s.primaryModules.join(', ')}</div>`);
+    }
+    if (isMvpStim && s.personaTarget) {
+      popoverLines.push(`<div><strong>Persona:</strong> ${s.personaTarget}</div>`);
+    }
+    if (evalCount > 0) {
+      popoverLines.push(`<div><strong>Bewertungen:</strong> ${evalCount}</div>`);
+    }
+    if (s.content) {
+      popoverLines.push(`<div style="margin-top:4px;">${s.content}</div>`);
+    }
+
+    if (popoverLines.length > 0) {
+      const infoEl = document.createElement('span');
+      infoEl.className = 'info-hover';
+      infoEl.tabIndex = 0;
+      infoEl.innerHTML = `
+        ${ICONS.informationSm}
+        <span class="info-popover">${popoverLines.join('')}</span>
+      `;
+      infoEl.addEventListener('click', (e) => e.stopPropagation());
+      titleRow.appendChild(infoEl);
+    }
+
+    body.appendChild(titleRow);
 
     const metaRow = document.createElement('div');
     metaRow.className = 'stim-thumb-meta';
@@ -2596,12 +2971,11 @@ function renderStimuliSidebar() {
       metaRow.appendChild(modTag);
     }
 
-    const evalCount = allEvaluations.filter(e => String(e.stimulusId) === String(s.id)).length;
-    if (evalCount > 0) {
-      const evalTag = document.createElement('span');
-      evalTag.className = 'caption-tag';
-      evalTag.textContent = evalCount === 1 ? '1 Bewertung' : `${evalCount} Bewertungen`;
-      metaRow.appendChild(evalTag);
+    if (isMvpStim) {
+      const mvpTag = document.createElement('span');
+      mvpTag.className = 'caption-tag tag-mvp';
+      mvpTag.textContent = 'MVP';
+      metaRow.appendChild(mvpTag);
     }
 
     body.appendChild(metaRow);
@@ -2620,43 +2994,359 @@ function renderStimuliSidebar() {
   });
 }
 
-function updateStimulusMediaInputsVisibility() {
-  const type = stimFieldMediatype.value;
-  stimFieldImageGroup.style.display = type === 'image' ? 'block' : 'none';
-  stimFieldIframeGroup.style.display = type === 'iframe' ? 'block' : 'none';
+function compressImageFile(file, maxDimension = 1920, quality = 0.88) {
+  return new Promise((resolve) => {
+    if (!file || !file.type.startsWith('image/')) {
+      resolve(null);
+      return;
+    }
+    if (file.type === 'image/svg+xml') {
+      const reader = new FileReader();
+      reader.onload = (e) => resolve(e.target.result);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(file);
+      return;
+    }
+    const reader = new FileReader();
+    reader.onerror = () => resolve(null);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = () => resolve(e.target.result);
+      img.onload = () => {
+        let width = img.naturalWidth || img.width;
+        let height = img.naturalHeight || img.height;
+        if (width > maxDimension || height > maxDimension) {
+          if (width > height) {
+            height = Math.round((height * maxDimension) / width);
+            width = maxDimension;
+          } else {
+            width = Math.round((width * maxDimension) / height);
+            height = maxDimension;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+        ctx.drawImage(img, 0, 0, width, height);
+        const dataUrl = canvas.toDataURL('image/jpeg', quality);
+        resolve(dataUrl);
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+let pendingStimulusImageUpload = null;
+
+async function handleStimulusImageFile(file) {
+  if (!file || !file.type.startsWith('image/')) return;
+  showStimulusStatus('Bild wird vorbereitet...', false);
+
+  const base64Data = await compressImageFile(file);
+  if (!base64Data) {
+    showStimulusStatus('Bild konnte nicht verarbeitet werden.', true);
+    return;
+  }
+
+  stimFieldImage.value = base64Data;
+  stimFieldIframe.value = '';
+  stimFieldMediatype.value = 'image';
+  renderStimulusMediaSlot();
   updateStimulusFormPreview();
+
+  const uploadTask = (async () => {
+    try {
+      showStimulusStatus('Bild wird hochgeladen...', false);
+      const res = await fetch('/api/stimuli/upload-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageData: base64Data,
+          stimulusId: editingStimulusId
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.imageUrl) {
+          stimFieldImage.value = data.imageUrl;
+          updateStimulusFormPreview();
+          showStimulusStatus('Bild bereit!', false);
+          return data.imageUrl;
+        }
+      } else {
+        const errJson = await res.json().catch(() => ({}));
+        console.warn('Upload-Warnung:', errJson.error);
+      }
+    } catch (err) {
+      console.warn('Upload-Fehler, Fallback auf Formular-Speicherung:', err);
+    }
+    return base64Data;
+  })();
+
+  pendingStimulusImageUpload = uploadTask;
+  await uploadTask;
+  if (pendingStimulusImageUpload === uploadTask) {
+    pendingStimulusImageUpload = null;
+  }
+}
+
+function renderStimulusMediaSlot() {
+  if (!stimMediaSlot) return;
+  stimMediaSlot.innerHTML = '';
+
+  const imgUrl = (stimFieldImage.value || '').trim();
+  const iframeUrl = (stimFieldIframe.value || '').trim();
+
+  if (imgUrl) {
+    const wrap = document.createElement('div');
+    wrap.className = 'stim-media-filled-wrap';
+
+    const img = document.createElement('img');
+    img.src = imgUrl;
+    img.alt = stimFieldName.value || 'Reiz-Bild';
+    img.className = 'stim-media-filled-img';
+    wrap.appendChild(img);
+
+    const btnClear = document.createElement('button');
+    btnClear.type = 'button';
+    btnClear.className = 'btn-media-clear';
+    btnClear.innerHTML = `${ICONS.closeSm} <span>Medien entfernen / ändern</span>`;
+    btnClear.addEventListener('click', () => {
+      stimFieldImage.value = '';
+      stimFieldIframe.value = '';
+      stimFieldMediatype.value = 'text';
+      renderStimulusMediaSlot();
+      updateStimulusFormPreview();
+    });
+    wrap.appendChild(btnClear);
+
+    stimMediaSlot.appendChild(wrap);
+    return;
+  }
+
+  if (iframeUrl) {
+    const wrap = document.createElement('div');
+    wrap.className = 'stim-media-filled-wrap';
+
+    const iframeSrc = extractIframeSrc(iframeUrl);
+    const iframe = document.createElement('iframe');
+    iframe.src = iframeSrc;
+    iframe.className = 'stim-media-filled-iframe';
+    wrap.appendChild(iframe);
+
+    const btnClear = document.createElement('button');
+    btnClear.type = 'button';
+    btnClear.className = 'btn-media-clear';
+    btnClear.innerHTML = `${ICONS.closeSm} <span>Medien entfernen / ändern</span>`;
+    btnClear.addEventListener('click', () => {
+      stimFieldImage.value = '';
+      stimFieldIframe.value = '';
+      stimFieldMediatype.value = 'text';
+      renderStimulusMediaSlot();
+      updateStimulusFormPreview();
+    });
+    wrap.appendChild(btnClear);
+
+    stimMediaSlot.appendChild(wrap);
+    return;
+  }
+
+  // WENN LEER: Dropzone / Uploadfeld für Bild, Bildlink oder iFrame anzeigen
+  const dropzone = document.createElement('div');
+  dropzone.className = 'stim-dropzone';
+
+  dropzone.innerHTML = `
+    <div class="stim-dropzone-icon">
+      ${icon('image', { size: 36 })}
+    </div>
+    <div class="stim-dropzone-title">Bild hierher ziehen oder Strg + V drücken</div>
+    <div class="stim-dropzone-sub">Kopiere das Bild in AI Studio oder Nano Banana und füge es einfach mit Strg+V ein</div>
+    <input type="file" id="stim-hidden-file-input" accept="image/*" style="display:none;" />
+    <div class="stim-dropzone-actions">
+      <button type="button" class="btn-outline-sm btn-icon-text" id="btn-pick-file">${ICONS.upload} <span>Datei auswählen</span></button>
+      <button type="button" class="btn-outline-sm btn-icon-text" id="btn-toggle-link-row">${ICONS.link} <span>Bildlink (URL)</span></button>
+      <button type="button" class="btn-outline-sm btn-icon-text" id="btn-toggle-iframe-row">${ICONS.code} <span>iFrame / Embed</span></button>
+    </div>
+    <div id="stim-inline-link-row" style="display:none; width:100%; max-width:440px; margin-top:10px;">
+      <div style="display:flex; gap:6px;">
+        <input type="url" id="stim-inline-link-input" class="caption-text" placeholder="https://example.com/bild.jpg" style="flex:1; padding:6px 10px;" />
+        <button type="button" class="btn-primary caption-text" id="btn-apply-inline-link" style="padding:6px 14px;">Übernehmen</button>
+      </div>
+    </div>
+    <div id="stim-inline-iframe-row" style="display:none; width:100%; max-width:440px; margin-top:10px;">
+      <div style="display:flex; gap:6px;">
+        <input type="text" id="stim-inline-iframe-input" class="caption-text" placeholder="https://... oder <iframe>...</iframe>" style="flex:1; padding:6px 10px;" />
+        <button type="button" class="btn-primary caption-text" id="btn-apply-inline-iframe" style="padding:6px 14px;">Übernehmen</button>
+      </div>
+    </div>
+  `;
+
+  // Drag & Drop
+  ['dragenter', 'dragover'].forEach(evt => {
+    dropzone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.add('drag-over');
+    });
+  });
+  ['dragleave', 'drop'].forEach(evt => {
+    dropzone.addEventListener(evt, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropzone.classList.remove('drag-over');
+    });
+  });
+  dropzone.addEventListener('drop', (e) => {
+    const files = e.dataTransfer?.files;
+    if (files && files.length > 0 && files[0].type.startsWith('image/')) {
+      handleStimulusImageFile(files[0]);
+    } else {
+      const text = e.dataTransfer?.getData('text/plain');
+      if (text && (text.startsWith('http://') || text.startsWith('https://'))) {
+        stimFieldImage.value = text.trim();
+        stimFieldIframe.value = '';
+        stimFieldMediatype.value = 'image';
+        renderStimulusMediaSlot();
+        updateStimulusFormPreview();
+      }
+    }
+  });
+
+  const fileInput = dropzone.querySelector('#stim-hidden-file-input');
+  const btnPick = dropzone.querySelector('#btn-pick-file');
+  btnPick.addEventListener('click', () => fileInput.click());
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files && fileInput.files[0]) {
+      handleStimulusImageFile(fileInput.files[0]);
+    }
+  });
+
+  const btnToggleLink = dropzone.querySelector('#btn-toggle-link-row');
+  const linkRow = dropzone.querySelector('#stim-inline-link-row');
+  const linkInput = dropzone.querySelector('#stim-inline-link-input');
+  const btnApplyLink = dropzone.querySelector('#btn-apply-inline-link');
+
+  btnToggleLink.addEventListener('click', () => {
+    linkRow.style.display = linkRow.style.display === 'none' ? 'block' : 'none';
+    if (linkRow.style.display === 'block') linkInput.focus();
+  });
+  btnApplyLink.addEventListener('click', () => {
+    const val = linkInput.value.trim();
+    if (val) {
+      stimFieldImage.value = val;
+      stimFieldIframe.value = '';
+      stimFieldMediatype.value = 'image';
+      renderStimulusMediaSlot();
+      updateStimulusFormPreview();
+    }
+  });
+
+  const btnToggleIframe = dropzone.querySelector('#btn-toggle-iframe-row');
+  const iframeRow = dropzone.querySelector('#stim-inline-iframe-row');
+  const iframeInput = dropzone.querySelector('#stim-inline-iframe-input');
+  const btnApplyIframe = dropzone.querySelector('#btn-apply-inline-iframe');
+
+  btnToggleIframe.addEventListener('click', () => {
+    iframeRow.style.display = iframeRow.style.display === 'none' ? 'block' : 'none';
+    if (iframeRow.style.display === 'block') iframeInput.focus();
+  });
+  btnApplyIframe.addEventListener('click', () => {
+    const val = iframeInput.value.trim();
+    if (val) {
+      stimFieldIframe.value = val;
+      stimFieldImage.value = '';
+      stimFieldMediatype.value = 'iframe';
+      renderStimulusMediaSlot();
+      updateStimulusFormPreview();
+    }
+  });
+
+  stimMediaSlot.appendChild(dropzone);
 }
 
 function updateStimulusFormPreview() {
-  const type = stimFieldMediatype.value;
+  if (!stimFormPreview) return;
+  const funcs = getSelectedStimulusFunctions();
+  const selectedModules = Array.from(
+    stimModulesCheckboxes.querySelectorAll('input[name="stim_module"]:checked')
+  ).map(cb => Number(cb.value));
+
   const draft = {
     name: stimFieldName.value.trim() || 'Vorschau-Titel',
-    category: stimFieldCategory.value.trim(),
-    primaryFunction: stimFieldFunction.value,
-    mediaType: type,
-    imageUrl: type === 'image' ? stimFieldImage.value.trim() : '',
-    iframeUrl: type === 'iframe' ? stimFieldIframe.value.trim() : '',
-    content: stimFieldContent.value.trim()
+    functions: funcs,
+    primaryFunction: funcs[0] || 'legitimierend',
+    imageUrl: (stimFieldImage.value || '').trim(),
+    iframeUrl: (stimFieldIframe.value || '').trim(),
+    content: stimFieldContent.value.trim(),
+    primaryModules: selectedModules
   };
 
   stimFormPreview.innerHTML = '';
-  const titleEl = document.createElement('h3');
-  titleEl.style.margin = '0 0 12px 0';
-  titleEl.textContent = draft.name;
-  stimFormPreview.appendChild(titleEl);
 
-  const mediaWrap = document.createElement('div');
-  mediaWrap.className = 'stim-media-container';
-  renderStimulusMediaInto(mediaWrap, draft);
-  stimFormPreview.appendChild(mediaWrap);
+  // 1. 16:9 Thumbnail-Vorschau
+  const mediaBox = document.createElement('div');
+  mediaBox.className = 'stim-thumb-media';
 
-  if (draft.content) {
-    const p = document.createElement('p');
-    p.className = 'stim-content-box';
-    p.style.marginTop = '12px';
-    p.textContent = draft.content;
-    stimFormPreview.appendChild(p);
+  const imgUrl = draft.imageUrl;
+  const iframeSrc = extractIframeSrc(draft.iframeUrl);
+
+  if (imgUrl) {
+    const img = document.createElement('img');
+    img.src = imgUrl;
+    img.alt = draft.name;
+    img.loading = 'lazy';
+    mediaBox.appendChild(img);
+  } else if (iframeSrc) {
+    const iframe = document.createElement('iframe');
+    iframe.src = iframeSrc;
+    iframe.loading = 'lazy';
+    mediaBox.appendChild(iframe);
+  } else {
+    const textPreview = document.createElement('div');
+    textPreview.className = 'stim-thumb-text-preview';
+    textPreview.textContent = draft.content || draft.name;
+    mediaBox.appendChild(textPreview);
   }
+
+  if (funcs.length > 0) {
+    const badgeWrap = document.createElement('div');
+    badgeWrap.className = 'stim-thumb-badges-wrap';
+    funcs.forEach(fn => {
+      const funcBadge = document.createElement('span');
+      funcBadge.className = 'stim-thumb-badge-func';
+      funcBadge.textContent = fn;
+      badgeWrap.appendChild(funcBadge);
+    });
+    mediaBox.appendChild(badgeWrap);
+  }
+
+  // 2. Body
+  const body = document.createElement('div');
+  body.className = 'stim-thumb-body';
+
+  const titleEl = document.createElement('h4');
+  titleEl.className = 'stim-thumb-title';
+  titleEl.textContent = draft.name;
+  body.appendChild(titleEl);
+
+  const metaRow = document.createElement('div');
+  metaRow.className = 'stim-thumb-meta';
+
+  if (draft.primaryModules.length > 0) {
+    const modTag = document.createElement('span');
+    modTag.className = 'caption-tag';
+    modTag.textContent = `Modul ${draft.primaryModules.join(', ')}`;
+    metaRow.appendChild(modTag);
+  }
+
+  body.appendChild(metaRow);
+
+  stimFormPreview.appendChild(mediaBox);
+  stimFormPreview.appendChild(body);
 }
 
 function renderStimulusEvaluationStats(stimulusId) {
@@ -2838,7 +3528,7 @@ function renderStimulusEvaluationStats(stimulusId) {
   const touchedRowsHtml = touchedModules.map(m => {
     const c = moduleReactionCounts[m.id];
     const isTarget = plannedModules.includes(m.id);
-    const tag = isTarget ? '<span class="caption-tag">Ziel</span>' : '<span class="caption-tag" style="border-color:var(--wine-plum)">Ungeplant</span>';
+    const tag = isTarget ? '<span class="caption-tag">Ziel</span>' : '<span class="caption-tag tag-unexpected">Ungeplant</span>';
     const parts = [];
     if (c.legit) parts.push(`${c.legit}x Legitimation`);
     if (c.driver) parts.push(`${c.driver}x Treiber`);
@@ -2857,7 +3547,7 @@ function renderStimulusEvaluationStats(stimulusId) {
     <div class="eval-stat-card-title">MODUL-ABGLEICH</div>
     <div class="eval-stat-row" style="margin-bottom:6px;">
       <span>Beabsichtigte Zielmodule:</span>
-      <span style="font-size:12px; text-align:right; max-width:60%;">${plannedModuleNames}</span>
+      <span class="caption-text" style="text-align:right; max-width:60%;">${plannedModuleNames}</span>
     </div>
     ${touchedRowsHtml || '<div class="caption-text">Keine Modulreaktionen</div>'}
     <div class="match-verdict ${moduleVerdictClass}">${moduleMatchVerdict}</div>
@@ -2929,10 +3619,8 @@ function selectStimulusForEdit(id) {
   editingStimulusId = id;
   renderStimuliSidebar();
 
-  stimulusFormTitleEl.textContent = stim.name;
   stimFieldName.value = stim.name || '';
-  stimFieldCategory.value = stim.category || '';
-  stimFieldFunction.value = stim.primaryFunction || 'legitimierend';
+  setSelectedStimulusFunctions(stim.functions || (stim.primaryFunction ? [stim.primaryFunction] : ['legitimierend']));
 
   const inferredType = stim.mediaType || (stim.imageUrl ? 'image' : stim.iframeUrl ? 'iframe' : 'text');
   stimFieldMediatype.value = inferredType;
@@ -2940,13 +3628,15 @@ function selectStimulusForEdit(id) {
   stimFieldIframe.value = stim.iframeUrl || '';
   stimFieldContent.value = stim.content || '';
 
+  renderStimulusMediaSlot();
+
   const modSet = new Set((stim.primaryModules || []).map(Number));
   stimModulesCheckboxes.querySelectorAll('input[name="stim_module"]').forEach(cb => {
     cb.checked = modSet.has(Number(cb.value));
   });
 
-  btnDeleteStimulus.style.display = 'inline-block';
-  updateStimulusMediaInputsVisibility();
+  if (btnDeleteStimulus) btnDeleteStimulus.style.display = 'inline-flex';
+  updateStimulusFormPreview();
   renderStimulusEvaluationStats(id);
 }
 
@@ -2954,20 +3644,21 @@ function startNewStimulus(openModal = false) {
   editingStimulusId = null;
   renderStimuliSidebar();
 
-  stimulusFormTitleEl.textContent = 'Neuer Reiz';
-  stimulusForm.reset();
-  stimFieldFunction.value = 'legitimierend';
+  stimFieldName.value = '';
+  setSelectedStimulusFunctions(['legitimierend']);
   stimFieldMediatype.value = 'text';
   stimFieldImage.value = '';
   stimFieldIframe.value = '';
   stimFieldContent.value = '';
 
+  renderStimulusMediaSlot();
+
   stimModulesCheckboxes.querySelectorAll('input[name="stim_module"]').forEach(cb => {
     cb.checked = false;
   });
 
-  btnDeleteStimulus.style.display = 'none';
-  updateStimulusMediaInputsVisibility();
+  if (btnDeleteStimulus) btnDeleteStimulus.style.display = 'none';
+  updateStimulusFormPreview();
   renderStimulusEvaluationStats(null);
 
   if (openModal && modalStimulusDetail && !modalStimulusDetail.open) {
@@ -2983,18 +3674,28 @@ async function handleStimulusFormSubmit(e) {
     return;
   }
 
+  if (pendingStimulusImageUpload) {
+    showStimulusStatus('Warte auf Bildübertragung...', false);
+    await pendingStimulusImageUpload;
+  }
+
+  const selectedFunctions = getSelectedStimulusFunctions();
   const selectedModules = Array.from(
     stimModulesCheckboxes.querySelectorAll('input[name="stim_module"]:checked')
   ).map(cb => Number(cb.value));
 
-  const type = stimFieldMediatype.value;
+  const imgUrl = (stimFieldImage.value || '').trim();
+  const iframeUrl = (stimFieldIframe.value || '').trim();
+  const type = imgUrl ? 'image' : iframeUrl ? 'iframe' : 'text';
+
   const payload = {
     name: stimFieldName.value.trim(),
-    category: stimFieldCategory.value.trim(),
-    primaryFunction: stimFieldFunction.value,
+    functions: selectedFunctions,
+    primaryFunction: selectedFunctions[0] || 'legitimierend',
     mediaType: type,
-    imageUrl: type === 'image' ? stimFieldImage.value.trim() : '',
-    iframeUrl: type === 'iframe' ? stimFieldIframe.value.trim() : '',
+    imageUrl: imgUrl,
+    imageData: imgUrl.startsWith('data:image/') ? imgUrl : undefined,
+    iframeUrl: iframeUrl,
     content: stimFieldContent.value.trim(),
     primaryModules: selectedModules
   };
@@ -3017,7 +3718,7 @@ async function handleStimulusFormSubmit(e) {
 
     if (!res.ok) {
       const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.error || 'Fehler beim Speichern des Reizes');
+      throw new Error(errData.error || `Fehler beim Speichern (Status ${res.status})`);
     }
 
     const saved = await res.json();
@@ -3026,7 +3727,7 @@ async function handleStimulusFormSubmit(e) {
     selectStimulusForEdit(saved.id);
     showStimulusStatus(`Reiz "${saved.name}" gespeichert.`);
   } catch (err) {
-    showStimulusStatus(err.message, true);
+    showStimulusStatus(err.message || 'Netzwerkfehler beim Speichern', true);
   }
 }
 
@@ -3085,6 +3786,13 @@ if (stimFilterModuleGroup) {
   });
 }
 
+if (btnFilterMvp) {
+  btnFilterMvp.addEventListener('click', () => {
+    activeMvpFilter = !activeMvpFilter;
+    renderStimuliSidebar();
+  });
+}
+
 // Modal Schließen (Klick auf X-Button oder Klick außerhalb auf den Backdrop)
 if (btnCloseStimulusModal && modalStimulusDetail) {
   btnCloseStimulusModal.addEventListener('click', () => {
@@ -3100,11 +3808,32 @@ if (modalStimulusDetail) {
   });
 }
 
-stimFieldMediatype.addEventListener('change', updateStimulusMediaInputsVisibility);
 stimFieldName.addEventListener('input', updateStimulusFormPreview);
-stimFieldImage.addEventListener('input', updateStimulusFormPreview);
-stimFieldIframe.addEventListener('input', updateStimulusFormPreview);
 stimFieldContent.addEventListener('input', updateStimulusFormPreview);
+document.querySelectorAll('input[name="stim_function"]').forEach(cb => {
+  cb.addEventListener('change', updateStimulusFormPreview);
+});
+if (stimModulesCheckboxes) {
+  stimModulesCheckboxes.addEventListener('change', updateStimulusFormPreview);
+}
+
+// Globaler Paste-Listener: Sobald das Reizfenster geöffnet ist, fängt Strg+V kopierte Bilder ab
+window.addEventListener('paste', (e) => {
+  if (!modalStimulusDetail || !modalStimulusDetail.open) return;
+  const items = e.clipboardData?.items;
+  if (!items) return;
+  for (const item of items) {
+    if (item.type && item.type.startsWith('image/')) {
+      e.preventDefault();
+      const file = item.getAsFile();
+      if (file) {
+        handleStimulusImageFile(file);
+      }
+      return;
+    }
+  }
+});
+
 btnNewStimulus.addEventListener('click', () => startNewStimulus(true));
 stimulusForm.addEventListener('submit', handleStimulusFormSubmit);
 btnDeleteStimulus.addEventListener('click', handleStimulusDelete);
@@ -3125,6 +3854,21 @@ btnAvatarRemove.addEventListener('click', removeAvatar);
 btnWebcamCapture.addEventListener('click', captureWebcamPhoto);
 btnWebcamClose.addEventListener('click', closeWebcam);
 modalWebcam.addEventListener('close', closeWebcam);
+
+// Profil-Reiter Event Listeners
+profileTabButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    switchProfileTab(btn.dataset.tab);
+  });
+});
+
+// Einklappen/Ausklappen der erweiterten Proxydaten
+if (btnToggleProxyDetails) {
+  btnToggleProxyDetails.addEventListener('click', () => {
+    const isCollapsed = proxyDetailsContainer.style.display === 'none';
+    setProxyDetailsCollapsed(!isCollapsed);
+  });
+}
 
 // Initial laden
 loadInitialData();
