@@ -138,39 +138,5 @@
     },
     "stimulusEvaluations": [],
     "primaryMotivations": []
-  },
-  {
-    "id": "P-005",
-    "dataType": "fiktiv",
-    "avatarUrl": "/avatars/P-005.jpg?v=1794351961131",
-    "firstName": "Max",
-    "lastName": "Rodenkirchen",
-    "gender": "",
-    "age": 0,
-    "nationality": "",
-    "religion": "",
-    "maritalStatus": "",
-    "countryOfResidence": "",
-    "livingSituation": "",
-    "livingEnvironment": "",
-    "dietaryHabits": "",
-    "primaryMotivations": [],
-    "acceptance": "",
-    "contextAnswers": {
-      "foodNeophobia": 0,
-      "foodTechNeophobia": 0,
-      "disgustSensitivity": 0,
-      "generalInnovativeness": 0,
-      "priorFamiliarity": 0,
-      "alreadyTried": 0,
-      "technicalUnderstanding": 0,
-      "naturalnessPreference": 0,
-      "valueAlignment": 0,
-      "trustScience": 0,
-      "trustRegulators": 0,
-      "trustIndustry": 0
-    },
-    "stimulusEvaluations": [],
-    "bio": "Nicer Typ"
   }
 ]

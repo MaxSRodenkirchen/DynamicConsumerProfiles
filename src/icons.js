@@ -22,6 +22,8 @@ import upload32 from '@carbon/icons/es/upload/32.js';
 import link32 from '@carbon/icons/es/link/32.js';
 import code32 from '@carbon/icons/es/code/32.js';
 import edit32 from '@carbon/icons/es/edit/32.js';
+import grid32 from '@carbon/icons/es/grid/32.js';
+import listBoxes32 from '@carbon/icons/es/list--boxes/32.js';
 
 export const DESCRIPTORS = {
   home: home32,
@@ -43,7 +45,9 @@ export const DESCRIPTORS = {
   upload: upload32,
   link: link32,
   code: code32,
-  edit: edit32
+  edit: edit32,
+  grid: grid32,
+  listBoxes: listBoxes32
 };
 
 /**
@@ -130,6 +134,8 @@ export const ICONS = {
   upload: renderCarbonIcon(upload32, { className: 'carbon-icon' }),
   link: renderCarbonIcon(link32, { className: 'carbon-icon' }),
   code: renderCarbonIcon(code32, { className: 'carbon-icon' }),
-  edit: renderCarbonIcon(edit32, { className: 'carbon-icon' })
+  edit: renderCarbonIcon(edit32, { className: 'carbon-icon' }),
+  grid: renderCarbonIcon(grid32, { className: 'carbon-icon' }),
+  listBoxes: renderCarbonIcon(listBoxes32, { className: 'carbon-icon' })
 };
 

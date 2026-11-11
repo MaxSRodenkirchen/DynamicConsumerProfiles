@@ -172,6 +172,7 @@ let editingStimulusId = null;
 let activeFunctionFilter = 'all';
 let activeModuleFilter = 'all';
 let activeMvpFilter = false;
+let activeStimuliViewMode = 'grid'; // 'grid' | 'details'
 
 /**
  * pendingModuleActions speichert die aktuelle (noch nicht abgeschickte) Bewertung für den aktuellen Reiz pro Modul:
@@ -351,6 +352,7 @@ const stimulusStatusMessageEl = document.getElementById('stimulus-status-message
 const stimFilterFunctionGroup = document.getElementById('stim-filter-function-group');
 const stimFilterModuleGroup = document.getElementById('stim-filter-module-group');
 const btnFilterMvp = document.getElementById('btn-filter-mvp');
+const stimViewModeGroup = document.getElementById('stim-view-mode-group');
 const stimEvalContainer = document.getElementById('stim-eval-container');
 const stimEvalSummaryBadge = document.getElementById('stim-eval-summary-badge');
 
@@ -2827,17 +2829,24 @@ function showStimulusStatus(message, isError = false) {
   }, 4000);
 }
 
+function formatModuleLabel(modId) {
+  const mod = MODULES.find(m => m.id === Number(modId));
+  if (!mod) return `M${modId}`;
+  const cleanTitle = mod.name.replace(/^\d+\.\s*/, '');
+  return `M${mod.id} - ${cleanTitle}`;
+}
+
 function renderStimulusModuleCheckboxes() {
   stimModulesCheckboxes.innerHTML = '';
   MODULES.forEach(m => {
     const label = document.createElement('label');
-    label.className = 'context-option-label';
+    label.className = 'stim-function-toggle';
     const input = document.createElement('input');
     input.type = 'checkbox';
     input.name = 'stim_module';
     input.value = String(m.id);
     const span = document.createElement('span');
-    span.textContent = m.name;
+    span.textContent = formatModuleLabel(m.id);
     label.appendChild(input);
     label.appendChild(span);
     stimModulesCheckboxes.appendChild(label);
@@ -2872,6 +2881,13 @@ function renderStimuliSidebar() {
   if (btnFilterMvp) {
     btnFilterMvp.classList.toggle('active', activeMvpFilter);
   }
+  if (stimViewModeGroup) {
+    stimViewModeGroup.querySelectorAll('[data-view-mode]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.viewMode === activeStimuliViewMode);
+    });
+  }
+
+  stimuliCardsGridEl.classList.toggle('stimuli-details-list', activeStimuliViewMode === 'details');
 
   if (filtered.length === 0) {
     const emptyMsg = document.createElement('p');
@@ -2881,16 +2897,163 @@ function renderStimuliSidebar() {
     return;
   }
 
+  if (activeStimuliViewMode === 'details') {
+    const headerRow = document.createElement('div');
+    headerRow.className = 'stim-details-header';
+    headerRow.innerHTML = `
+      <span class="caption-label">BILD</span>
+      <span class="caption-label">TITEL</span>
+      <span class="caption-label">FUNKTIONEN</span>
+      <span class="caption-label">MODULE</span>
+      <span class="caption-label">SAMMLUNG</span>
+    `;
+    stimuliCardsGridEl.appendChild(headerRow);
+  }
+
   filtered.forEach(s => {
+    const imgUrl = (s.imageUrl || '').trim();
+    const iframeSrc = extractIframeSrc(s.iframeUrl || '');
+    const stimFuncs = Array.isArray(s.functions) && s.functions.length > 0
+      ? s.functions
+      : (s.primaryFunction ? [s.primaryFunction] : []);
+    const evalCount = allEvaluations.filter(e => String(e.stimulusId) === String(s.id)).length;
+    const isMvpStim = Boolean(s.isMvp || s.mvp || (Array.isArray(s.tags) && s.tags.includes('MVP')));
+
+    const popoverLines = [];
+    if (stimFuncs.length > 0) {
+      popoverLines.push(`<div><strong>Funktion:</strong> ${stimFuncs.join(', ')}</div>`);
+    }
+    if (Array.isArray(s.primaryModules) && s.primaryModules.length > 0) {
+      popoverLines.push(`<div><strong>Modul:</strong> ${s.primaryModules.map(formatModuleLabel).join(', ')}</div>`);
+    }
+    if (isMvpStim && s.personaTarget) {
+      popoverLines.push(`<div><strong>Persona:</strong> ${s.personaTarget}</div>`);
+    }
+    if (evalCount > 0) {
+      popoverLines.push(`<div><strong>Bewertungen:</strong> ${evalCount}</div>`);
+    }
+    if (s.content) {
+      popoverLines.push(`<div style="margin-top:4px;">${s.content}</div>`);
+    }
+
+    if (activeStimuliViewMode === 'details') {
+      const row = document.createElement('article');
+      row.className = 'stim-details-row';
+
+      // 1. Minibild
+      const thumbBox = document.createElement('div');
+      thumbBox.className = 'stim-details-thumb';
+      if (imgUrl) {
+        const img = document.createElement('img');
+        img.src = imgUrl;
+        img.alt = s.name || '';
+        img.loading = 'lazy';
+        thumbBox.appendChild(img);
+      } else if (iframeSrc) {
+        const iframe = document.createElement('iframe');
+        iframe.src = iframeSrc;
+        iframe.loading = 'lazy';
+        iframe.setAttribute('tabindex', '-1');
+        thumbBox.appendChild(iframe);
+      } else {
+        const textPreview = document.createElement('div');
+        textPreview.className = 'stim-details-thumb-text';
+        textPreview.textContent = s.content || s.name || '';
+        thumbBox.appendChild(textPreview);
+      }
+      row.appendChild(thumbBox);
+
+      // 2. Titel (+ optionales Hover-Info-Icon)
+      const titleCol = document.createElement('div');
+      titleCol.className = 'stim-details-title-col';
+      const titleEl = document.createElement('span');
+      titleEl.className = 'stim-details-title';
+      titleEl.textContent = s.name || 'Ohne Titel';
+      titleCol.appendChild(titleEl);
+
+      if (popoverLines.length > 0) {
+        const infoEl = document.createElement('span');
+        infoEl.className = 'info-hover';
+        infoEl.tabIndex = 0;
+        infoEl.innerHTML = `
+          ${ICONS.informationSm}
+          <span class="info-popover">${popoverLines.join('')}</span>
+        `;
+        infoEl.addEventListener('click', (e) => e.stopPropagation());
+        titleCol.appendChild(infoEl);
+      }
+      row.appendChild(titleCol);
+
+      // 3. Funktionen
+      const funcCol = document.createElement('div');
+      funcCol.className = 'stim-details-cell';
+      if (stimFuncs.length > 0) {
+        stimFuncs.forEach(fn => {
+          const fnTag = document.createElement('span');
+          fnTag.className = 'caption-tag';
+          fnTag.textContent = fn;
+          funcCol.appendChild(fnTag);
+        });
+      } else {
+        const emptySpan = document.createElement('span');
+        emptySpan.className = 'caption-text';
+        emptySpan.textContent = '–';
+        funcCol.appendChild(emptySpan);
+      }
+      row.appendChild(funcCol);
+
+      // 4. Module
+      const modCol = document.createElement('div');
+      modCol.className = 'stim-details-cell';
+      if (Array.isArray(s.primaryModules) && s.primaryModules.length > 0) {
+        s.primaryModules.forEach(modId => {
+          const modTag = document.createElement('span');
+          modTag.className = 'caption-tag';
+          modTag.textContent = formatModuleLabel(modId);
+          modCol.appendChild(modTag);
+        });
+      } else {
+        const emptySpan = document.createElement('span');
+        emptySpan.className = 'caption-text';
+        emptySpan.textContent = '–';
+        modCol.appendChild(emptySpan);
+      }
+      row.appendChild(modCol);
+
+      // 5. Sammlung
+      const collCol = document.createElement('div');
+      collCol.className = 'stim-details-cell';
+      if (isMvpStim) {
+        const mvpTag = document.createElement('span');
+        mvpTag.className = 'caption-tag tag-mvp';
+        mvpTag.textContent = 'MVP';
+        if (s.personaTarget) mvpTag.title = `Persona: ${s.personaTarget}`;
+        collCol.appendChild(mvpTag);
+      } else {
+        const emptySpan = document.createElement('span');
+        emptySpan.className = 'caption-text';
+        emptySpan.textContent = '–';
+        collCol.appendChild(emptySpan);
+      }
+      row.appendChild(collCol);
+
+      row.addEventListener('click', () => {
+        selectStimulusForEdit(s.id);
+        if (modalStimulusDetail && !modalStimulusDetail.open) {
+          modalStimulusDetail.showModal();
+        }
+      });
+
+      stimuliCardsGridEl.appendChild(row);
+      return;
+    }
+
     const card = document.createElement('article');
     card.className = 'stim-thumb-card';
 
     // 1. 16:9 Thumbnail-Vorschau (Bild, Iframe oder Text)
     const mediaBox = document.createElement('div');
     mediaBox.className = 'stim-thumb-media';
-
-    const imgUrl = (s.imageUrl || '').trim();
-    const iframeSrc = extractIframeSrc(s.iframeUrl || '');
 
     if (imgUrl) {
       const img = document.createElement('img');
@@ -2911,13 +3074,6 @@ function renderStimuliSidebar() {
       mediaBox.appendChild(textPreview);
     }
 
-    const stimFuncs = Array.isArray(s.functions) && s.functions.length > 0
-      ? s.functions
-      : (s.primaryFunction ? [s.primaryFunction] : []);
-
-    const evalCount = allEvaluations.filter(e => String(e.stimulusId) === String(s.id)).length;
-    const isMvpStim = Boolean(s.isMvp || s.mvp || (Array.isArray(s.tags) && s.tags.includes('MVP')));
-
     // 2. Karten-Body: Minimalistisch nur mit Titel, einem kompakten Tag und Hover-Info-Icon
     const body = document.createElement('div');
     body.className = 'stim-thumb-body';
@@ -2929,23 +3085,6 @@ function renderStimuliSidebar() {
     titleEl.className = 'stim-thumb-title';
     titleEl.textContent = s.name;
     titleRow.appendChild(titleEl);
-
-    const popoverLines = [];
-    if (stimFuncs.length > 0) {
-      popoverLines.push(`<div><strong>Funktion:</strong> ${stimFuncs.join(', ')}</div>`);
-    }
-    if (Array.isArray(s.primaryModules) && s.primaryModules.length > 0) {
-      popoverLines.push(`<div><strong>Modul:</strong> ${s.primaryModules.join(', ')}</div>`);
-    }
-    if (isMvpStim && s.personaTarget) {
-      popoverLines.push(`<div><strong>Persona:</strong> ${s.personaTarget}</div>`);
-    }
-    if (evalCount > 0) {
-      popoverLines.push(`<div><strong>Bewertungen:</strong> ${evalCount}</div>`);
-    }
-    if (s.content) {
-      popoverLines.push(`<div style="margin-top:4px;">${s.content}</div>`);
-    }
 
     if (popoverLines.length > 0) {
       const infoEl = document.createElement('span');
@@ -2965,10 +3104,12 @@ function renderStimuliSidebar() {
     metaRow.className = 'stim-thumb-meta';
 
     if (Array.isArray(s.primaryModules) && s.primaryModules.length > 0) {
-      const modTag = document.createElement('span');
-      modTag.className = 'caption-tag';
-      modTag.textContent = `Modul ${s.primaryModules.join(', ')}`;
-      metaRow.appendChild(modTag);
+      s.primaryModules.forEach(modId => {
+        const modTag = document.createElement('span');
+        modTag.className = 'caption-tag';
+        modTag.textContent = formatModuleLabel(modId);
+        metaRow.appendChild(modTag);
+      });
     }
 
     if (isMvpStim) {
@@ -3337,10 +3478,12 @@ function updateStimulusFormPreview() {
   metaRow.className = 'stim-thumb-meta';
 
   if (draft.primaryModules.length > 0) {
-    const modTag = document.createElement('span');
-    modTag.className = 'caption-tag';
-    modTag.textContent = `Modul ${draft.primaryModules.join(', ')}`;
-    metaRow.appendChild(modTag);
+    draft.primaryModules.forEach(modId => {
+      const modTag = document.createElement('span');
+      modTag.className = 'caption-tag';
+      modTag.textContent = formatModuleLabel(modId);
+      metaRow.appendChild(modTag);
+    });
   }
 
   body.appendChild(metaRow);
@@ -3790,6 +3933,18 @@ if (btnFilterMvp) {
   btnFilterMvp.addEventListener('click', () => {
     activeMvpFilter = !activeMvpFilter;
     renderStimuliSidebar();
+  });
+}
+
+if (stimViewModeGroup) {
+  stimViewModeGroup.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-view-mode]');
+    if (!btn) return;
+    const mode = btn.dataset.viewMode;
+    if (mode && mode !== activeStimuliViewMode) {
+      activeStimuliViewMode = mode;
+      renderStimuliSidebar();
+    }
   });
 }
 
